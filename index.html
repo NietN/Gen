@@ -7,704 +7,859 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 
-/* ════════════════════════════════════════
-   LAYER 0 — ATMOSPHERIC BACKGROUND
-════════════════════════════════════════ */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+/* ══════════════════════════════════════
+   TOKENS — Warm Winter Palette
+══════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg-deep:    #090b10;
-  --bg-mid:     #0d1018;
-  --t1: rgba(255,255,255,0.92);
-  --t2: rgba(255,255,255,0.55);
-  --t3: rgba(255,255,255,0.35);
-  --t4: rgba(255,255,255,0.18);
-  --t5: rgba(255,255,255,0.08);
-  --gold:  rgba(210,175,100,0.9);
-  --goldd: rgba(210,175,100,0.15);
-  --goldb: rgba(210,175,100,0.06);
-  --cyan:  rgba(100,210,200,0.85);
-  --cyand: rgba(100,210,200,0.14);
-  --lime:  rgba(130,220,110,0.85);
-  --limed: rgba(130,220,110,0.12);
-  --rose:  rgba(240,120,120,0.85);
-  --rosev: rgba(240,120,120,0.12);
-  --viol:  rgba(170,140,255,0.85);
-  --viold: rgba(170,140,255,0.12);
+  /* Background */
+  --bg:       #f7f5f2;
+  --bg2:      #faf9f7;
+  --bg3:      #ffffff;
 
-  /* Glass card tokens */
-  --card-bg:     linear-gradient(145deg, rgba(255,255,255,0.065), rgba(255,255,255,0.022));
-  --card-border: 1px solid rgba(255,255,255,0.08);
-  --card-shadow: 0 28px 72px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.06);
-  --card-blur:   blur(32px);
-  --card-r:      28px;
+  /* Surfaces */
+  --surface:  #ffffff;
+  --surface2: #f4f1ec;
+  --surface3: #ede8e1;
 
-  --nest-bg:     rgba(255,255,255,0.038);
-  --nest-border: 1px solid rgba(255,255,255,0.06);
-  --nest-r:      18px;
+  /* Borders */
+  --line:     rgba(180,160,130,0.18);
+  --line2:    rgba(180,160,130,0.28);
+  --line3:    rgba(180,160,130,0.10);
 
-  --btn-bg: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
-  --btn-border: 1px solid rgba(255,255,255,0.12);
-  --btn-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 24px rgba(0,0,0,0.18);
+  /* Text */
+  --t1: #1c1816;
+  --t2: #5a4f44;
+  --t3: #9c8e80;
+  --t4: #bfb3a5;
+  --t5: #d9d0c5;
 
-  --space: 8px;
+  /* Accent — warm amber/cognac */
+  --amber:      #b5813a;
+  --amber-l:    #d4a55a;
+  --amber-bg:   rgba(181,129,58,0.08);
+  --amber-bg2:  rgba(181,129,58,0.14);
+  --amber-line: rgba(181,129,58,0.28);
+
+  /* Status — warm tones */
+  --sage:       #5a8a6a;
+  --sage-bg:    rgba(90,138,106,0.10);
+  --clay:       #c4603a;
+  --clay-bg:    rgba(196,96,58,0.10);
+  --steel:      #4a6e8a;
+  --steel-bg:   rgba(74,110,138,0.10);
+  --mauve:      #8a6a8a;
+  --mauve-bg:   rgba(138,106,138,0.10);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgba(100,80,50,0.06), 0 4px 16px rgba(100,80,50,0.06);
+  --shadow-md: 0 2px 8px rgba(100,80,50,0.07), 0 8px 32px rgba(100,80,50,0.09);
+  --shadow-lg: 0 4px 16px rgba(100,80,50,0.08), 0 16px 48px rgba(100,80,50,0.10);
+
+  /* Card */
+  --card-r:   20px;
+  --nest-r:   14px;
+
+  /* Spacing scale (8px base) */
+  --s1:  8px;
+  --s2:  16px;
+  --s3:  24px;
+  --s4:  32px;
+  --s5:  40px;
+  --s6:  48px;
 }
 
-html, body { height:100%; font-family:'Inter', sans-serif; overflow:hidden; }
-
-body {
-  background: var(--bg-deep);
-  background-image:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(60,80,140,0.28) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 50% at 15% 50%, rgba(40,55,100,0.18) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 40% at 85% 80%, rgba(30,60,80,0.16) 0%, transparent 60%);
+html, body {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  overflow: hidden;
+  background: var(--bg);
   color: var(--t1);
 }
 
-/* Atmospheric vignette */
-body::before {
-  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
-  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(5,6,10,0.6) 100%);
-}
-
-/* Grain overlay */
+/* Subtle warm grain */
 body::after {
-  content:''; position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:0.025;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  content: ''; position: fixed; inset: 0;
+  pointer-events: none; z-index: 9999; opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ════════════════════════════════════════
-   LAYOUT
-════════════════════════════════════════ */
+/* ══════════════════════════════════════
+   APP LAYOUT
+══════════════════════════════════════ */
 .app {
   position: relative; z-index: 1;
   display: grid;
-  grid-template-columns: 68px 1fr 296px;
+  grid-template-columns: 72px 1fr 308px;
   grid-template-rows: 1fr;
   height: 100vh;
-  gap: 0;
-  padding: 20px 20px 20px 12px;
-  gap: 16px;
+  gap: var(--s2);
+  padding: var(--s3);
+  background: var(--bg);
 }
 
-/* ════════════════════════════════════════
-   LAYER 1 — FLOATING NAV RAIL
-════════════════════════════════════════ */
+/* ══════════════════════════════════════
+   NAV RAIL
+══════════════════════════════════════ */
 .nav-rail {
-  grid-column: 1; grid-row: 1;
-  background: var(--card-bg);
-  backdrop-filter: var(--card-blur);
-  border: var(--card-border);
-  box-shadow: var(--card-shadow);
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-radius: var(--card-r);
-  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  padding: 20px 0 16px;
-  gap: 6px;
+  padding: var(--s3) 0 var(--s2);
+  gap: var(--s1);
 }
 
 .nav-logo {
-  width: 36px; height: 36px; border-radius: 12px;
-  background: linear-gradient(135deg, rgba(210,175,100,0.9), rgba(140,100,30,0.8));
+  width: 38px; height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, var(--amber), #7a4e1a);
   display: flex; align-items: center; justify-content: center;
-  font-size: 16px; margin-bottom: 20px;
-  box-shadow: 0 6px 24px rgba(210,175,100,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
+  font-size: 17px;
+  margin-bottom: var(--s3);
+  box-shadow: 0 4px 16px rgba(181,129,58,0.28);
+  flex-shrink: 0;
 }
 
 .nav-btn {
-  width: 40px; height: 40px; border-radius: 50%;
-  background: transparent;
-  border: 1px solid transparent;
+  width: 42px; height: 42px;
+  border-radius: 12px;
   display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.22s ease-out;
-  color: var(--t3); font-size: 15px; position: relative;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--t4);
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  position: relative;
 }
 .nav-btn:hover {
-  background: rgba(255,255,255,0.07);
-  border-color: rgba(255,255,255,0.08);
+  background: var(--surface2);
   color: var(--t2);
-  transform: translateY(-1px);
 }
 .nav-btn.active {
-  background: linear-gradient(135deg, rgba(210,175,100,0.18), rgba(210,175,100,0.06));
-  border-color: rgba(210,175,100,0.22);
-  color: var(--gold);
-  box-shadow: 0 4px 16px rgba(210,175,100,0.18);
+  background: var(--amber-bg2);
+  border-color: var(--amber-line);
+  color: var(--amber);
+  box-shadow: 0 2px 10px rgba(181,129,58,0.14);
 }
 .nav-btn.active::after {
-  content:''; position:absolute; right:-12px; top:50%; transform:translateY(-50%);
-  width:3px; height:18px; border-radius:999px;
-  background: var(--gold);
-  box-shadow: 0 0 8px rgba(210,175,100,0.5);
+  content: '';
+  position: absolute; right: -17px; top: 50%; transform: translateY(-50%);
+  width: 3px; height: 20px;
+  background: var(--amber);
+  border-radius: 999px;
+  box-shadow: 0 0 6px rgba(181,129,58,0.4);
 }
 
-.nav-bottom { margin-top: auto; display:flex; flex-direction:column; align-items:center; gap:6px; }
+.nav-bottom {
+  margin-top: auto;
+  display: flex; flex-direction: column; align-items: center;
+  gap: var(--s1);
+}
 .nav-avatar {
-  width: 32px; height: 32px; border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--surface3);
+  border: 1.5px solid var(--line2);
   display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 600; color: var(--t2); cursor:pointer;
+  font-size: 10px; font-weight: 600; color: var(--t3);
+  cursor: pointer;
 }
 
-/* ════════════════════════════════════════
-   LAYER 1 — MAIN CONTENT AREA
-════════════════════════════════════════ */
+/* ══════════════════════════════════════
+   MAIN WRAP
+══════════════════════════════════════ */
 .main-wrap {
-  grid-column: 2; grid-row: 1;
-  display: flex; flex-direction: column; gap: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
   overflow: hidden;
+  min-width: 0;
 }
 
-/* Top bar */
+/* TOPBAR */
 .topbar {
-  background: var(--card-bg);
-  backdrop-filter: var(--card-blur);
-  border: var(--card-border);
-  box-shadow: var(--card-shadow);
-  border-radius: 20px;
-  padding: 0 24px;
-  height: 52px;
-  display: flex; align-items: center; gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--card-r);
+  box-shadow: var(--shadow-sm);
+  height: 56px;
+  padding: 0 var(--s3);
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
   flex-shrink: 0;
 }
+
 .tb-logo {
-  font-size: 16px; font-weight: 600; letter-spacing: -0.02em;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
   color: var(--t1);
 }
-.tb-logo span { color: var(--gold); }
-.tb-divider { width:1px; height:20px; background: rgba(255,255,255,0.08); }
-.tb-path { font-size: 12px; color: var(--t3); }
-.tb-path b { color: var(--t2); font-weight:500; }
-.tb-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
+.tb-logo em { color: var(--amber); font-style: normal; }
+
+.tb-sep {
+  width: 1px; height: 18px;
+  background: var(--line2);
+}
+
+.tb-crumb {
+  font-size: 12px;
+  color: var(--t3);
+}
+.tb-crumb b { color: var(--t2); font-weight: 500; }
+
+.tb-right {
+  margin-left: auto;
+  display: flex; align-items: center;
+  gap: var(--s2);
+}
 
 .chip {
-  display: inline-flex; align-items: center; gap: 6px;
-  padding: 5px 14px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 6px var(--s2);
+  border-radius: 999px;
   font-size: 11px; font-weight: 500;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--surface2);
+  border: 1px solid var(--line2);
   color: var(--t2);
 }
-.chip-dot { width:5px; height:5px; border-radius:50%; }
-.chip-dot.live { background: var(--lime); box-shadow:0 0 6px rgba(130,220,110,0.6); animation: pulse 2s infinite; }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.chip-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+}
+.chip-dot.live {
+  background: var(--sage);
+  box-shadow: 0 0 5px rgba(90,138,106,0.5);
+  animation: blink 2s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
 
 .btn {
   display: inline-flex; align-items: center; gap: 7px;
-  padding: 7px 18px; border-radius: 999px;
-  font-size: 12px; font-weight: 500; cursor: pointer;
-  font-family: 'Inter', sans-serif; border: none;
-  transition: all 0.22s ease-out;
+  padding: 8px var(--s2);
+  border-radius: 999px;
+  font-size: 12px; font-weight: 500;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  border: none;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 .btn-ghost {
-  background: var(--btn-bg); border: var(--btn-border);
-  box-shadow: var(--btn-shadow); color: var(--t2);
+  background: var(--surface2);
+  border: 1px solid var(--line2);
+  color: var(--t2);
 }
-.btn-ghost:hover { filter:brightness(1.1); transform:translateY(-1px); }
-.btn-gold {
-  background: linear-gradient(135deg, rgba(210,175,100,0.85), rgba(140,100,30,0.7));
-  box-shadow: 0 8px 28px rgba(210,175,100,0.25), inset 0 1px 0 rgba(255,255,255,0.22);
-  color: rgba(20,12,0,0.9); font-weight: 600;
-}
-.btn-gold:hover { filter:brightness(1.1); transform:translateY(-1px); box-shadow:0 12px 36px rgba(210,175,100,0.35); }
+.btn-ghost:hover { background: var(--surface3); color: var(--t1); }
 
-/* Scrollable main */
+.btn-amber {
+  background: linear-gradient(135deg, var(--amber-l), var(--amber));
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(181,129,58,0.3);
+}
+.btn-amber:hover { filter: brightness(1.06); transform: translateY(-1px); box-shadow: 0 6px 22px rgba(181,129,58,0.38); }
+
+/* ══════════════════════════════════════
+   SCROLL AREA
+══════════════════════════════════════ */
 .main-scroll {
-  flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:16px;
-  padding-right:4px;
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  padding-right: 2px;
+  min-height: 0;
 }
-.main-scroll::-webkit-scrollbar { width:4px; }
-.main-scroll::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.08); border-radius:2px; }
+.main-scroll::-webkit-scrollbar { width: 4px; }
+.main-scroll::-webkit-scrollbar-track { background: transparent; }
+.main-scroll::-webkit-scrollbar-thumb { background: var(--t5); border-radius: 2px; }
 
-/* ════════════════════════════════════════
-   GLASS CARDS (Layer 1 & 2)
-════════════════════════════════════════ */
-.glass-card {
-  background: var(--card-bg);
-  backdrop-filter: var(--card-blur);
-  border: var(--card-border);
-  box-shadow: var(--card-shadow);
+/* ══════════════════════════════════════
+   CARDS
+══════════════════════════════════════ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-radius: var(--card-r);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
-  animation: floatIn 0.5s ease-out both;
+  animation: rise 0.4s ease-out both;
 }
-@keyframes floatIn {
-  from { opacity:0; transform:translateY(16px); }
-  to   { opacity:1; transform:translateY(0); }
-}
-.glass-card:nth-child(1) { animation-delay:0.05s; }
-.glass-card:nth-child(2) { animation-delay:0.12s; }
-.glass-card:nth-child(3) { animation-delay:0.19s; }
-.glass-card:nth-child(4) { animation-delay:0.26s; }
+.card:nth-child(1) { animation-delay: 0.04s; }
+.card:nth-child(2) { animation-delay: 0.08s; }
+.card:nth-child(3) { animation-delay: 0.12s; }
+.card:nth-child(4) { animation-delay: 0.16s; }
 
-.nest-card {
-  background: var(--nest-bg);
-  border: var(--nest-border);
-  border-radius: var(--nest-r);
-  padding: 14px 16px;
-  transition: border-color 0.2s;
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.nest-card:hover { border-color: rgba(255,255,255,0.1); }
 
 .card-head {
-  padding: 20px 24px 16px;
-  display: flex; align-items: center; gap: 12px;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding: var(--s3) var(--s3) var(--s2);
+  border-bottom: 1px solid var(--line3);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s2);
 }
-.card-title { font-size: 13px; font-weight: 600; color: var(--t1); letter-spacing:-0.01em; }
-.card-sub { font-size: 11px; color: var(--t3); font-weight: 400; }
-.card-body { padding: 20px 24px; }
+.card-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--t1);
+}
+.card-sub {
+  font-size: 11px;
+  color: var(--t3);
+  margin-top: 2px;
+  font-weight: 400;
+}
+.card-body { padding: var(--s3); }
+
+/* Nested card */
+.nest {
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--nest-r);
+  padding: var(--s2);
+  transition: border-color 0.18s;
+}
+.nest:hover { border-color: var(--line2); }
 
 /* Section label */
-.sec-label {
-  font-size: 10px; font-weight: 600; color: var(--t4);
-  text-transform: uppercase; letter-spacing: 1.2px;
-  margin-bottom: 12px;
-  display: flex; align-items: center; gap: 8px;
+.slabel {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--t4);
+  text-transform: uppercase;
+  letter-spacing: 1.1px;
+  margin-bottom: var(--s2);
+  display: flex; align-items: center; gap: var(--s1);
 }
-.sec-label::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.05); }
+.slabel::after { content: ''; flex: 1; height: 1px; background: var(--line3); }
 
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════
    METRICS ROW
-════════════════════════════════════════ */
-.metrics-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
-.metric-tile {
-  background: var(--card-bg);
-  backdrop-filter: var(--card-blur);
-  border: var(--card-border);
-  box-shadow: 0 16px 48px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
-  border-radius: 22px; padding: 20px;
-  position: relative; overflow: hidden;
-  animation: floatIn 0.5s ease-out both;
-  transition: transform 0.22s ease-out, box-shadow 0.22s;
+══════════════════════════════════════ */
+.metrics-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--s2);
 }
-.metric-tile:hover { transform:translateY(-2px); box-shadow:0 24px 64px rgba(0,0,0,0.3); }
-.metric-tile:nth-child(1) { animation-delay:0.06s; }
-.metric-tile:nth-child(2) { animation-delay:0.12s; }
-.metric-tile:nth-child(3) { animation-delay:0.18s; }
-.metric-tile:nth-child(4) { animation-delay:0.24s; }
-.metric-glow {
-  position:absolute; top:-40px; right:-40px; width:100px; height:100px;
-  border-radius:50%; filter:blur(30px); opacity:0.15; pointer-events:none;
-}
-.metric-lbl { font-size:10px; font-weight:500; color:var(--t3); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px; }
-.metric-val { font-size:30px; font-weight:300; letter-spacing:-1.5px; line-height:1; }
-.metric-unit { font-size:13px; font-weight:400; color:var(--t3); margin-left:3px; }
-.metric-delta { margin-top:8px; font-size:11px; display:flex; align-items:center; gap:4px; }
-.metric-delta.up { color: var(--lime); }
-.metric-delta.dn { color: var(--rose); }
-.metric-bar { margin-top:10px; height:2px; border-radius:999px; background:rgba(255,255,255,0.07); overflow:hidden; }
-.metric-bar-f { height:100%; border-radius:999px; }
 
-/* ════════════════════════════════════════
-   PIPELINE VISUAL
-════════════════════════════════════════ */
-.pipeline-track {
-  display:flex; align-items:flex-start; gap:0;
-  overflow-x:auto; padding:4px 0 8px;
+.mtile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--card-r);
+  box-shadow: var(--shadow-sm);
+  padding: var(--s3);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.2s, transform 0.2s;
+  animation: rise 0.4s ease-out both;
 }
-.pipeline-track::-webkit-scrollbar { height:2px; }
-.pipeline-track::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.06); }
-.pipe-node { display:flex; flex-direction:column; align-items:center; flex:1; position:relative; }
+.mtile:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+.mtile:nth-child(1) { animation-delay: 0.05s; }
+.mtile:nth-child(2) { animation-delay: 0.09s; }
+.mtile:nth-child(3) { animation-delay: 0.13s; }
+.mtile:nth-child(4) { animation-delay: 0.17s; }
+
+.mtile-accent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--card-r) var(--card-r) 0 0;
+}
+.mtile-lbl {
+  font-size: 10px; font-weight: 500;
+  color: var(--t3); text-transform: uppercase;
+  letter-spacing: 0.9px; margin-bottom: var(--s2);
+}
+.mtile-val {
+  font-size: 32px; font-weight: 300;
+  letter-spacing: -2px; line-height: 1;
+  color: var(--t1);
+}
+.mtile-unit { font-size: 13px; font-weight: 400; color: var(--t3); margin-left: 3px; }
+.mtile-delta {
+  margin-top: var(--s1);
+  font-size: 11px; display: flex; align-items: center; gap: 4px;
+}
+.mtile-delta.up { color: var(--sage); }
+.mtile-delta.dn { color: var(--clay); }
+.mtile-bar {
+  margin-top: var(--s2);
+  height: 3px; background: var(--surface3);
+  border-radius: 999px; overflow: hidden;
+}
+.mtile-bar-f { height: 100%; border-radius: 999px; }
+
+/* ══════════════════════════════════════
+   PIPELINE
+══════════════════════════════════════ */
+.pipe-track {
+  display: flex; align-items: flex-start;
+  overflow-x: auto; padding: var(--s1) 0 var(--s2);
+  gap: 0;
+}
+.pipe-track::-webkit-scrollbar { height: 2px; }
+.pipe-track::-webkit-scrollbar-thumb { background: var(--t5); }
+
+.pipe-node {
+  display: flex; flex-direction: column; align-items: center;
+  flex: 1; position: relative; min-width: 80px;
+}
 .pipe-line {
-  position:absolute; top:18px; left:50%; width:100%;
-  height:1px; background:rgba(255,255,255,0.07);
+  position: absolute; top: 19px; left: 50%; width: 100%; height: 1px;
+  background: var(--line2);
 }
-.pipe-line.done { background:linear-gradient(90deg, rgba(210,175,100,0.6), rgba(210,175,100,0.15)); }
-.pipe-line.active { background:linear-gradient(90deg, rgba(210,175,100,0.5), rgba(255,255,255,0.06)); animation:flowLine 2s linear infinite; }
-@keyframes flowLine { 0%{opacity:0.6} 50%{opacity:1} 100%{opacity:0.6} }
-.pipe-node:last-child .pipe-line { display:none; }
+.pipe-line.done { background: linear-gradient(90deg, var(--amber), rgba(181,129,58,0.2)); }
+.pipe-line.active { background: linear-gradient(90deg, var(--amber), var(--line2)); animation: lineflow 2s ease-in-out infinite; }
+@keyframes lineflow { 0%,100%{opacity:0.7} 50%{opacity:1} }
+.pipe-node:last-child .pipe-line { display: none; }
 
 .pipe-orb {
-  width:36px; height:36px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:13px; position:relative; z-index:1;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: var(--t3); transition: all 0.3s;
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; position: relative; z-index: 1;
+  background: var(--surface2);
+  border: 1.5px solid var(--line2);
+  color: var(--t3);
+  transition: all 0.3s;
 }
 .pipe-orb.done {
-  background: rgba(210,175,100,0.12);
-  border-color: rgba(210,175,100,0.3);
-  color: var(--gold);
-  box-shadow: 0 4px 16px rgba(210,175,100,0.2);
+  background: var(--amber-bg2);
+  border-color: var(--amber-line);
+  color: var(--amber);
+  box-shadow: 0 2px 12px rgba(181,129,58,0.18);
 }
 .pipe-orb.active {
-  background: rgba(210,175,100,0.15);
-  border-color: rgba(210,175,100,0.5);
-  color: var(--gold);
-  box-shadow: 0 0 0 6px rgba(210,175,100,0.06), 0 6px 20px rgba(210,175,100,0.3);
-  animation: orbPulse 2s infinite;
+  background: var(--amber-bg2);
+  border-color: var(--amber);
+  color: var(--amber);
+  box-shadow: 0 0 0 5px rgba(181,129,58,0.08), 0 4px 16px rgba(181,129,58,0.22);
+  animation: orbpulse 2s infinite;
 }
-@keyframes orbPulse {
-  0%,100% { box-shadow: 0 0 0 4px rgba(210,175,100,0.06), 0 6px 20px rgba(210,175,100,0.25); }
-  50%      { box-shadow: 0 0 0 10px rgba(210,175,100,0.04), 0 8px 28px rgba(210,175,100,0.4); }
+@keyframes orbpulse {
+  0%,100%{ box-shadow: 0 0 0 4px rgba(181,129,58,0.06), 0 4px 14px rgba(181,129,58,0.18); }
+  50%    { box-shadow: 0 0 0 8px rgba(181,129,58,0.04), 0 6px 20px rgba(181,129,58,0.28); }
 }
-.pipe-lbl { font-size:9px; font-weight:500; color:var(--t3); margin-top:8px; text-align:center; line-height:1.4; max-width:64px; }
-.pipe-orb.done ~ .pipe-lbl  { color:var(--t2); }
-.pipe-orb.active ~ .pipe-lbl { color:rgba(210,175,100,0.8); }
-.pipe-tm { font-size:9px; color:var(--t4); margin-top:2px; font-family:monospace; }
+.pipe-lbl {
+  font-size: 9px; font-weight: 500; color: var(--t4);
+  margin-top: 8px; text-align: center; line-height: 1.4; max-width: 68px;
+}
+.pipe-orb.done ~ .pipe-lbl  { color: var(--t2); }
+.pipe-orb.active ~ .pipe-lbl { color: var(--amber); }
+.pipe-tm { font-size: 9px; color: var(--t4); margin-top: 2px; font-family: monospace; }
 
-/* Progress bar */
-.prog-track { height:3px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden; margin:14px 0 0; }
+.prog-track { height: 3px; background: var(--surface3); border-radius: 999px; overflow: hidden; margin-top: var(--s2); }
 .prog-fill {
-  height:100%; border-radius:999px;
-  background: linear-gradient(90deg, rgba(210,175,100,0.8), rgba(210,175,100,0.3));
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--amber), var(--amber-l));
   width: 57%;
-  box-shadow: 0 0 12px rgba(210,175,100,0.4);
-  animation: progAnim 3s ease-in-out infinite;
+  box-shadow: 0 0 8px rgba(181,129,58,0.3);
+  animation: progpulse 3s ease-in-out infinite;
 }
-@keyframes progAnim { 0%{width:52%} 50%{width:60%} 100%{width:52%} }
+@keyframes progpulse { 0%,100%{width:52%} 50%{width:62%} }
 
-/* ════════════════════════════════════════
-   PRODUCT TABLE
-════════════════════════════════════════ */
-.prod-table { width:100%; border-collapse:collapse; }
-.prod-table th {
-  font-size:9px; font-weight:600; color:var(--t4);
-  text-transform:uppercase; letter-spacing:1.1px;
-  padding:0 14px 12px; text-align:left;
-}
-.prod-table td { padding:10px 14px; }
-.prod-table tbody tr {
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  cursor:pointer; transition:background 0.18s;
-}
-.prod-table tbody tr:hover td { background:rgba(255,255,255,0.025); }
-.prod-table tbody tr.sel td:first-child { box-shadow:inset 2px 0 0 rgba(210,175,100,0.6); }
-.prod-table tbody tr.sel td { background:rgba(210,175,100,0.04); }
-.prod-table tbody tr:last-child { border-bottom:none; }
-
-.p-cell { display:flex; align-items:center; gap:10px; }
-.p-icon {
-  width:34px; height:34px; border-radius:10px; flex-shrink:0;
-  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.07);
-  display:flex; align-items:center; justify-content:center; font-size:15px;
-}
-.p-name { font-size:12px; font-weight:500; color:var(--t1); }
-.p-sku  { font-size:10px; color:var(--t4); margin-top:1px; font-family:monospace; }
-.p-cat  { font-size:11px; color:var(--t3); }
-.p-price { font-size:12px; font-weight:500; color:var(--t1); font-family:monospace; }
-
-.status-pill {
-  display:inline-flex; align-items:center; gap:5px;
-  padding:3px 10px; border-radius:999px; font-size:10px; font-weight:500;
-}
-.sp-done { background:var(--limed); color:var(--lime); }
-.sp-proc { background:var(--goldd); color:var(--gold); }
-.sp-idle { background:rgba(255,255,255,0.05); color:var(--t3); }
-
-.score-v { font-size:12px; font-weight:600; font-family:monospace; }
-.sv-hi { color:var(--lime); }
-.sv-mid { color:var(--gold); }
-.sv-lo  { color:var(--t4); }
-
-.row-btns { display:flex; gap:6px; }
-.rb {
-  padding:4px 10px; border-radius:999px; font-size:10px; font-weight:500; cursor:pointer;
-  border:none; font-family:'Inter',sans-serif; transition:all 0.18s;
-}
-.rb-run { background:var(--goldd); color:var(--gold); border:1px solid rgba(210,175,100,0.2); }
-.rb-run:hover { filter:brightness(1.15); transform:translateY(-1px); }
-.rb-view { background:rgba(255,255,255,0.05); color:var(--t2); border:1px solid rgba(255,255,255,0.08); }
-.rb-view:hover { filter:brightness(1.15); transform:translateY(-1px); }
-
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════
    LOG STREAM
-════════════════════════════════════════ */
-.log-stream { display:flex; flex-direction:column; gap:1px; }
+══════════════════════════════════════ */
+.log-stream { display: flex; flex-direction: column; gap: 1px; }
 .log-line {
-  display:flex; align-items:baseline; gap:8px; padding:5px 8px;
-  border-radius:8px; font-family:monospace; font-size:10px; transition:background 0.15s;
+  display: flex; align-items: baseline; gap: var(--s1);
+  padding: 5px var(--s1); border-radius: 8px;
+  font-size: 10px; font-family: monospace;
+  transition: background 0.15s; cursor: default;
 }
-.log-line:hover { background:rgba(255,255,255,0.03); }
-.ll-t { color:var(--t4); white-space:nowrap; flex-shrink:0; font-size:9px; }
-.ll-lv {
-  padding:1px 6px; border-radius:5px; font-size:9px; font-weight:700; flex-shrink:0;
-}
-.ll-ok   { background:var(--limed); color:var(--lime); }
-.ll-info { background:var(--cyand); color:var(--cyan); }
-.ll-warn { background:var(--goldd); color:var(--gold); }
-.ll-err  { background:var(--rosev); color:var(--rose); }
-.ll-api  { color:var(--viol); flex-shrink:0; }
-.ll-msg  { color:var(--t2); }
+.log-line:hover { background: var(--surface2); }
+.ll-t  { color: var(--t4); white-space: nowrap; flex-shrink: 0; font-size: 9px; }
+.ll-lv { padding: 1px 6px; border-radius: 5px; font-size: 9px; font-weight: 700; flex-shrink: 0; }
+.ll-ok   { background: var(--sage-bg);   color: var(--sage); }
+.ll-info { background: var(--steel-bg);  color: var(--steel); }
+.ll-warn { background: var(--amber-bg2); color: var(--amber); }
+.ll-err  { background: var(--clay-bg);   color: var(--clay); }
+.ll-api  { color: var(--mauve); flex-shrink: 0; }
+.ll-msg  { color: var(--t2); }
 
-/* ════════════════════════════════════════
-   COPY CARDS
-════════════════════════════════════════ */
-.copy-card {
-  background: var(--nest-bg);
-  border: var(--nest-border);
-  border-radius: var(--nest-r);
-  padding: 14px 16px; cursor:pointer;
-  transition: all 0.2s;
+/* ══════════════════════════════════════
+   PRODUCT TABLE
+══════════════════════════════════════ */
+.prod-table { width: 100%; border-collapse: collapse; }
+.prod-table th {
+  font-size: 9px; font-weight: 600; color: var(--t4);
+  text-transform: uppercase; letter-spacing: 1.1px;
+  padding: 0 var(--s2) var(--s2); text-align: left;
 }
-.copy-card:hover { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); }
-.copy-card.sel {
-  background: rgba(210,175,100,0.07);
-  border-color: rgba(210,175,100,0.25);
+.prod-table td { padding: 10px var(--s2); }
+.prod-table tbody tr {
+  border-bottom: 1px solid var(--line3);
+  cursor: pointer; transition: background 0.15s;
 }
-.cc-type { font-size:9px; font-weight:700; color:var(--gold); text-transform:uppercase; letter-spacing:1.1px; margin-bottom:7px; }
-.cc-text { font-size:11px; color:var(--t2); line-height:1.6; }
-.cc-metrics { display:flex; gap:14px; margin-top:9px; }
-.cc-m { font-size:9px; color:var(--t4); font-family:monospace; }
-.cc-m span { color:var(--cyan); }
+.prod-table tbody tr:hover td { background: var(--bg); }
+.prod-table tbody tr.sel td { background: rgba(181,129,58,0.04); }
+.prod-table tbody tr.sel td:first-child { box-shadow: inset 2px 0 0 var(--amber); }
+.prod-table tbody tr:last-child { border-bottom: none; }
 
-/* ════════════════════════════════════════
-   VIDEO GRID
-════════════════════════════════════════ */
-.video-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
-.vt {
-  aspect-ratio:9/16; border-radius:14px;
-  background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  font-size:16px; position:relative; overflow:hidden; cursor:pointer;
-  transition: all 0.22s ease-out;
+.p-cell { display: flex; align-items: center; gap: var(--s2); }
+.p-icon {
+  width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+  background: var(--surface2); border: 1px solid var(--line);
+  display: flex; align-items: center; justify-content: center; font-size: 15px;
 }
-.vt:hover { transform:translateY(-3px); border-color:rgba(255,255,255,0.12); box-shadow:0 16px 40px rgba(0,0,0,0.3); }
-.vt-glow { position:absolute; inset:0; opacity:0.12; }
-.vt-play { position:absolute; font-size:12px; color:rgba(255,255,255,0.4); }
-.vt-info { position:absolute; bottom:0; left:0; right:0; padding:16px 8px 8px; background:linear-gradient(transparent,rgba(0,0,0,0.75)); }
-.vt-name { font-size:9px; font-weight:600; color:rgba(255,255,255,0.75); }
-.vt-dur  { font-size:8px; color:rgba(255,255,255,0.4); font-family:monospace; margin-top:1px; }
-.vt-st {
-  position:absolute; top:6px; right:6px;
-  padding:2px 5px; border-radius:5px; font-size:8px; font-weight:700; font-family:monospace;
-}
-.vt-ok   { background:var(--limed); color:var(--lime); }
-.vt-proc { background:var(--goldd); color:var(--gold); animation:pulse 1.5s infinite; }
-.vt-pend { background:rgba(255,255,255,0.06); color:var(--t3); }
+.p-name { font-size: 12px; font-weight: 500; color: var(--t1); }
+.p-sku  { font-size: 10px; color: var(--t4); font-family: monospace; margin-top: 1px; }
+.p-cat  { font-size: 11px; color: var(--t3); }
+.p-price { font-size: 12px; font-weight: 500; color: var(--t1); font-family: monospace; }
 
-/* ════════════════════════════════════════
-   AIDA / PROMPT LAYERS
-════════════════════════════════════════ */
-.aida-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
-.aida-b {
-  background:var(--nest-bg); border:var(--nest-border); border-radius:var(--nest-r); padding:14px;
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; border-radius: 999px; font-size: 10px; font-weight: 500;
 }
-.aida-letter { font-size:26px; font-weight:300; line-height:1; letter-spacing:-1px; margin-bottom:4px; }
-.aida-name { font-size:9px; font-weight:600; color:var(--t4); text-transform:uppercase; letter-spacing:1px; margin-bottom:7px; }
-.aida-text { font-size:11px; color:var(--t2); line-height:1.55; }
+.pill-sage  { background: var(--sage-bg);   color: var(--sage); }
+.pill-amber { background: var(--amber-bg2); color: var(--amber); }
+.pill-mute  { background: var(--surface2);  color: var(--t3); }
 
+.sv { font-size: 12px; font-weight: 600; font-family: monospace; }
+.sv-hi  { color: var(--sage); }
+.sv-mid { color: var(--amber); }
+.sv-lo  { color: var(--t4); }
+
+.row-btns { display: flex; gap: 6px; }
+.rb {
+  padding: 4px 10px; border-radius: 999px;
+  font-size: 10px; font-weight: 500; cursor: pointer;
+  border: none; font-family: 'Inter', sans-serif; transition: all 0.18s;
+}
+.rb-run  { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-line); }
+.rb-run:hover  { background: var(--amber-bg2); transform: translateY(-1px); }
+.rb-view { background: var(--surface2); color: var(--t2); border: 1px solid var(--line2); }
+.rb-view:hover { background: var(--surface3); transform: translateY(-1px); }
+
+/* ══════════════════════════════════════
+   PROMPT LAYERS
+══════════════════════════════════════ */
 .prompt-layer {
-  background:var(--nest-bg); border:var(--nest-border); border-radius:14px;
-  padding:12px 14px; margin-bottom:8px;
-  transition:border-color 0.2s;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: var(--nest-r);
+  padding: var(--s2) var(--s2);
+  margin-bottom: var(--s1);
+  transition: border-color 0.18s;
 }
-.prompt-layer:hover { border-color:rgba(255,255,255,0.1); }
-.pl-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
-.pl-title { font-size:10px; font-weight:600; color:var(--t1); text-transform:uppercase; letter-spacing:0.7px; }
+.prompt-layer:hover { border-color: var(--line2); }
+.pl-head { display: flex; align-items: center; gap: var(--s1); margin-bottom: 7px; }
+.pl-title { font-size: 10px; font-weight: 600; color: var(--t1); text-transform: uppercase; letter-spacing: 0.6px; }
 .pl-tag {
-  margin-left:auto; padding:2px 7px; border-radius:999px;
-  font-size:9px; font-weight:700; font-family:monospace;
+  margin-left: auto; padding: 2px 8px; border-radius: 999px;
+  font-size: 9px; font-weight: 700; font-family: monospace;
 }
-.pl-code { font-size:10px; color:var(--t2); font-family:monospace; line-height:1.7; }
-.pl-code .hi-gold { color:rgba(210,175,100,0.9); }
-.pl-code .hi-cyan { color:var(--cyan); }
-.pl-code .hi-viol { color:var(--viol); }
+.pl-code { font-size: 10px; color: var(--t2); font-family: monospace; line-height: 1.7; }
+.hi-a { color: var(--amber); }
+.hi-s { color: var(--steel); }
+.hi-m { color: var(--mauve); }
 
-/* ════════════════════════════════════════
-   ENGINE BADGES
-════════════════════════════════════════ */
-.engine-grid { display:flex; flex-direction:column; gap:6px; }
-.engine-row {
-  display:flex; align-items:center; gap:9px;
-  padding:8px 12px; border-radius:12px;
-  background:var(--nest-bg); border:var(--nest-border);
-  transition:border-color 0.2s;
+/* ══════════════════════════════════════
+   AIDA
+══════════════════════════════════════ */
+.aida-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s2); }
+.aida-b {
+  background: var(--bg); border: 1px solid var(--line);
+  border-radius: var(--nest-r); padding: var(--s2);
 }
-.engine-row:hover { border-color:rgba(255,255,255,0.1); }
-.eng-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
-.eng-dot.run  { background:var(--lime); box-shadow:0 0 6px rgba(130,220,110,0.6); animation:pulse 2s infinite; }
-.eng-dot.queue { background:var(--gold); box-shadow:0 0 6px rgba(210,175,100,0.5); animation:pulse 2.5s infinite; }
-.eng-dot.idle { background:rgba(255,255,255,0.15); }
-.eng-name { font-size:11px; color:var(--t2); font-weight:500; flex:1; }
-.eng-state { font-size:9px; color:var(--t4); font-family:monospace; }
+.aida-letter { font-size: 28px; font-weight: 200; letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
+.aida-name   { font-size: 9px; font-weight: 600; color: var(--t4); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 7px; }
+.aida-text   { font-size: 11px; color: var(--t2); line-height: 1.6; }
 
-/* ════════════════════════════════════════
-   SCORE DISPLAY
-════════════════════════════════════════ */
+/* ══════════════════════════════════════
+   COPY CARDS
+══════════════════════════════════════ */
+.copy-card {
+  background: var(--bg); border: 1px solid var(--line);
+  border-radius: var(--nest-r); padding: var(--s2);
+  margin-bottom: var(--s1); cursor: pointer; transition: all 0.18s;
+}
+.copy-card:hover { border-color: var(--line2); }
+.copy-card.sel {
+  background: rgba(181,129,58,0.04);
+  border-color: var(--amber-line);
+}
+.cc-type { font-size: 9px; font-weight: 700; color: var(--amber); text-transform: uppercase; letter-spacing: 1.1px; margin-bottom: 7px; }
+.cc-text { font-size: 11px; color: var(--t2); line-height: 1.6; }
+.cc-metrics { display: flex; gap: var(--s2); margin-top: var(--s1); }
+.cc-m { font-size: 9px; color: var(--t4); font-family: monospace; }
+.cc-m span { color: var(--steel); }
+
+/* ══════════════════════════════════════
+   VIDEO GRID
+══════════════════════════════════════ */
+.video-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: var(--s1); }
+.vt {
+  aspect-ratio: 9/16; border-radius: 14px;
+  background: var(--surface2); border: 1px solid var(--line);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  font-size: 18px; position: relative; overflow: hidden; cursor: pointer;
+  transition: all 0.22s ease;
+}
+.vt:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--line2); }
+.vt-play { position: absolute; font-size: 12px; color: var(--t4); }
+.vt-info {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 16px 8px 8px;
+  background: linear-gradient(transparent, rgba(28,24,22,0.6));
+}
+.vt-name { font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.8); }
+.vt-dur  { font-size: 8px; color: rgba(255,255,255,0.5); font-family: monospace; margin-top: 1px; }
+.vt-st {
+  position: absolute; top: 6px; right: 6px;
+  padding: 2px 6px; border-radius: 5px; font-size: 8px; font-weight: 700; font-family: monospace;
+}
+.vt-ok   { background: var(--sage-bg);   color: var(--sage); }
+.vt-proc { background: var(--amber-bg2); color: var(--amber); animation: blink 1.5s infinite; }
+.vt-pend { background: var(--surface3);  color: var(--t4); }
+
+/* ══════════════════════════════════════
+   SCORE
+══════════════════════════════════════ */
 .score-big {
-  font-size:48px; font-weight:200; letter-spacing:-3px;
-  background: linear-gradient(135deg, rgba(210,175,100,0.95), rgba(220,195,140,0.7));
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  line-height:1; margin: 4px 0 2px;
+  font-size: 52px; font-weight: 200; letter-spacing: -3px; line-height: 1;
+  color: var(--amber);
 }
-.score-lbl { font-size:9px; font-weight:500; color:var(--t4); text-transform:uppercase; letter-spacing:1px; }
-.score-bars { display:flex; flex-direction:column; gap:7px; margin-top:12px; }
-.sb-row { display:flex; align-items:center; gap:8px; }
-.sb-name { font-size:9px; color:var(--t3); width:72px; flex-shrink:0; }
-.sb-track { flex:1; height:3px; border-radius:999px; background:rgba(255,255,255,0.07); overflow:hidden; }
-.sb-fill { height:100%; border-radius:999px; }
-.sb-val { font-size:9px; font-family:monospace; color:var(--t3); width:28px; text-align:right; flex-shrink:0; }
+.score-lbl { font-size: 10px; color: var(--t4); text-transform: uppercase; letter-spacing: 1px; margin-top: 3px; }
+.score-bars { display: flex; flex-direction: column; gap: 8px; margin-top: var(--s2); }
+.sb-row { display: flex; align-items: center; gap: var(--s1); }
+.sb-name { font-size: 9px; color: var(--t3); width: 76px; flex-shrink: 0; }
+.sb-track { flex: 1; height: 3px; border-radius: 999px; background: var(--surface3); overflow: hidden; }
+.sb-fill  { height: 100%; border-radius: 999px; }
+.sb-val   { font-size: 9px; font-family: monospace; color: var(--t3); width: 28px; text-align: right; flex-shrink: 0; }
 
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════
+   ENGINE STATUS
+══════════════════════════════════════ */
+.eng-row {
+  display: flex; align-items: center; gap: var(--s1);
+  padding: 8px var(--s2); border-radius: var(--nest-r);
+  background: var(--bg); border: 1px solid var(--line);
+  margin-bottom: 5px;
+  transition: border-color 0.18s;
+}
+.eng-row:hover { border-color: var(--line2); }
+.eng-row:last-child { margin-bottom: 0; }
+.eng-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+.eng-dot.run   { background: var(--sage); box-shadow: 0 0 5px rgba(90,138,106,0.5); animation: blink 2s infinite; }
+.eng-dot.queue { background: var(--amber); box-shadow: 0 0 5px rgba(181,129,58,0.4); animation: blink 2.5s infinite; }
+.eng-dot.idle  { background: var(--t5); }
+.eng-name  { font-size: 11px; color: var(--t2); font-weight: 500; flex: 1; }
+.eng-state { font-size: 9px; color: var(--t4); font-family: monospace; }
+
+/* ══════════════════════════════════════
    API CONNECTIONS
-════════════════════════════════════════ */
-.api-list { display:flex; flex-direction:column; gap:6px; }
+══════════════════════════════════════ */
 .api-row {
-  display:flex; align-items:center; gap:8px;
-  padding:8px 12px; border-radius:12px;
-  background:var(--nest-bg); border:var(--nest-border);
+  display: flex; align-items: center; gap: var(--s1);
+  padding: 8px var(--s2); border-radius: var(--nest-r);
+  background: var(--bg); border: 1px solid var(--line);
+  margin-bottom: 5px;
 }
-.api-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
-.api-dot.live { background:var(--lime); box-shadow:0 0 5px rgba(130,220,110,0.5); animation:pulse 2s infinite; }
-.api-dot.warn { background:var(--gold); }
-.api-name { font-size:11px; color:var(--t2); font-weight:500; flex:1; }
-.api-lat { font-size:9px; color:var(--cyan); font-family:monospace; }
-.api-type { font-size:9px; color:var(--t4); font-family:monospace; }
+.api-row:last-child { margin-bottom: 0; }
+.api-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+.api-dot.live { background: var(--sage); box-shadow: 0 0 4px rgba(90,138,106,0.5); animation: blink 2s infinite; }
+.api-dot.warn { background: var(--amber); }
+.api-name { font-size: 11px; color: var(--t1); font-weight: 500; flex: 1; }
+.api-lat  { font-size: 9px; color: var(--steel); font-family: monospace; }
+.api-type { font-size: 9px; color: var(--t4); font-family: monospace; }
 
-/* ════════════════════════════════════════
-   RIGHT PANEL
-════════════════════════════════════════ */
+/* ══════════════════════════════════════
+   RIGHT COLUMN
+══════════════════════════════════════ */
 .right-col {
-  grid-column:3; grid-row:1;
-  display:flex; flex-direction:column; gap:14px;
-  overflow-y:auto; overflow-x:hidden;
+  display: flex; flex-direction: column;
+  gap: var(--s2); overflow-y: auto;
+  min-width: 0;
 }
-.right-col::-webkit-scrollbar { width:3px; }
-.right-col::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.06); }
+.right-col::-webkit-scrollbar { width: 3px; }
+.right-col::-webkit-scrollbar-thumb { background: var(--t5); border-radius: 2px; }
 
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════
    LAUNCH CARD
-════════════════════════════════════════ */
+══════════════════════════════════════ */
 .launch-card {
-  background: linear-gradient(145deg, rgba(40,30,12,0.7), rgba(20,15,6,0.6));
-  backdrop-filter: var(--card-blur);
-  border: 1px solid rgba(210,175,100,0.18);
+  background: var(--surface);
+  border: 1px solid var(--line);
   border-radius: var(--card-r);
-  padding: 22px 20px;
-  box-shadow: 0 24px 64px rgba(0,0,0,0.3), inset 0 1px 0 rgba(210,175,100,0.12);
-  position:relative; overflow:hidden;
+  box-shadow: var(--shadow-md);
+  padding: var(--s3);
+  position: relative; overflow: hidden;
 }
 .launch-card::before {
-  content:'✦'; position:absolute; right:-8px; top:-24px;
-  font-size:110px; color:rgba(210,175,100,0.04); pointer-events:none; line-height:1;
+  content: '✦';
+  position: absolute; right: 0px; top: -16px;
+  font-size: 100px; color: rgba(181,129,58,0.05);
+  pointer-events: none; line-height: 1;
 }
-.lc-title { font-size:17px; font-weight:300; letter-spacing:-0.5px; color:var(--t1); line-height:1.3; margin-bottom:5px; }
-.lc-sub   { font-size:11px; color:var(--t3); line-height:1.6; margin-bottom:18px; }
 
-.form-row { display:flex; flex-direction:column; gap:4px; margin-bottom:10px; }
-.form-lbl { font-size:9px; font-weight:600; color:var(--t4); text-transform:uppercase; letter-spacing:0.9px; }
+.lc-title {
+  font-size: 18px; font-weight: 300; letter-spacing: -0.5px;
+  color: var(--t1); line-height: 1.35; margin-bottom: 5px;
+}
+.lc-sub { font-size: 11px; color: var(--t3); line-height: 1.6; margin-bottom: var(--s3); }
+
+.form-row { display: flex; flex-direction: column; gap: 5px; margin-bottom: var(--s2); }
+.form-lbl { font-size: 9px; font-weight: 600; color: var(--t4); text-transform: uppercase; letter-spacing: 0.9px; }
 .form-sel, .form-inp {
-  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
-  border-radius:12px; padding:8px 12px; color:var(--t1); font-size:11px;
-  font-family:'Inter',sans-serif; outline:none; appearance:none;
-  transition:border-color 0.2s;
+  background: var(--bg);
+  border: 1px solid var(--line2);
+  border-radius: 10px;
+  padding: 8px var(--s2);
+  color: var(--t1);
+  font-size: 11px; font-family: 'Inter', sans-serif;
+  outline: none; appearance: none;
+  transition: border-color 0.2s;
 }
-.form-sel:focus, .form-inp:focus { border-color:rgba(210,175,100,0.35); }
-.form-sel option { background:#111318; }
+.form-sel:focus, .form-inp:focus { border-color: var(--amber-line); }
+.form-sel option { background: var(--surface); }
 
-.toggle-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
-.toggle-lbl { font-size:11px; color:var(--t2); }
+.toggle-row {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: var(--s1);
+}
+.toggle-lbl { font-size: 11px; color: var(--t2); }
 .toggle {
-  width:34px; height:18px; border-radius:999px;
-  background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1);
-  position:relative; cursor:pointer; transition:all 0.22s;
+  width: 34px; height: 18px; border-radius: 999px;
+  background: var(--surface3); border: 1px solid var(--line2);
+  position: relative; cursor: pointer; transition: all 0.2s;
 }
-.toggle.on { background:rgba(210,175,100,0.25); border-color:rgba(210,175,100,0.4); }
+.toggle.on { background: var(--amber-bg2); border-color: var(--amber-line); }
 .toggle-knob {
-  width:12px; height:12px; border-radius:50%;
-  background:var(--t3); position:absolute; top:2px; left:2px; transition:all 0.22s;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--t4); position: absolute; top: 2px; left: 2px; transition: all 0.2s;
 }
-.toggle.on .toggle-knob { left:18px; background:var(--gold); }
+.toggle.on .toggle-knob { left: 18px; background: var(--amber); }
 
-.divider { height:1px; background:rgba(255,255,255,0.06); margin:12px 0; }
+.divider { height: 1px; background: var(--line3); margin: var(--s2) 0; }
 
-.cost-row { display:flex; align-items:center; justify-content:space-between; padding:3px 0; }
-.cost-lbl { font-size:10px; color:var(--t3); }
-.cost-val { font-size:10px; font-family:monospace; color:var(--t2); }
-.cost-total .cost-lbl { color:var(--t2); font-weight:500; }
-.cost-total .cost-val { color:var(--gold); font-weight:600; font-size:12px; }
+.cost-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 3px 0;
+}
+.cost-lbl { font-size: 10px; color: var(--t3); }
+.cost-val { font-size: 10px; font-family: monospace; color: var(--t2); }
+.cost-row.total .cost-lbl { color: var(--t1); font-weight: 500; }
+.cost-row.total .cost-val { color: var(--amber); font-weight: 600; font-size: 12px; }
 
 .btn-launch {
-  width:100%; padding:13px; border:none; border-radius:999px;
-  background: linear-gradient(135deg, rgba(210,175,100,0.85), rgba(140,100,30,0.75));
-  color:rgba(15,8,0,0.9); font-size:12px; font-weight:600; font-family:'Inter',sans-serif;
-  cursor:pointer; transition:all 0.22s ease-out;
-  box-shadow:0 8px 28px rgba(210,175,100,0.22), inset 0 1px 0 rgba(255,255,255,0.22);
-  display:flex; align-items:center; justify-content:center; gap:7px;
-  margin-top:12px;
+  width: 100%; padding: 13px;
+  border: none; border-radius: 999px;
+  background: linear-gradient(135deg, var(--amber-l), var(--amber));
+  color: #fff; font-size: 12px; font-weight: 600;
+  font-family: 'Inter', sans-serif; cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 6px 20px rgba(181,129,58,0.28);
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  margin-top: var(--s2);
 }
-.btn-launch:hover { filter:brightness(1.1); transform:translateY(-1px); box-shadow:0 12px 36px rgba(210,175,100,0.32); }
-.btn-launch.loading { opacity:0.65; cursor:not-allowed; transform:none !important; }
-.launch-note { text-align:center; font-size:10px; color:var(--t4); margin-top:8px; }
+.btn-launch:hover { filter: brightness(1.07); transform: translateY(-1px); box-shadow: 0 8px 28px rgba(181,129,58,0.36); }
+.btn-launch.loading { opacity: 0.65; cursor: not-allowed; transform: none !important; }
+.launch-note { text-align: center; font-size: 10px; color: var(--t4); margin-top: 7px; }
 
 /* Plan options */
-.plan-opts { display:flex; flex-direction:column; gap:7px; margin-bottom:14px; }
+.plan-opts { display: flex; flex-direction: column; gap: 7px; margin-bottom: var(--s3); }
 .plan-opt {
-  display:flex; align-items:center; gap:10px;
-  padding:10px 12px; border-radius:14px;
-  border:1.5px solid rgba(255,255,255,0.07);
-  cursor:pointer; transition:all 0.2s; position:relative;
+  display: flex; align-items: center; gap: var(--s2);
+  padding: 10px var(--s2); border-radius: 14px;
+  border: 1.5px solid var(--line2); cursor: pointer; transition: all 0.18s;
+  position: relative;
 }
-.plan-opt.sel { border-color:rgba(210,175,100,0.35); background:rgba(210,175,100,0.06); }
-.plan-opt-badge {
-  position:absolute; top:-8px; left:10px;
-  padding:2px 8px; border-radius:999px; font-size:8px; font-weight:700;
-  background:rgba(210,175,100,0.9); color:rgba(10,6,0,0.9);
+.plan-opt.sel { border-color: var(--amber-line); background: var(--amber-bg); }
+.plan-badge {
+  position: absolute; top: -9px; left: var(--s2);
+  padding: 2px 8px; border-radius: 999px;
+  font-size: 8px; font-weight: 700;
+  background: var(--amber); color: #fff; letter-spacing: 0.4px;
 }
-.radio { width:14px; height:14px; border-radius:50%; border:1.5px solid rgba(255,255,255,0.2); flex-shrink:0; display:flex; align-items:center; justify-content:center; }
-.plan-opt.sel .radio { border-color:var(--gold); }
-.radio-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); }
-.plan-lbl { font-size:12px; font-weight:500; color:var(--t1); }
-.plan-desc { font-size:10px; color:var(--t3); }
-.plan-price { margin-left:auto; font-size:13px; font-weight:600; color:var(--t1); }
-.plan-price small { font-size:9px; font-weight:400; color:var(--t3); }
+.radio {
+  width: 15px; height: 15px; border-radius: 50%;
+  border: 1.5px solid var(--t4); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.18s;
+}
+.plan-opt.sel .radio { border-color: var(--amber); }
+.radio-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--amber); }
+.plan-lbl  { font-size: 12px; font-weight: 500; color: var(--t1); }
+.plan-desc { font-size: 10px; color: var(--t3); }
+.plan-price { margin-left: auto; font-size: 13px; font-weight: 600; color: var(--t1); white-space: nowrap; }
+.plan-price small { font-size: 9px; font-weight: 400; color: var(--t3); }
 
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════
    TABS
-════════════════════════════════════════ */
+══════════════════════════════════════ */
 .tabs {
-  display:flex; gap:2px; background:rgba(255,255,255,0.04);
-  border-radius:12px; padding:3px; margin-bottom:16px;
+  display: flex; gap: 2px;
+  background: var(--surface2);
+  border-radius: 12px; padding: 3px;
+  margin-bottom: var(--s2);
 }
 .tab {
-  flex:1; padding:7px 10px; border-radius:9px; font-size:11px; font-weight:500;
-  text-align:center; cursor:pointer; transition:all 0.2s; color:var(--t3);
+  flex: 1; padding: 7px var(--s1); border-radius: 9px;
+  font-size: 11px; font-weight: 500; text-align: center;
+  cursor: pointer; transition: all 0.18s; color: var(--t3);
 }
-.tab.on { background:rgba(255,255,255,0.07); color:var(--t1); }
-.tab:hover:not(.on) { color:var(--t2); }
+.tab.on { background: var(--surface); color: var(--t1); box-shadow: var(--shadow-sm); }
+.tab:hover:not(.on) { color: var(--t2); }
 
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════
    PANELS
-════════════════════════════════════════ */
-.panel { display:none; animation:floatIn 0.35s ease-out both; }
-.panel.show { display:block; }
+══════════════════════════════════════ */
+.panel { display: none; animation: rise 0.35s ease-out both; }
+.panel.show { display: block; }
 
-/* ════════════════════════════════════════
-   STATUSBAR
-════════════════════════════════════════ */
-/* integrated into topbar via chip */
-
-/* ════════════════════════════════════════
+/* ══════════════════════════════════════
    MODAL
-════════════════════════════════════════ */
+══════════════════════════════════════ */
 .modal-bg {
-  display:none; position:fixed; inset:0; z-index:1000;
-  background:rgba(4,5,8,0.75); backdrop-filter:blur(10px);
-  align-items:center; justify-content:center;
+  display: none; position: fixed; inset: 0; z-index: 1000;
+  background: rgba(28,24,22,0.4);
+  backdrop-filter: blur(6px);
+  align-items: center; justify-content: center;
 }
-.modal-bg.open { display:flex; }
+.modal-bg.open { display: flex; }
 .modal-box {
-  background: linear-gradient(145deg, rgba(255,255,255,0.065), rgba(255,255,255,0.02));
-  backdrop-filter: blur(40px);
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 40px 100px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
-  border-radius: 28px; padding: 28px; width: 420px;
-  animation: floatIn 0.3s ease-out both;
+  background: var(--surface);
+  border: 1px solid var(--line2);
+  border-radius: 24px;
+  box-shadow: 0 24px 72px rgba(100,80,50,0.18);
+  padding: var(--s4); width: 420px;
+  animation: rise 0.3s ease-out both;
 }
-.modal-title { font-size:20px; font-weight:300; letter-spacing:-0.5px; margin-bottom:5px; }
-.modal-sub { font-size:11px; color:var(--t3); margin-bottom:20px; }
-.modal-close { float:right; background:none; border:none; color:var(--t3); font-size:18px; cursor:pointer; margin-top:-4px; }
-
+.modal-title { font-size: 20px; font-weight: 300; letter-spacing: -0.5px; color: var(--t1); margin-bottom: 5px; }
+.modal-sub   { font-size: 11px; color: var(--t3); margin-bottom: var(--s3); }
+.modal-close { float: right; background: none; border: none; color: var(--t3); font-size: 18px; cursor: pointer; }
 .drop-zone {
-  border:1.5px dashed rgba(255,255,255,0.1); border-radius:14px;
-  padding:22px; text-align:center; font-size:11px; color:var(--t3); cursor:pointer;
-  transition:border-color 0.2s;
+  border: 1.5px dashed var(--line2); border-radius: 12px;
+  padding: var(--s4); text-align: center;
+  font-size: 11px; color: var(--t3); cursor: pointer; transition: all 0.18s;
 }
-.drop-zone:hover { border-color:rgba(210,175,100,0.3); color:var(--t2); }
+.drop-zone:hover { border-color: var(--amber-line); color: var(--t2); background: var(--amber-bg); }
+
+/* ══════════════════════════════════════
+   TRADE-OFF TABLE
+══════════════════════════════════════ */
+.trade-row {
+  display: flex; align-items: center; gap: var(--s2);
+  padding: var(--s2); border-radius: var(--nest-r);
+  background: var(--bg); border: 1px solid var(--line);
+  margin-bottom: var(--s1);
+}
+.trade-row:last-child { margin-bottom: 0; }
+.trade-name { font-size: 12px; font-weight: 500; color: var(--t1); width: 140px; flex-shrink: 0; }
+.trade-pro  { font-size: 11px; color: var(--sage); flex: 1; }
+.trade-con  { font-size: 11px; color: var(--clay); }
 
 </style>
 </head>
@@ -712,89 +867,88 @@ body::after {
 
 <div class="app">
 
-  <!-- ══ FLOATING NAV RAIL ══ -->
+  <!-- ════ NAV RAIL ════ -->
   <nav class="nav-rail">
     <div class="nav-logo">✦</div>
-    <div class="nav-btn active" onclick="switchPanel('overview',this)" title="Dashboard">⊞</div>
-    <div class="nav-btn" onclick="switchPanel('products',this)" title="Produtos">◫</div>
-    <div class="nav-btn" onclick="switchPanel('prompts',this)" title="Prompt Studio">✐</div>
-    <div class="nav-btn" onclick="switchPanel('assets',this)" title="Imagens">◈</div>
-    <div class="nav-btn" onclick="switchPanel('videos',this)" title="Vídeos">▷</div>
-    <div class="nav-btn" onclick="switchPanel('copy',this)" title="Copywriting">✎</div>
-    <div class="nav-btn" onclick="switchPanel('analytics',this)" title="Analytics">◑</div>
+    <div class="nav-btn active" onclick="sw('overview',this)"   title="Dashboard">⊞</div>
+    <div class="nav-btn"        onclick="sw('products',this)"   title="Produtos">◫</div>
+    <div class="nav-btn"        onclick="sw('prompts',this)"    title="Prompt Studio">✐</div>
+    <div class="nav-btn"        onclick="sw('assets',this)"     title="Imagens">◈</div>
+    <div class="nav-btn"        onclick="sw('videos',this)"     title="Vídeos">▷</div>
+    <div class="nav-btn"        onclick="sw('copy',this)"       title="Copywriting">✎</div>
+    <div class="nav-btn"        onclick="sw('analytics',this)"  title="Analytics">◑</div>
     <div class="nav-bottom">
-      <div class="nav-btn" title="Configurações">⚙</div>
+      <div class="nav-btn" title="Config">⚙</div>
       <div class="nav-avatar">VG</div>
     </div>
   </nav>
 
-  <!-- ══ MAIN WRAP ══ -->
+  <!-- ════ MAIN ════ -->
   <div class="main-wrap">
 
-    <!-- TOPBAR -->
-    <div class="topbar">
-      <div class="tb-logo">Viral<span>Gen</span></div>
-      <div class="tb-divider"></div>
-      <div class="tb-path"><b id="tb-crumb">Dashboard</b></div>
+    <!-- Topbar -->
+    <header class="topbar">
+      <span class="tb-logo">Viral<em>Gen</em></span>
+      <div class="tb-sep"></div>
+      <span class="tb-crumb"><b id="tb-crumb">Dashboard</b></span>
       <div class="tb-right">
         <div class="chip">
-          <div class="chip-dot live"></div>
+          <span class="chip-dot live"></span>
           Pipeline ativo · Job #2847
         </div>
         <button class="btn btn-ghost" onclick="openModal()">+ Produto</button>
-        <button class="btn btn-gold" onclick="launchPipeline()">✦ Gerar campanha</button>
+        <button class="btn btn-amber" onclick="launchPipeline()">✦ Gerar campanha</button>
       </div>
-    </div>
+    </header>
 
-    <!-- SCROLLABLE CONTENT -->
+    <!-- Scrollable -->
     <div class="main-scroll" id="main-scroll">
 
-      <!-- ═ OVERVIEW ═ -->
+      <!-- ── OVERVIEW ── -->
       <div id="panel-overview" class="panel show">
 
-        <!-- Metrics -->
         <div class="metrics-row">
-          <div class="metric-tile">
-            <div class="metric-glow" style="background:rgba(210,175,100,1)"></div>
-            <div class="metric-lbl">Produtos gerados</div>
-            <div class="metric-val" style="color:rgba(210,175,100,0.9)">342<span class="metric-unit">total</span></div>
-            <div class="metric-delta up">↑ +12 hoje</div>
-            <div class="metric-bar"><div class="metric-bar-f" style="width:68%;background:rgba(210,175,100,0.7)"></div></div>
+          <div class="mtile">
+            <div class="mtile-accent" style="background:var(--amber)"></div>
+            <div class="mtile-lbl">Produtos gerados</div>
+            <div class="mtile-val" style="color:var(--amber)">342<span class="mtile-unit">total</span></div>
+            <div class="mtile-delta up">↑ +12 hoje</div>
+            <div class="mtile-bar"><div class="mtile-bar-f" style="width:68%;background:var(--amber)"></div></div>
           </div>
-          <div class="metric-tile">
-            <div class="metric-glow" style="background:rgba(100,210,200,1)"></div>
-            <div class="metric-lbl">Imagens geradas</div>
-            <div class="metric-val" style="color:var(--cyan)">1710<span class="metric-unit">imgs</span></div>
-            <div class="metric-delta up">↑ +60 hoje</div>
-            <div class="metric-bar"><div class="metric-bar-f" style="width:78%;background:rgba(100,210,200,0.6)"></div></div>
+          <div class="mtile">
+            <div class="mtile-accent" style="background:var(--steel)"></div>
+            <div class="mtile-lbl">Imagens geradas</div>
+            <div class="mtile-val" style="color:var(--steel)">1710<span class="mtile-unit">imgs</span></div>
+            <div class="mtile-delta up">↑ +60 hoje</div>
+            <div class="mtile-bar"><div class="mtile-bar-f" style="width:78%;background:var(--steel)"></div></div>
           </div>
-          <div class="metric-tile">
-            <div class="metric-glow" style="background:rgba(170,140,255,1)"></div>
-            <div class="metric-lbl">Vídeos prontos</div>
-            <div class="metric-val" style="color:var(--viol)">3420<span class="metric-unit">vids</span></div>
-            <div class="metric-delta up">↑ +100 hoje</div>
-            <div class="metric-bar"><div class="metric-bar-f" style="width:55%;background:rgba(170,140,255,0.6)"></div></div>
+          <div class="mtile">
+            <div class="mtile-accent" style="background:var(--mauve)"></div>
+            <div class="mtile-lbl">Vídeos prontos</div>
+            <div class="mtile-val" style="color:var(--mauve)">3420<span class="mtile-unit">vids</span></div>
+            <div class="mtile-delta up">↑ +100 hoje</div>
+            <div class="mtile-bar"><div class="mtile-bar-f" style="width:55%;background:var(--mauve)"></div></div>
           </div>
-          <div class="metric-tile">
-            <div class="metric-glow" style="background:rgba(130,220,110,1)"></div>
-            <div class="metric-lbl">Taxa curadoria</div>
-            <div class="metric-val" style="color:var(--lime)">87<span class="metric-unit">%</span></div>
-            <div class="metric-delta up">↑ +2.1pp</div>
-            <div class="metric-bar"><div class="metric-bar-f" style="width:87%;background:rgba(130,220,110,0.6)"></div></div>
+          <div class="mtile">
+            <div class="mtile-accent" style="background:var(--sage)"></div>
+            <div class="mtile-lbl">Taxa curadoria</div>
+            <div class="mtile-val" style="color:var(--sage)">87<span class="mtile-unit">%</span></div>
+            <div class="mtile-delta up">↑ +2.1pp</div>
+            <div class="mtile-bar"><div class="mtile-bar-f" style="width:87%;background:var(--sage)"></div></div>
           </div>
         </div>
 
-        <!-- Pipeline card -->
-        <div class="glass-card">
+        <!-- Pipeline -->
+        <div class="card" style="margin-top: 0;">
           <div class="card-head">
             <div>
               <div class="card-title">Pipeline de Execução</div>
               <div class="card-sub">Job #2847 · Batom Velvet Rouge · em andamento</div>
             </div>
-            <div style="margin-left:auto;font-size:10px;font-family:monospace;color:rgba(210,175,100,0.7)">3 / 7 etapas</div>
+            <div style="margin-left:auto;font-size:10px;font-family:monospace;color:var(--amber);font-weight:600;">3 / 7 etapas</div>
           </div>
           <div class="card-body">
-            <div class="pipeline-track">
+            <div class="pipe-track">
               <div class="pipe-node"><div class="pipe-line done"></div><div class="pipe-orb done">⬡</div><div class="pipe-lbl">Product Engine</div><div class="pipe-tm">0.3s ✓</div></div>
               <div class="pipe-node"><div class="pipe-line done"></div><div class="pipe-orb done">✐</div><div class="pipe-lbl">Prompt Intelligence</div><div class="pipe-tm">1.2s ✓</div></div>
               <div class="pipe-node"><div class="pipe-line done"></div><div class="pipe-orb done">◈</div><div class="pipe-lbl">Image Generator</div><div class="pipe-tm">2m14s ✓</div></div>
@@ -804,94 +958,90 @@ body::after {
               <div class="pipe-node"><div class="pipe-line"></div><div class="pipe-orb">◑</div><div class="pipe-lbl">Curation Ranking</div><div class="pipe-tm">—</div></div>
             </div>
             <div class="prog-track"><div class="prog-fill"></div></div>
-            <!-- Log -->
-            <div class="log-stream" style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05)">
-              <div class="log-line"><span class="ll-t">14:40:48</span><span class="ll-lv ll-warn">RUN</span><span class="ll-api">VideoScript</span><span class="ll-msg">compondo 10 scripts cinematográficos — hook_style variado…</span></div>
-              <div class="log-line"><span class="ll-t">14:40:44</span><span class="ll-lv ll-ok">OK</span><span class="ll-api">CopyEngine</span><span class="ll-msg">AIDA+Neurotrigger completo · 4 variações · CTR pred: 4.2%</span></div>
+            <div class="log-stream" style="margin-top:var(--s3);padding-top:var(--s2);border-top:1px solid var(--line3);">
+              <div class="log-line"><span class="ll-t">14:40:48</span><span class="ll-lv ll-warn">RUN</span><span class="ll-api">VideoScript</span><span class="ll-msg">compondo 10 scripts cinematográficos…</span></div>
+              <div class="log-line"><span class="ll-t">14:40:44</span><span class="ll-lv ll-ok">OK</span><span class="ll-api">CopyEngine</span><span class="ll-msg">AIDA+Neurotrigger · 4 variações · CTR pred: 4.2%</span></div>
               <div class="log-line"><span class="ll-t">14:40:40</span><span class="ll-lv ll-ok">OK</span><span class="ll-api">ImageEngine</span><span class="ll-msg">5/5 imagens geradas · avg score: 0.87 · salvas no R2</span></div>
-              <div class="log-line"><span class="ll-t">14:38:26</span><span class="ll-lv ll-info">API</span><span class="ll-api">DALL-E 3</span><span class="ll-msg">POST /v1/images/generations → 202 Accepted · seed: 4829102</span></div>
+              <div class="log-line"><span class="ll-t">14:38:26</span><span class="ll-lv ll-info">API</span><span class="ll-api">DALL-E 3</span><span class="ll-msg">POST /v1/images/generations → 202 · seed: 4829102</span></div>
             </div>
           </div>
         </div>
 
-        <!-- Score formula + Recent jobs -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-          <div class="glass-card">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s2);">
+          <div class="card">
             <div class="card-head"><div class="card-title">Jobs Recentes</div></div>
-            <div style="padding:4px 0 10px;">
-              <table class="prod-table" style="width:100%">
+            <div style="padding: 4px 0 var(--s2);">
+              <table class="prod-table" style="width:100%;">
                 <thead><tr><th>Produto</th><th>Status</th><th>Score</th></tr></thead>
                 <tbody>
-                  <tr class="sel"><td><div class="p-cell"><div class="p-icon">💄</div><div><div class="p-name">Batom Velvet Rouge</div><div class="p-sku">#2847</div></div></div></td><td><span class="status-pill sp-proc">● Gerando</span></td><td><span class="score-v sv-mid">0.87</span></td></tr>
-                  <tr><td><div class="p-cell"><div class="p-icon">🧴</div><div><div class="p-name">Sérum Glow 24h</div><div class="p-sku">#2846</div></div></div></td><td><span class="status-pill sp-done">✓ Pronto</span></td><td><span class="score-v sv-hi">0.93</span></td></tr>
-                  <tr><td><div class="p-cell"><div class="p-icon">⌚</div><div><div class="p-name">Relógio Obsidian</div><div class="p-sku">#2845</div></div></div></td><td><span class="status-pill sp-done">✓ Pronto</span></td><td><span class="score-v sv-hi">0.91</span></td></tr>
+                  <tr class="sel"><td><div class="p-cell"><div class="p-icon">💄</div><div><div class="p-name">Batom Velvet Rouge</div><div class="p-sku">#2847</div></div></div></td><td><span class="pill pill-amber">● Gerando</span></td><td><span class="sv sv-mid">0.87</span></td></tr>
+                  <tr><td><div class="p-cell"><div class="p-icon">🧴</div><div><div class="p-name">Sérum Glow 24h</div><div class="p-sku">#2846</div></div></div></td><td><span class="pill pill-sage">✓ Pronto</span></td><td><span class="sv sv-hi">0.93</span></td></tr>
+                  <tr><td><div class="p-cell"><div class="p-icon">⌚</div><div><div class="p-name">Relógio Obsidian</div><div class="p-sku">#2845</div></div></div></td><td><span class="pill pill-sage">✓ Pronto</span></td><td><span class="sv sv-hi">0.91</span></td></tr>
                 </tbody>
               </table>
             </div>
           </div>
-          <div class="glass-card">
+          <div class="card">
             <div class="card-head"><div class="card-title">Fórmula de Score</div></div>
             <div class="card-body">
-              <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px;font-family:monospace;font-size:11px;color:var(--t2);line-height:1.8;margin-bottom:14px;">
-                <span style="color:rgba(210,175,100,0.8)">FinalScore</span> =<br>
-                &nbsp;&nbsp;<span style="color:var(--cyan)">0.4</span> × VisualQuality +<br>
-                &nbsp;&nbsp;<span style="color:var(--viol)">0.3</span> × PersuasionScore +<br>
-                &nbsp;&nbsp;<span style="color:var(--lime)">0.3</span> × PredictedCTR
+              <div style="background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:var(--s2);font-family:monospace;font-size:11px;color:var(--t2);line-height:1.9;margin-bottom:var(--s2);">
+                <span style="color:var(--amber);font-weight:600;">FinalScore</span> =<br>
+                &nbsp;&nbsp;<span style="color:var(--steel)">0.4</span> × VisualQuality +<br>
+                &nbsp;&nbsp;<span style="color:var(--mauve)">0.3</span> × PersuasionScore +<br>
+                &nbsp;&nbsp;<span style="color:var(--sage)">0.3</span> × PredictedCTR
               </div>
               <div class="score-bars">
-                <div class="sb-row"><div class="sb-name" style="color:var(--cyan)">Visual ×0.4</div><div class="sb-track"><div class="sb-fill" style="width:87%;background:rgba(100,210,200,0.7)"></div></div><div class="sb-val">0.87</div></div>
-                <div class="sb-row"><div class="sb-name" style="color:var(--viol)">Persuasion ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:84%;background:rgba(170,140,255,0.7)"></div></div><div class="sb-val">0.84</div></div>
-                <div class="sb-row"><div class="sb-name" style="color:var(--lime)">CTR ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:89%;background:rgba(130,220,110,0.7)"></div></div><div class="sb-val">0.89</div></div>
+                <div class="sb-row"><div class="sb-name" style="color:var(--steel)">Visual ×0.4</div><div class="sb-track"><div class="sb-fill" style="width:87%;background:var(--steel)"></div></div><div class="sb-val">0.87</div></div>
+                <div class="sb-row"><div class="sb-name" style="color:var(--mauve)">Persuasion ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:84%;background:var(--mauve)"></div></div><div class="sb-val">0.84</div></div>
+                <div class="sb-row"><div class="sb-name" style="color:var(--sage)">CTR ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:89%;background:var(--sage)"></div></div><div class="sb-val">0.89</div></div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ═ PRODUCTS ═ -->
+      <!-- ── PRODUCTS ── -->
       <div id="panel-products" class="panel">
-        <div class="glass-card">
+        <div class="card">
           <div class="card-head">
             <div><div class="card-title">Catálogo de Produtos</div><div class="card-sub">Seleção estratégica por margem · popularidade · estoque</div></div>
-            <div style="margin-left:auto;display:flex;gap:8px;">
-              <button class="btn btn-ghost" style="font-size:10px;padding:5px 14px;">+ Importar</button>
-            </div>
+            <div style="margin-left:auto"><button class="btn btn-ghost" style="font-size:11px;">+ Importar</button></div>
           </div>
-          <div style="padding:4px 0 12px;">
+          <div style="padding: 0 0 var(--s2);">
             <table class="prod-table">
               <thead><tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Margem</th><th>Status</th><th>Score</th><th>Ações</th></tr></thead>
               <tbody>
-                <tr class="sel" onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">💄</div><div><div class="p-name">Batom Velvet Rouge</div><div class="p-sku">BTR-001</div></div></div></td><td><span class="p-cat">Beauty · Maquiagem</span></td><td><span class="p-price">R$89</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--lime)">42%</span></td><td><span class="status-pill sp-proc">● Gerando</span></td><td><span class="score-v sv-mid">0.87</span></td><td><div class="row-btns"><button class="rb rb-run">▷ Run</button><button class="rb rb-view">◈</button></div></td></tr>
-                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">🧴</div><div><div class="p-name">Sérum Glow 24h</div><div class="p-sku">SGW-012</div></div></div></td><td><span class="p-cat">Beauty · Skincare</span></td><td><span class="p-price">R$149</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--lime)">58%</span></td><td><span class="status-pill sp-done">✓ Pronto</span></td><td><span class="score-v sv-hi">0.93</span></td><td><div class="row-btns"><button class="rb rb-view">◈ Ver</button><button class="rb rb-run">↺</button></div></td></tr>
-                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">⌚</div><div><div class="p-name">Relógio Obsidian</div><div class="p-sku">ROB-007</div></div></div></td><td><span class="p-cat">Tech · Wearables</span></td><td><span class="p-price">R$649</span></td><td><span style="font-size:11px;font-family:monospace;color:rgba(210,175,100,0.8)">31%</span></td><td><span class="status-pill sp-done">✓ Pronto</span></td><td><span class="score-v sv-hi">0.91</span></td><td><div class="row-btns"><button class="rb rb-view">◈ Ver</button></div></td></tr>
-                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">👟</div><div><div class="p-name">Tênis AirCore Pro</div><div class="p-sku">TAC-023</div></div></div></td><td><span class="p-cat">Moda · Calçados</span></td><td><span class="p-price">R$329</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--lime)">45%</span></td><td><span class="status-pill sp-idle">○ Aguarda</span></td><td><span class="score-v sv-lo">—</span></td><td><div class="row-btns"><button class="rb rb-run">▷ Run</button></div></td></tr>
-                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">🕯️</div><div><div class="p-name">Vela Noir Sérum</div><div class="p-sku">VNS-041</div></div></div></td><td><span class="p-cat">Home · Bem-estar</span></td><td><span class="p-price">R$189</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--lime)">67%</span></td><td><span class="status-pill sp-idle">○ Aguarda</span></td><td><span class="score-v sv-lo">—</span></td><td><div class="row-btns"><button class="rb rb-run">▷ Run</button></div></td></tr>
+                <tr class="sel" onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">💄</div><div><div class="p-name">Batom Velvet Rouge</div><div class="p-sku">BTR-001</div></div></div></td><td><span class="p-cat">Beauty · Maquiagem</span></td><td><span class="p-price">R$89</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--sage);font-weight:600;">42%</span></td><td><span class="pill pill-amber">● Gerando</span></td><td><span class="sv sv-mid">0.87</span></td><td><div class="row-btns"><button class="rb rb-run">▷ Run</button><button class="rb rb-view">◈</button></div></td></tr>
+                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">🧴</div><div><div class="p-name">Sérum Glow 24h</div><div class="p-sku">SGW-012</div></div></div></td><td><span class="p-cat">Beauty · Skincare</span></td><td><span class="p-price">R$149</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--sage);font-weight:600;">58%</span></td><td><span class="pill pill-sage">✓ Pronto</span></td><td><span class="sv sv-hi">0.93</span></td><td><div class="row-btns"><button class="rb rb-view">◈ Ver</button><button class="rb rb-run">↺</button></div></td></tr>
+                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">⌚</div><div><div class="p-name">Relógio Obsidian</div><div class="p-sku">ROB-007</div></div></div></td><td><span class="p-cat">Tech · Wearables</span></td><td><span class="p-price">R$649</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--amber);font-weight:600;">31%</span></td><td><span class="pill pill-sage">✓ Pronto</span></td><td><span class="sv sv-hi">0.91</span></td><td><div class="row-btns"><button class="rb rb-view">◈ Ver</button></div></td></tr>
+                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">👟</div><div><div class="p-name">Tênis AirCore Pro</div><div class="p-sku">TAC-023</div></div></div></td><td><span class="p-cat">Moda · Calçados</span></td><td><span class="p-price">R$329</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--sage);font-weight:600;">45%</span></td><td><span class="pill pill-mute">○ Aguarda</span></td><td><span class="sv sv-lo">—</span></td><td><div class="row-btns"><button class="rb rb-run">▷ Run</button></div></td></tr>
+                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">🕯️</div><div><div class="p-name">Vela Noir Sérum</div><div class="p-sku">VNS-041</div></div></div></td><td><span class="p-cat">Home · Bem-estar</span></td><td><span class="p-price">R$189</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--sage);font-weight:600;">67%</span></td><td><span class="pill pill-mute">○ Aguarda</span></td><td><span class="sv sv-lo">—</span></td><td><div class="row-btns"><button class="rb rb-run">▷ Run</button></div></td></tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <!-- ═ PROMPTS ═ -->
+      <!-- ── PROMPT STUDIO ── -->
       <div id="panel-prompts" class="panel">
-        <div class="glass-card">
+        <div class="card">
           <div class="card-head"><div><div class="card-title">Prompt Intelligence Engine</div><div class="card-sub">Arquitetura de 7 camadas — Batom Velvet Rouge</div></div></div>
           <div class="card-body">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s2);">
               <div>
-                <div class="prompt-layer"><div class="pl-head"><span>💎</span><div class="pl-title">Product Essence</div><span class="pl-tag" style="background:var(--goldb);color:var(--gold)">L1</span></div><div class="pl-code"><span class="hi-gold">Premium matte liquid lipstick</span>, <span class="hi-cyan">deep rouge pigmentation</span>, <span class="hi-viol">16h wear formula</span></div></div>
-                <div class="prompt-layer"><div class="pl-head"><span>✨</span><div class="pl-title">Luxury Styling Layer</div><span class="pl-tag" style="background:var(--viold);color:var(--viol)">L2</span></div><div class="pl-code"><span class="hi-gold">Ultra realistic product photography</span>, <span class="hi-cyan">Vogue Beauty editorial style</span>, <span class="hi-viol">Hedi Slimane palette</span></div></div>
-                <div class="prompt-layer"><div class="pl-head"><span>🎬</span><div class="pl-title">Cinematic Composition</div><span class="pl-tag" style="background:var(--cyand);color:var(--cyan)">L3</span></div><div class="pl-code">Shot on <span class="hi-gold">ARRI Alexa Mini LF</span>, <span class="hi-cyan">85mm f/1.4 lens</span>, <span class="hi-viol">rule of thirds</span></div></div>
-                <div class="prompt-layer"><div class="pl-head"><span>💡</span><div class="pl-title">Lighting Physics</div><span class="pl-tag" style="background:rgba(130,220,110,0.1);color:var(--lime)">L4</span></div><div class="pl-code"><span class="hi-gold">Soft rim lighting</span>, <span class="hi-cyan">butterfly light setup</span>, warm key 3200K</div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>💎</span><div class="pl-title">Product Essence</div><span class="pl-tag" style="background:var(--amber-bg);color:var(--amber)">L1</span></div><div class="pl-code"><span class="hi-a">Premium matte liquid lipstick</span>, <span class="hi-s">deep rouge pigmentation</span>, <span class="hi-m">16h wear formula</span></div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>✨</span><div class="pl-title">Luxury Styling Layer</div><span class="pl-tag" style="background:var(--mauve-bg);color:var(--mauve)">L2</span></div><div class="pl-code"><span class="hi-a">Ultra realistic product photography</span>, <span class="hi-s">Vogue Beauty editorial style</span></div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>🎬</span><div class="pl-title">Cinematic Composition</div><span class="pl-tag" style="background:var(--steel-bg);color:var(--steel)">L3</span></div><div class="pl-code">Shot on <span class="hi-a">ARRI Alexa Mini LF</span>, <span class="hi-s">85mm f/1.4</span>, rule of thirds</div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>💡</span><div class="pl-title">Lighting Physics</div><span class="pl-tag" style="background:var(--sage-bg);color:var(--sage)">L4</span></div><div class="pl-code"><span class="hi-a">Soft rim lighting</span>, butterfly setup, warm key 3200K</div></div>
               </div>
               <div>
-                <div class="prompt-layer"><div class="pl-head"><span>🌸</span><div class="pl-title">Premium Environment</div><span class="pl-tag" style="background:var(--rosev);color:var(--rose)">L5</span></div><div class="pl-code"><span class="hi-gold">Luxury marble surface</span>, <span class="hi-cyan">scattered rose petals</span>, silk fabric</div></div>
-                <div class="prompt-layer"><div class="pl-head"><span>🔬</span><div class="pl-title">Hyper-Detail Layer</div><span class="pl-tag" style="background:var(--goldb);color:var(--gold)">L6</span></div><div class="pl-code"><span class="hi-gold">Hyper-detailed textures</span>, <span class="hi-cyan">8K resolution</span>, <span class="hi-viol">photorealistic render</span></div></div>
-                <div class="prompt-layer"><div class="pl-head"><span>❤️</span><div class="pl-title">Emotional Trigger</div><span class="pl-tag" style="background:var(--viold);color:var(--viol)">L7</span></div><div class="pl-code"><span class="hi-gold">Sense of desire and confidence</span>, <span class="hi-cyan">feminine power aesthetic</span></div></div>
-                <div class="nest-card" style="margin-top:8px;">
-                  <div class="sec-label">Prompt Final Compilado</div>
-                  <div style="font-family:monospace;font-size:10px;color:var(--cyan);line-height:1.8;">Ultra realistic product photography, Shot on ARRI Alexa Mini LF, 85mm f/1.4, Soft rim lighting, Premium marble surface, Hyper-detailed textures, 8K, Vogue editorial aesthetic</div>
-                  <div style="display:flex;gap:8px;margin-top:10px;">
+                <div class="prompt-layer"><div class="pl-head"><span>🌸</span><div class="pl-title">Premium Environment</div><span class="pl-tag" style="background:var(--clay-bg);color:var(--clay)">L5</span></div><div class="pl-code"><span class="hi-a">Luxury marble surface</span>, <span class="hi-s">scattered rose petals</span>, silk fabric</div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>🔬</span><div class="pl-title">Hyper-Detail Layer</div><span class="pl-tag" style="background:var(--amber-bg);color:var(--amber)">L6</span></div><div class="pl-code"><span class="hi-a">Hyper-detailed textures</span>, <span class="hi-s">8K resolution</span>, photorealistic</div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>❤️</span><div class="pl-title">Emotional Trigger</div><span class="pl-tag" style="background:var(--mauve-bg);color:var(--mauve)">L7</span></div><div class="pl-code"><span class="hi-a">Desire and confidence</span>, <span class="hi-s">feminine power aesthetic</span></div></div>
+                <div class="nest" style="margin-top:var(--s1);">
+                  <div class="slabel">Prompt Final Compilado</div>
+                  <div style="font-family:monospace;font-size:10px;color:var(--steel);line-height:1.8;">Ultra realistic product photography, ARRI Alexa Mini LF, 85mm f/1.4, Soft rim lighting, Premium marble surface, Hyper-detailed textures, 8K, Vogue editorial aesthetic</div>
+                  <div style="display:flex;gap:var(--s1);margin-top:var(--s2);">
                     <button class="btn btn-ghost" style="font-size:10px;padding:5px 12px;">⊕ Gerar imagem</button>
                     <button class="btn btn-ghost" style="font-size:10px;padding:5px 12px;">✎ Editar</button>
                   </div>
@@ -902,70 +1052,70 @@ body::after {
         </div>
       </div>
 
-      <!-- ═ ASSETS ═ -->
+      <!-- ── ASSETS ── -->
       <div id="panel-assets" class="panel">
-        <div class="glass-card">
+        <div class="card">
           <div class="card-head"><div><div class="card-title">Image Generation Engine</div><div class="card-sub">≥5 imagens · variação controlada · seed management</div></div></div>
           <div class="card-body">
-            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;">
-              <div style="aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(210,175,100,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">💄<div style="position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--limed);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--lime)">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:9px;font-weight:600;color:rgba(255,255,255,0.7)">Hero Shot</div></div>
-              <div style="aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(100,210,200,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">💄<div style="position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--limed);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--lime)">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:9px;font-weight:600;color:rgba(255,255,255,0.7)">Lifestyle 1</div></div>
-              <div style="aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(170,140,255,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">💄<div style="position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--limed);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--lime)">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:9px;font-weight:600;color:rgba(255,255,255,0.7)">Lifestyle 2</div></div>
-              <div style="aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;">💄<div style="position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--limed);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--lime)">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:9px;font-weight:600;color:rgba(255,255,255,0.7)">Close-up</div></div>
-              <div style="aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;">💄<div style="position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--limed);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--lime)">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:9px;font-weight:600;color:rgba(255,255,255,0.7)">Aspiracional</div></div>
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s2);margin-bottom:var(--s2);">
+              <div style="aspect-ratio:1;border-radius:14px;background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--amber-line)'" onmouseout="this.style.borderColor='var(--line)'">💄<div style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:var(--sage-bg);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--sage);font-weight:700;">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:7px;background:linear-gradient(transparent,rgba(28,24,22,0.55));font-size:9px;font-weight:600;color:#fff;">Hero Shot</div></div>
+              <div style="aspect-ratio:1;border-radius:14px;background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--amber-line)'" onmouseout="this.style.borderColor='var(--line)'">💄<div style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:var(--sage-bg);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--sage);font-weight:700;">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:7px;background:linear-gradient(transparent,rgba(28,24,22,0.55));font-size:9px;font-weight:600;color:#fff;">Lifestyle 1</div></div>
+              <div style="aspect-ratio:1;border-radius:14px;background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;" onmouseover="this.style.borderColor='var(--amber-line)'" onmouseout="this.style.borderColor='var(--line)'">💄<div style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:var(--sage-bg);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--sage);font-weight:700;">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:7px;background:linear-gradient(transparent,rgba(28,24,22,0.55));font-size:9px;font-weight:600;color:#fff;">Lifestyle 2</div></div>
+              <div style="aspect-ratio:1;border-radius:14px;background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;">💄<div style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:var(--sage-bg);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--sage);font-weight:700;">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:7px;background:linear-gradient(transparent,rgba(28,24,22,0.55));font-size:9px;font-weight:600;color:#fff;">Close-up</div></div>
+              <div style="aspect-ratio:1;border-radius:14px;background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:24px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;">💄<div style="position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:var(--sage-bg);display:flex;align-items:center;justify-content:center;font-size:8px;color:var(--sage);font-weight:700;">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:7px;background:linear-gradient(transparent,rgba(28,24,22,0.55));font-size:9px;font-weight:600;color:#fff;">Aspiracional</div></div>
             </div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
-              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:4px;">Visual Quality</div><div style="font-size:22px;font-weight:300;color:var(--cyan);letter-spacing:-1px">87%</div></div>
-              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:4px;">API</div><div style="font-size:13px;font-weight:600;color:rgba(210,175,100,0.8);margin-top:4px;">DALL-E 3</div></div>
-              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:4px;">Seed</div><div style="font-size:11px;font-family:monospace;color:var(--t2);margin-top:4px;">4829102</div></div>
-              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:4px;">Custo</div><div style="font-size:14px;font-family:monospace;font-weight:600;color:rgba(210,175,100,0.8);margin-top:4px;">$0.40</div></div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s1);">
+              <div class="nest" style="text-align:center;padding:var(--s2);"><div class="slabel" style="justify-content:center;margin-bottom:5px;">Visual Quality</div><div style="font-size:24px;font-weight:300;color:var(--steel);letter-spacing:-1px;">87%</div></div>
+              <div class="nest" style="text-align:center;padding:var(--s2);"><div class="slabel" style="justify-content:center;margin-bottom:5px;">API</div><div style="font-size:13px;font-weight:600;color:var(--amber);margin-top:3px;">DALL-E 3</div></div>
+              <div class="nest" style="text-align:center;padding:var(--s2);"><div class="slabel" style="justify-content:center;margin-bottom:5px;">Seed</div><div style="font-size:11px;font-family:monospace;color:var(--t2);margin-top:3px;">4829102</div></div>
+              <div class="nest" style="text-align:center;padding:var(--s2);"><div class="slabel" style="justify-content:center;margin-bottom:5px;">Custo</div><div style="font-size:16px;font-family:monospace;font-weight:600;color:var(--amber);margin-top:3px;">$0.40</div></div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ═ VIDEOS ═ -->
+      <!-- ── VIDEOS ── -->
       <div id="panel-videos" class="panel">
-        <div class="glass-card">
+        <div class="card">
           <div class="card-head"><div><div class="card-title">Video Generation Engine</div><div class="card-sub">≥10 variações · diversificação por ângulo · ritmo · narrativa</div></div></div>
           <div class="card-body">
             <div class="video-grid">
-              <div class="vt"><div class="vt-glow" style="background:radial-gradient(circle at 50% 30%,rgba(210,175,100,0.35),transparent)"></div>💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Problem/Hook</div><div class="vt-dur">15s</div></div><div class="vt-st vt-ok">✓</div></div>
-              <div class="vt"><div class="vt-glow" style="background:radial-gradient(circle at 50% 30%,rgba(100,210,200,0.3),transparent)"></div>💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Unboxing</div><div class="vt-dur">20s</div></div><div class="vt-st vt-ok">✓</div></div>
-              <div class="vt"><div class="vt-glow" style="background:radial-gradient(circle at 50% 30%,rgba(170,140,255,0.3),transparent)"></div>💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Social Proof</div><div class="vt-dur">15s</div></div><div class="vt-st vt-proc">GEN</div></div>
-              <div class="vt" style="opacity:0.5">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.2)">⏳</div><div class="vt-info"><div class="vt-name">Feature Zoom</div></div><div class="vt-st vt-pend">—</div></div>
-              <div class="vt" style="opacity:0.5">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.2)">⏳</div><div class="vt-info"><div class="vt-name">Lifestyle</div></div><div class="vt-st vt-pend">—</div></div>
-              <div class="vt" style="opacity:0.3">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.15)">⏳</div><div class="vt-info"><div class="vt-name">Before/After</div></div><div class="vt-st vt-pend">—</div></div>
-              <div class="vt" style="opacity:0.3">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.15)">⏳</div><div class="vt-info"><div class="vt-name">Urgency</div></div><div class="vt-st vt-pend">—</div></div>
-              <div class="vt" style="opacity:0.2">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.1)">⏳</div><div class="vt-info"><div class="vt-name">Testimonial</div></div><div class="vt-st vt-pend">—</div></div>
-              <div class="vt" style="opacity:0.2">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.1)">⏳</div><div class="vt-info"><div class="vt-name">Luxury Slow</div></div><div class="vt-st vt-pend">—</div></div>
-              <div class="vt" style="opacity:0.15">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.08)">⏳</div><div class="vt-info"><div class="vt-name">Viral Hook</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt">💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Problem/Hook</div><div class="vt-dur">15s</div></div><div class="vt-st vt-ok">✓</div></div>
+              <div class="vt">💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Unboxing</div><div class="vt-dur">20s</div></div><div class="vt-st vt-ok">✓</div></div>
+              <div class="vt">💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Social Proof</div><div class="vt-dur">15s</div></div><div class="vt-st vt-proc">GEN</div></div>
+              <div class="vt" style="opacity:0.5">💄<div class="vt-info"><div class="vt-name">Feature Zoom</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.5">💄<div class="vt-info"><div class="vt-name">Lifestyle</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.35">💄<div class="vt-info"><div class="vt-name">Before/After</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.35">💄<div class="vt-info"><div class="vt-name">Urgency</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.2">💄<div class="vt-info"><div class="vt-name">Testimonial</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.2">💄<div class="vt-info"><div class="vt-name">Luxury Slow</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.15">💄<div class="vt-info"><div class="vt-name">Viral Hook</div></div><div class="vt-st vt-pend">—</div></div>
             </div>
-            <div class="nest-card" style="margin-top:12px;font-family:monospace;font-size:10px;color:var(--t2);">
-              Variação por: <span style="color:rgba(210,175,100,0.8)">camera_motion</span>, <span style="color:var(--cyan)">pacing</span>, <span style="color:var(--viol)">emotional_intensity</span>, <span style="color:var(--rose)">hook_style</span>, <span style="color:var(--lime)">CTA_variant</span>
-              <span style="color:var(--t3);margin-left:12px;">APIs: Runway Gen-3 (6) + Kling AI (4)</span>
+            <div class="nest" style="margin-top:var(--s2);font-family:monospace;font-size:10px;color:var(--t2);">
+              Variação por: <span style="color:var(--amber)">camera_motion</span>, <span style="color:var(--steel)">pacing</span>, <span style="color:var(--mauve)">emotional_intensity</span>, <span style="color:var(--clay)">hook_style</span>, <span style="color:var(--sage)">CTA_variant</span>
+              <span style="color:var(--t4);margin-left:var(--s2);">APIs: Runway Gen-3 (6) + Kling AI (4)</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ═ COPY ═ -->
+      <!-- ── COPY ── -->
       <div id="panel-copy" class="panel">
-        <div class="glass-card">
+        <div class="card">
           <div class="card-head"><div><div class="card-title">Copywriting Engine</div><div class="card-sub">Framework AIDA + Neurotrigger Model</div></div></div>
           <div class="card-body">
-            <div class="aida-grid" style="margin-bottom:14px;">
-              <div class="aida-b"><div class="aida-letter" style="color:rgba(210,175,100,0.8)">A</div><div class="aida-name">Atenção</div><div class="aida-text">Headline que rompe o padrão. Hook visual e textual que para o scroll em &lt;3 segundos.</div></div>
-              <div class="aida-b"><div class="aida-letter" style="color:var(--cyan)">I</div><div class="aida-name">Interesse</div><div class="aida-text">Diferenciais técnicos convertidos em benefícios perceptivos. O "porquê" do produto.</div></div>
-              <div class="aida-b"><div class="aida-letter" style="color:var(--viol)">D</div><div class="aida-name">Desejo</div><div class="aida-text">Micro-storytelling. A transformação que o produto provoca. Identidade e aspiração.</div></div>
-              <div class="aida-b"><div class="aida-letter" style="color:var(--lime)">A</div><div class="aida-name">Ação</div><div class="aida-text">CTA direto e irresistível com gatilho de urgência, prova social ou garantia.</div></div>
+            <div class="aida-grid" style="margin-bottom:var(--s2);">
+              <div class="aida-b"><div class="aida-letter" style="color:var(--amber)">A</div><div class="aida-name">Atenção</div><div class="aida-text">Headline que rompe o padrão. Hook visual e textual que para o scroll em &lt;3 segundos.</div></div>
+              <div class="aida-b"><div class="aida-letter" style="color:var(--steel)">I</div><div class="aida-name">Interesse</div><div class="aida-text">Diferenciais técnicos convertidos em benefícios perceptivos. O "porquê" do produto.</div></div>
+              <div class="aida-b"><div class="aida-letter" style="color:var(--mauve)">D</div><div class="aida-name">Desejo</div><div class="aida-text">Micro-storytelling. A transformação que o produto provoca. Identidade e aspiração.</div></div>
+              <div class="aida-b"><div class="aida-letter" style="color:var(--sage)">A</div><div class="aida-name">Ação</div><div class="aida-text">CTA direto e irresistível com gatilho de urgência, prova social ou garantia.</div></div>
             </div>
-            <div class="copy-card sel" style="margin-bottom:8px;">
-              <div class="cc-type">🎯 Hook de Vídeo — Problem/Solution <span style="background:var(--limed);color:var(--lime);padding:1px 7px;border-radius:999px;font-size:9px;">Selecionado</span></div>
-              <div class="cc-text">"Você sabia que 90% dos batons desbotam em 2h? O Velvet Rouge fica até <span style="color:var(--t1);font-weight:500;">16 horas intacto</span> — sem retocar, sem transferir, sem desculpa. Cor que fica. Confiança que aparece. ✨"</div>
+            <div class="copy-card sel">
+              <div class="cc-type">🎯 Hook de Vídeo — Problem/Solution <span style="background:var(--sage-bg);color:var(--sage);padding:1px 7px;border-radius:999px;font-size:9px;margin-left:4px;">Selecionado</span></div>
+              <div class="cc-text">"Você sabia que 90% dos batons desbotam em 2h? O Velvet Rouge fica até <span style="color:var(--t1);font-weight:600;">16 horas intacto</span> — sem retocar, sem transferir. Cor que fica. Confiança que aparece."</div>
               <div class="cc-metrics"><div class="cc-m">CTR pred: <span>4.8%</span></div><div class="cc-m">Persuasion: <span>0.91</span></div><div class="cc-m">Chars: <span>187</span></div></div>
             </div>
-            <div class="copy-card" style="margin-bottom:8px;">
+            <div class="copy-card">
               <div class="cc-type">📖 Título SEO</div>
               <div class="cc-text">Batom Líquido Matte Velvet Rouge — Longa Duração 16h, Acabamento Aveludado, 12 Tons Exclusivos | Frete Grátis</div>
               <div class="cc-metrics"><div class="cc-m">SEO score: <span>88</span></div><div class="cc-m">Chars: <span>98</span></div></div>
@@ -979,40 +1129,38 @@ body::after {
         </div>
       </div>
 
-      <!-- ═ ANALYTICS ═ -->
+      <!-- ── ANALYTICS ── -->
       <div id="panel-analytics" class="panel">
-        <div class="glass-card">
+        <div class="card">
           <div class="card-head"><div class="card-title">Trade-offs Estratégicos</div></div>
           <div class="card-body">
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
-              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:6px;">Custo / Produto</div><div style="font-size:28px;font-weight:200;letter-spacing:-1px;color:rgba(210,175,100,0.8)">$2.57</div></div>
-              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:6px;">Latência Pipeline</div><div style="font-size:28px;font-weight:200;letter-spacing:-1px;color:var(--cyan)">~12m</div></div>
-              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:6px;">ROI Estimado</div><div style="font-size:28px;font-weight:200;letter-spacing:-1px;color:var(--lime)">14×</div></div>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s2);margin-bottom:var(--s2);">
+              <div class="nest" style="text-align:center;padding:var(--s3);"><div class="slabel" style="justify-content:center;margin-bottom:var(--s1);">Custo / Produto</div><div style="font-size:30px;font-weight:200;letter-spacing:-1px;color:var(--amber)">$2.57</div></div>
+              <div class="nest" style="text-align:center;padding:var(--s3);"><div class="slabel" style="justify-content:center;margin-bottom:var(--s1);">Latência Pipeline</div><div style="font-size:30px;font-weight:200;letter-spacing:-1px;color:var(--steel)">~12m</div></div>
+              <div class="nest" style="text-align:center;padding:var(--s3);"><div class="slabel" style="justify-content:center;margin-bottom:var(--s1);">ROI Estimado</div><div style="font-size:30px;font-weight:200;letter-spacing:-1px;color:var(--sage)">14×</div></div>
             </div>
-            <div style="display:flex;flex-direction:column;gap:6px;">
-              <div class="nest-card" style="display:flex;align-items:center;gap:12px;"><div style="font-size:12px;font-weight:500;color:var(--t1);width:140px;flex-shrink:0;">Microservices</div><div style="font-size:11px;color:var(--lime);flex:1;">Escalabilidade horizontal</div><div style="font-size:11px;color:rgba(240,120,120,0.8);">Complexidade operacional</div></div>
-              <div class="nest-card" style="display:flex;align-items:center;gap:12px;"><div style="font-size:12px;font-weight:500;color:var(--t1);width:140px;flex-shrink:0;">Monolito Modular</div><div style="font-size:11px;color:var(--lime);flex:1;">Simplicidade de deploy</div><div style="font-size:11px;color:rgba(240,120,120,0.8);">Escala limitada</div></div>
-              <div class="nest-card" style="display:flex;align-items:center;gap:12px;"><div style="font-size:12px;font-weight:500;color:var(--t1);width:140px;flex-shrink:0;">Geração Massiva</div><div style="font-size:11px;color:var(--lime);flex:1;">Exploração criativa máxima</div><div style="font-size:11px;color:rgba(240,120,120,0.8);">Custo elevado</div></div>
-              <div class="nest-card" style="display:flex;align-items:center;gap:12px;"><div style="font-size:12px;font-weight:500;color:var(--t1);width:140px;flex-shrink:0;">Cache de Prompts</div><div style="font-size:11px;color:var(--lime);flex:1;">Custo reduzido até 40%</div><div style="font-size:11px;color:rgba(240,120,120,0.8);">Variação criativa limitada</div></div>
-            </div>
+            <div class="trade-row"><div class="trade-name">Microservices</div><div class="trade-pro">Escalabilidade horizontal</div><div class="trade-con">Complexidade operacional</div></div>
+            <div class="trade-row"><div class="trade-name">Monolito Modular</div><div class="trade-pro">Simplicidade de deploy</div><div class="trade-con">Escala limitada</div></div>
+            <div class="trade-row"><div class="trade-name">Geração Massiva</div><div class="trade-pro">Exploração criativa máxima</div><div class="trade-con">Custo elevado</div></div>
+            <div class="trade-row"><div class="trade-name">Cache de Prompts</div><div class="trade-pro">Custo reduzido até 40%</div><div class="trade-con">Variação criativa limitada</div></div>
+            <div class="trade-row" style="margin-bottom:0;"><div class="trade-name">ML Scoring</div><div class="trade-pro">Otimização por dados reais</div><div class="trade-con">Requer volume inicial</div></div>
           </div>
         </div>
       </div>
 
-    </div><!-- /main-scroll -->
-  </div><!-- /main-wrap -->
+    </div>
+  </div>
 
-  <!-- ══ RIGHT COLUMN ══ -->
+  <!-- ════ RIGHT COLUMN ════ -->
   <div class="right-col">
 
-    <!-- Launch card -->
+    <!-- Launch -->
     <div class="launch-card">
       <div class="lc-title">Gerar pacote<br>completo de mídia</div>
       <div class="lc-sub">5 imagens premium + 10 vídeos curtos + copys persuasivos</div>
-      <!-- Plan opts -->
       <div class="plan-opts">
         <div class="plan-opt sel" onclick="selPlan(this)">
-          <div class="plan-opt-badge">SAVE 90%</div>
+          <div class="plan-badge">SAVE 90%</div>
           <div class="radio"><div class="radio-dot"></div></div>
           <div><div class="plan-lbl">Pack Mensal</div><div class="plan-desc">100 produtos / mês</div></div>
           <div class="plan-price">$0.77<small>/prod</small></div>
@@ -1023,7 +1171,6 @@ body::after {
           <div class="plan-price">$6.99<small>/prod</small></div>
         </div>
       </div>
-      <!-- Options -->
       <div class="form-row">
         <div class="form-lbl">Produto</div>
         <select class="form-sel">
@@ -1047,7 +1194,7 @@ body::after {
           <option>TikTok Shop (9:16)</option>
           <option>Instagram Reels</option>
           <option>Shopee Vídeo</option>
-          <option>Todas as plataformas</option>
+          <option>Todas</option>
         </select>
       </div>
       <div class="toggle-row">
@@ -1063,62 +1210,58 @@ body::after {
       <div class="cost-row"><div class="cost-lbl">DALL-E 3 (5 imgs)</div><div class="cost-val">~$0.40</div></div>
       <div class="cost-row"><div class="cost-lbl">Runway Gen-3 (6 vids)</div><div class="cost-val">~$1.50</div></div>
       <div class="cost-row"><div class="cost-lbl">Kling AI (4 vids)</div><div class="cost-val">~$0.60</div></div>
-      <div class="cost-row cost-total"><div class="cost-lbl">Total estimado</div><div class="cost-val">~$2.57</div></div>
+      <div class="cost-row total"><div class="cost-lbl">Total estimado</div><div class="cost-val">~$2.57</div></div>
       <button class="btn-launch" id="launch-btn" onclick="launchPipeline()">✦ Iniciar geração autônoma</button>
       <div class="launch-note">Cancel anytime · Reprodutível por seed</div>
     </div>
 
-    <!-- Score card -->
-    <div class="glass-card" style="padding:20px;">
-      <div class="sec-label">Score de Curadoria</div>
+    <!-- Score -->
+    <div class="card" style="padding: var(--s3);">
+      <div class="slabel">Score de Curadoria</div>
       <div class="score-big">0.87</div>
       <div class="score-lbl">Batom Velvet Rouge · Job #2847</div>
       <div class="score-bars">
-        <div class="sb-row"><div class="sb-name" style="color:var(--cyan)">Visual ×0.4</div><div class="sb-track"><div class="sb-fill" style="width:87%;background:rgba(100,210,200,0.6)"></div></div><div class="sb-val">0.87</div></div>
-        <div class="sb-row"><div class="sb-name" style="color:var(--viol)">Persuasion ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:84%;background:rgba(170,140,255,0.6)"></div></div><div class="sb-val">0.84</div></div>
-        <div class="sb-row"><div class="sb-name" style="color:var(--lime)">CTR pred ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:89%;background:rgba(130,220,110,0.6)"></div></div><div class="sb-val">0.89</div></div>
+        <div class="sb-row"><div class="sb-name" style="color:var(--steel)">Visual ×0.4</div><div class="sb-track"><div class="sb-fill" style="width:87%;background:var(--steel)"></div></div><div class="sb-val">0.87</div></div>
+        <div class="sb-row"><div class="sb-name" style="color:var(--mauve)">Persuasion ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:84%;background:var(--mauve)"></div></div><div class="sb-val">0.84</div></div>
+        <div class="sb-row"><div class="sb-name" style="color:var(--sage)">CTR pred ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:89%;background:var(--sage)"></div></div><div class="sb-val">0.89</div></div>
       </div>
     </div>
 
-    <!-- API connections -->
-    <div class="glass-card" style="padding:20px;">
-      <div class="sec-label">Conexões API</div>
-      <div class="api-list">
-        <div class="api-row"><div class="api-dot live"></div><div class="api-name">OpenAI GPT-4o</div><div class="api-lat">124ms</div><div class="api-type">LLM</div></div>
-        <div class="api-row"><div class="api-dot live"></div><div class="api-name">DALL-E 3</div><div class="api-lat">2.1s</div><div class="api-type">IMAGE</div></div>
-        <div class="api-row"><div class="api-dot live"></div><div class="api-name">Runway Gen-3</div><div class="api-lat">8.4s</div><div class="api-type">VIDEO</div></div>
-        <div class="api-row"><div class="api-dot live"></div><div class="api-name">Kling AI</div><div class="api-lat">6.2s</div><div class="api-type">VIDEO</div></div>
-        <div class="api-row"><div class="api-dot warn"></div><div class="api-name">Shopee API</div><div class="api-lat">—</div><div class="api-type">ECOM</div></div>
-        <div class="api-row"><div class="api-dot live"></div><div class="api-name">Cloudflare R2</div><div class="api-lat">18ms</div><div class="api-type">STORE</div></div>
-      </div>
+    <!-- API -->
+    <div class="card" style="padding: var(--s3);">
+      <div class="slabel">Conexões API</div>
+      <div class="api-row"><div class="api-dot live"></div><div class="api-name">OpenAI GPT-4o</div><div class="api-lat">124ms</div><div class="api-type">LLM</div></div>
+      <div class="api-row"><div class="api-dot live"></div><div class="api-name">DALL-E 3</div><div class="api-lat">2.1s</div><div class="api-type">IMAGE</div></div>
+      <div class="api-row"><div class="api-dot live"></div><div class="api-name">Runway Gen-3</div><div class="api-lat">8.4s</div><div class="api-type">VIDEO</div></div>
+      <div class="api-row"><div class="api-dot live"></div><div class="api-name">Kling AI</div><div class="api-lat">6.2s</div><div class="api-type">VIDEO</div></div>
+      <div class="api-row"><div class="api-dot warn"></div><div class="api-name">Shopee API</div><div class="api-lat">—</div><div class="api-type">ECOM</div></div>
+      <div class="api-row"><div class="api-dot live"></div><div class="api-name">Cloudflare R2</div><div class="api-lat">18ms</div><div class="api-type">STORE</div></div>
     </div>
 
     <!-- Engines -->
-    <div class="glass-card" style="padding:20px;">
-      <div class="sec-label">Engines</div>
-      <div class="engine-grid">
-        <div class="engine-row"><div class="eng-dot run"></div><div class="eng-name">Product Engine</div><div class="eng-state">READY</div></div>
-        <div class="engine-row"><div class="eng-dot run"></div><div class="eng-name">Prompt Engine</div><div class="eng-state">READY</div></div>
-        <div class="engine-row"><div class="eng-dot queue"></div><div class="eng-name">Image Engine</div><div class="eng-state">QUEUE:3</div></div>
-        <div class="engine-row"><div class="eng-dot run"></div><div class="eng-name">Copy Engine</div><div class="eng-state">READY</div></div>
-        <div class="engine-row"><div class="eng-dot queue"></div><div class="eng-name">Video Engine</div><div class="eng-state">GEN:2/10</div></div>
-        <div class="engine-row"><div class="eng-dot idle"></div><div class="eng-name">Curation Engine</div><div class="eng-state">IDLE</div></div>
-      </div>
+    <div class="card" style="padding: var(--s3);">
+      <div class="slabel">Engines</div>
+      <div class="eng-row"><div class="eng-dot run"></div><div class="eng-name">Product Engine</div><div class="eng-state">READY</div></div>
+      <div class="eng-row"><div class="eng-dot run"></div><div class="eng-name">Prompt Engine</div><div class="eng-state">READY</div></div>
+      <div class="eng-row"><div class="eng-dot queue"></div><div class="eng-name">Image Engine</div><div class="eng-state">QUEUE:3</div></div>
+      <div class="eng-row"><div class="eng-dot run"></div><div class="eng-name">Copy Engine</div><div class="eng-state">READY</div></div>
+      <div class="eng-row"><div class="eng-dot queue"></div><div class="eng-name">Video Engine</div><div class="eng-state">GEN:2/10</div></div>
+      <div class="eng-row"><div class="eng-dot idle"></div><div class="eng-name">Curation Engine</div><div class="eng-state">IDLE</div></div>
     </div>
 
     <!-- Live logs -->
-    <div class="glass-card" style="padding:20px;">
-      <div class="sec-label">Live Logs</div>
-      <div id="live-log" class="log-stream" style="max-height:120px;overflow-y:auto;">
-        <div class="log-line"><span class="ll-t">14:40:48</span><span class="ll-lv ll-warn">RUN</span><span class="ll-msg">VideoScript — compondo scripts…</span></div>
+    <div class="card" style="padding: var(--s3);">
+      <div class="slabel">Live Logs</div>
+      <div id="live-log" class="log-stream" style="max-height:130px;overflow-y:auto;">
+        <div class="log-line"><span class="ll-t">14:40:48</span><span class="ll-lv ll-warn">RUN</span><span class="ll-msg">VideoScript — compondo scripts</span></div>
         <div class="log-line"><span class="ll-t">14:40:44</span><span class="ll-lv ll-ok">OK</span><span class="ll-msg">CopyEngine — AIDA completo</span></div>
         <div class="log-line"><span class="ll-t">14:40:40</span><span class="ll-lv ll-ok">OK</span><span class="ll-msg">ImageEngine — 5/5 → R2</span></div>
       </div>
     </div>
 
-  </div><!-- /right-col -->
+  </div>
 
-</div><!-- /app -->
+</div>
 
 <!-- MODAL -->
 <div class="modal-bg" id="modal-bg">
@@ -1126,39 +1269,30 @@ body::after {
     <button class="modal-close" onclick="closeModal()">✕</button>
     <div class="modal-title">Adicionar Produto</div>
     <div class="modal-sub">Cadastre um produto para iniciar o pipeline de geração autônoma.</div>
-    <div style="display:flex;flex-direction:column;gap:12px;">
+    <div style="display:flex;flex-direction:column;gap:var(--s2);">
       <div class="form-row"><div class="form-lbl">Nome do produto</div><input class="form-inp" placeholder="ex: Sérum Vitamin C 30ml" style="width:100%;"></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div class="form-row"><div class="form-lbl">SKU</div><input class="form-inp" placeholder="ex: SVC-030"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--s2);">
+        <div class="form-row"><div class="form-lbl">SKU</div><input class="form-inp" placeholder="SVC-030"></div>
         <div class="form-row"><div class="form-lbl">Preço (R$)</div><input class="form-inp" placeholder="149.90" type="number"></div>
       </div>
       <div class="form-row"><div class="form-lbl">Categoria</div><select class="form-sel" style="width:100%;"><option>Beauty · Skincare</option><option>Beauty · Maquiagem</option><option>Moda · Calçados</option><option>Tech · Wearables</option></select></div>
-      <div class="form-row">
-        <div class="form-lbl">Imagem do produto</div>
-        <div class="drop-zone">↑ Arraste ou clique para upload</div>
-      </div>
+      <div class="form-row"><div class="form-lbl">Imagem do produto</div><div class="drop-zone">↑ Arraste ou clique para upload</div></div>
       <button class="btn-launch" onclick="closeModal()">✦ Cadastrar e gerar campanha</button>
     </div>
   </div>
 </div>
 
 <script>
-const panels = ['overview','products','prompts','assets','videos','copy','analytics'];
-const crumbs = {overview:'Dashboard',products:'Produtos',prompts:'Prompt Studio',assets:'Imagens',videos:'Vídeos',copy:'Copywriting',analytics:'Analytics'};
+const PANELS = ['overview','products','prompts','assets','videos','copy','analytics'];
+const CRUMBS = {overview:'Dashboard',products:'Produtos',prompts:'Prompt Studio',assets:'Imagens',videos:'Vídeos',copy:'Copywriting',analytics:'Analytics'};
 
-function switchPanel(id, navBtn) {
-  panels.forEach(p => {
-    const el = document.getElementById('panel-'+p);
-    if (el) { el.classList.remove('show'); }
-  });
-  const target = document.getElementById('panel-'+id);
-  if (target) target.classList.add('show');
-  if (navBtn) {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    navBtn.classList.add('active');
-  }
-  document.getElementById('tb-crumb').textContent = crumbs[id] || id;
-  document.getElementById('main-scroll').scrollTo({top:0, behavior:'smooth'});
+function sw(id, btn) {
+  PANELS.forEach(p => { const el = document.getElementById('panel-'+p); if(el) el.classList.remove('show'); });
+  const t = document.getElementById('panel-'+id);
+  if (t) t.classList.add('show');
+  if (btn) { document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+  document.getElementById('tb-crumb').textContent = CRUMBS[id] || id;
+  document.getElementById('main-scroll').scrollTo({top:0,behavior:'smooth'});
 }
 
 function selRow(row) {
@@ -1169,37 +1303,32 @@ function selRow(row) {
 function selPlan(opt) {
   document.querySelectorAll('.plan-opt').forEach(o => {
     o.classList.remove('sel');
-    const r = o.querySelector('.radio');
-    if (r) r.innerHTML = '';
+    const r = o.querySelector('.radio'); if(r) r.innerHTML = '';
   });
   opt.classList.add('sel');
-  const r = opt.querySelector('.radio');
-  if (r) r.innerHTML = '<div class="radio-dot"></div>';
+  const r = opt.querySelector('.radio'); if(r) r.innerHTML = '<div class="radio-dot"></div>';
 }
 
 function openModal()  { document.getElementById('modal-bg').classList.add('open'); }
 function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
-document.getElementById('modal-bg').addEventListener('click', e => { if (e.target === document.getElementById('modal-bg')) closeModal(); });
+document.getElementById('modal-bg').addEventListener('click', e => { if(e.target===document.getElementById('modal-bg')) closeModal(); });
 
 function launchPipeline() {
   const btn = document.getElementById('launch-btn');
-  btn.classList.add('loading');
-  btn.innerHTML = '◌ Iniciando pipeline…';
+  btn.classList.add('loading'); btn.innerHTML = '◌ Iniciando pipeline…';
   setTimeout(() => {
     btn.innerHTML = '✓ Pipeline ativo';
-    btn.style.background = 'linear-gradient(135deg,rgba(130,220,110,0.6),rgba(80,160,70,0.5))';
-    btn.style.color = 'rgba(0,20,0,0.9)';
+    btn.style.background = 'linear-gradient(135deg,var(--sage),#3a6a4a)';
     setTimeout(() => {
       btn.classList.remove('loading');
       btn.innerHTML = '✦ Iniciar geração autônoma';
       btn.style.background = '';
-      btn.style.color = '';
     }, 2800);
   }, 1800);
 }
 
 // Live log ticker
-const logEntries = [
+const LOGS = [
   {l:'ok',  m:'VideoScript — F1 script composto'},
   {l:'ok',  m:'VideoScript — F2 Unboxing Cinematic'},
   {l:'info',m:'Runway Gen-3 → POST /v1/image_to_video'},
@@ -1210,18 +1339,18 @@ const logEntries = [
 let li = 0;
 const logEl = document.getElementById('live-log');
 setInterval(() => {
-  const e = logEntries[li++ % logEntries.length];
+  const e = LOGS[li++ % LOGS.length];
   const now = new Date();
   const t = [now.getHours(),now.getMinutes(),now.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
   const div = document.createElement('div');
   div.className = 'log-line';
-  div.style.opacity = '0';
-  div.style.transition = 'opacity 0.4s';
+  div.style.cssText = 'opacity:0;transition:opacity 0.3s;';
   div.innerHTML = `<span class="ll-t">${t}</span><span class="ll-lv ll-${e.l}">${e.l.toUpperCase()}</span><span class="ll-msg">${e.m}</span>`;
   logEl.insertBefore(div, logEl.firstChild);
-  requestAnimationFrame(() => { requestAnimationFrame(() => { div.style.opacity = '1'; }); });
+  requestAnimationFrame(() => requestAnimationFrame(() => { div.style.opacity = '1'; }));
   if (logEl.children.length > 8) logEl.removeChild(logEl.lastChild);
-}, 3200);
+}, 3500);
 </script>
+
 </body>
 </html>

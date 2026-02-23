@@ -4,1202 +4,1138 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ViralGen — Motor de Produção Criativa</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+
+/* ════════════════════════════════════════
+   LAYER 0 — ATMOSPHERIC BACKGROUND
+════════════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
 :root {
-  --ink: #0a0a0b;
-  --ink2: #111114;
-  --ink3: #18181c;
-  --ink4: #222228;
-  --ink5: #2e2e36;
-  --wire: rgba(255,255,255,0.06);
-  --wire2: rgba(255,255,255,0.1);
-  --wire3: rgba(255,255,255,0.16);
-  --dust: #3a3a44;
-  --mist: #6b6b78;
-  --fog: #9a9aa8;
-  --pale: #c8c8d4;
-  --text: #eeeef2;
-  --gold: #d4a853;
-  --gold2: #f0c878;
-  --gold3: rgba(212,168,83,0.12);
-  --gold4: rgba(212,168,83,0.06);
-  --cyan: #4ecdc4;
-  --cyan2: rgba(78,205,196,0.12);
-  --rose: #ff6b8a;
-  --rose2: rgba(255,107,138,0.12);
-  --lime: #7fff6b;
-  --lime2: rgba(127,255,107,0.1);
-  --violet: #9b7fff;
-  --violet2: rgba(155,127,255,0.12);
-  --r: 14px;
-  --r2: 10px;
+  --bg-deep:    #090b10;
+  --bg-mid:     #0d1018;
+  --t1: rgba(255,255,255,0.92);
+  --t2: rgba(255,255,255,0.55);
+  --t3: rgba(255,255,255,0.35);
+  --t4: rgba(255,255,255,0.18);
+  --t5: rgba(255,255,255,0.08);
+  --gold:  rgba(210,175,100,0.9);
+  --goldd: rgba(210,175,100,0.15);
+  --goldb: rgba(210,175,100,0.06);
+  --cyan:  rgba(100,210,200,0.85);
+  --cyand: rgba(100,210,200,0.14);
+  --lime:  rgba(130,220,110,0.85);
+  --limed: rgba(130,220,110,0.12);
+  --rose:  rgba(240,120,120,0.85);
+  --rosev: rgba(240,120,120,0.12);
+  --viol:  rgba(170,140,255,0.85);
+  --viold: rgba(170,140,255,0.12);
+
+  /* Glass card tokens */
+  --card-bg:     linear-gradient(145deg, rgba(255,255,255,0.065), rgba(255,255,255,0.022));
+  --card-border: 1px solid rgba(255,255,255,0.08);
+  --card-shadow: 0 28px 72px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.06);
+  --card-blur:   blur(32px);
+  --card-r:      28px;
+
+  --nest-bg:     rgba(255,255,255,0.038);
+  --nest-border: 1px solid rgba(255,255,255,0.06);
+  --nest-r:      18px;
+
+  --btn-bg: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.04));
+  --btn-border: 1px solid rgba(255,255,255,0.12);
+  --btn-shadow: inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 24px rgba(0,0,0,0.18);
+
+  --space: 8px;
 }
 
-* { margin:0; padding:0; box-sizing:border-box; }
-
-html { font-size: 14px; }
+html, body { height:100%; font-family:'Inter', sans-serif; overflow:hidden; }
 
 body {
-  font-family: 'Syne', sans-serif;
-  background: var(--ink);
-  color: var(--text);
-  min-height: 100vh;
-  overflow: hidden;
-  cursor: default;
+  background: var(--bg-deep);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(60,80,140,0.28) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 50% at 15% 50%, rgba(40,55,100,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 85% 80%, rgba(30,60,80,0.16) 0%, transparent 60%);
+  color: var(--t1);
 }
 
-/* Grain */
+/* Atmospheric vignette */
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 40%, rgba(5,6,10,0.6) 100%);
+}
+
+/* Grain overlay */
 body::after {
-  content:''; position:fixed; inset:0;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
-  pointer-events:none; z-index:9999;
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:9999; opacity:0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Ambient */
-.ambient {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background:
-    radial-gradient(ellipse 600px 400px at 15% 20%, rgba(212,168,83,0.04) 0%, transparent 70%),
-    radial-gradient(ellipse 400px 600px at 85% 70%, rgba(78,205,196,0.03) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 300px at 50% 100%, rgba(155,127,255,0.03) 0%, transparent 60%);
+/* ════════════════════════════════════════
+   LAYOUT
+════════════════════════════════════════ */
+.app {
+  position: relative; z-index: 1;
+  display: grid;
+  grid-template-columns: 68px 1fr 296px;
+  grid-template-rows: 1fr;
+  height: 100vh;
+  gap: 0;
+  padding: 20px 20px 20px 12px;
+  gap: 16px;
 }
 
-/* ═══ LAYOUT ═══ */
-.shell { 
-  display: grid; 
-  grid-template-columns: 56px 220px 1fr 300px; 
-  grid-template-rows: 52px 1fr 44px;
-  height: 100vh; position: relative; z-index: 1;
-}
-
-/* ═══ NAV RAIL ═══ */
+/* ════════════════════════════════════════
+   LAYER 1 — FLOATING NAV RAIL
+════════════════════════════════════════ */
 .nav-rail {
-  grid-row: 1 / 4; grid-column: 1;
-  background: var(--ink2); border-right: 1px solid var(--wire);
-  display: flex; flex-direction: column; align-items: center;
-  padding: 14px 0; gap: 4px;
+  grid-column: 1; grid-row: 1;
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--card-r);
+  display: flex; flex-direction: column;
+  align-items: center;
+  padding: 20px 0 16px;
+  gap: 6px;
 }
-.logo-mark {
-  width: 32px; height: 32px; margin-bottom: 18px;
-  background: linear-gradient(135deg, var(--gold), #8b6010);
-  border-radius: 9px; display: flex; align-items: center; justify-content: center;
-  font-size: 15px; box-shadow: 0 0 20px rgba(212,168,83,0.3);
-  position: relative; overflow: hidden;
-}
-.logo-mark::before {
-  content: ''; position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
-}
-.rn {
-  width: 36px; height: 36px; border-radius: 10px;
+
+.nav-logo {
+  width: 36px; height: 36px; border-radius: 12px;
+  background: linear-gradient(135deg, rgba(210,175,100,0.9), rgba(140,100,30,0.8));
   display: flex; align-items: center; justify-content: center;
-  color: var(--dust); font-size: 16px; cursor: pointer;
-  transition: all 0.18s; position: relative;
+  font-size: 16px; margin-bottom: 20px;
+  box-shadow: 0 6px 24px rgba(210,175,100,0.3), inset 0 1px 0 rgba(255,255,255,0.3);
 }
-.rn:hover { background: var(--wire2); color: var(--fog); }
-.rn.on { background: var(--ink4); color: var(--text); }
-.rn.on::before {
-  content: ''; position: absolute; left: -1px; top: 50%; transform: translateY(-50%);
-  width: 2px; height: 18px; background: var(--gold); border-radius: 1px;
-}
-.rn-bot { margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 4px; }
 
-/* ═══ SIDEBAR ═══ */
-.sidebar {
-  grid-row: 1 / 4; grid-column: 2;
-  background: var(--ink2); border-right: 1px solid var(--wire);
-  display: flex; flex-direction: column; overflow: hidden;
+.nav-btn {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: transparent;
+  border: 1px solid transparent;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.22s ease-out;
+  color: var(--t3); font-size: 15px; position: relative;
 }
-.sidebar-head {
-  padding: 14px 16px 10px;
-  border-bottom: 1px solid var(--wire);
-  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+.nav-btn:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.08);
+  color: var(--t2);
+  transform: translateY(-1px);
 }
-.sb-logo {
-  font-family: 'Instrument Serif', serif;
-  font-size: 18px; letter-spacing: -0.3px; color: var(--text);
+.nav-btn.active {
+  background: linear-gradient(135deg, rgba(210,175,100,0.18), rgba(210,175,100,0.06));
+  border-color: rgba(210,175,100,0.22);
+  color: var(--gold);
+  box-shadow: 0 4px 16px rgba(210,175,100,0.18);
 }
-.sb-logo em { color: var(--gold); font-style: italic; }
-.sb-ver { margin-left: auto; font-size: 10px; color: var(--mist); font-family: 'JetBrains Mono', monospace; }
+.nav-btn.active::after {
+  content:''; position:absolute; right:-12px; top:50%; transform:translateY(-50%);
+  width:3px; height:18px; border-radius:999px;
+  background: var(--gold);
+  box-shadow: 0 0 8px rgba(210,175,100,0.5);
+}
 
-.sidebar-scroll { flex: 1; overflow-y: auto; padding: 10px 10px; }
-.sidebar-scroll::-webkit-scrollbar { width: 2px; }
-.sidebar-scroll::-webkit-scrollbar-thumb { background: var(--wire2); }
+.nav-bottom { margin-top: auto; display:flex; flex-direction:column; align-items:center; gap:6px; }
+.nav-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 600; color: var(--t2); cursor:pointer;
+}
 
-.sb-section { margin-bottom: 18px; }
-.sb-label { font-size: 9px; font-weight: 700; color: var(--dust); text-transform: uppercase; letter-spacing: 1.5px; padding: 0 6px; margin-bottom: 4px; }
-.sb-item {
-  display: flex; align-items: center; gap: 9px;
-  padding: 7px 8px; border-radius: 8px;
-  font-size: 12px; color: var(--fog); cursor: pointer;
-  transition: all 0.15s; position: relative;
-}
-.sb-item:hover { background: var(--wire); color: var(--pale); }
-.sb-item.act { background: var(--ink4); color: var(--text); }
-.sb-item.act .sb-icon { color: var(--gold); }
-.sb-icon { font-size: 14px; width: 20px; text-align: center; flex-shrink: 0; }
-.sb-badge {
-  margin-left: auto; padding: 2px 6px; border-radius: 999px;
-  font-size: 9px; font-weight: 600; font-family: 'JetBrains Mono', monospace;
-}
-.sb-badge.active { background: var(--lime2); color: var(--lime); }
-.sb-badge.warn { background: var(--gold3); color: var(--gold); }
-.sb-badge.info { background: var(--cyan2); color: var(--cyan); }
-
-/* Engine status pills */
-.engine-status {
-  margin: 12px 10px 0;
-  background: var(--ink3); border: 1px solid var(--wire);
-  border-radius: 10px; padding: 12px;
-}
-.es-title { font-size: 9px; font-weight: 700; color: var(--dust); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px; }
-.es-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-.es-row:last-child { margin-bottom: 0; }
-.es-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-.es-dot.run { background: var(--lime); box-shadow: 0 0 6px var(--lime); animation: blink 1.8s infinite; }
-.es-dot.idle { background: var(--dust); }
-.es-dot.queue { background: var(--gold); box-shadow: 0 0 6px var(--gold); animation: blink 2.5s infinite; }
-.es-dot.err { background: var(--rose); }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
-.es-name { font-size: 11px; color: var(--fog); flex: 1; }
-.es-state { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--mist); }
-
-/* ═══ TOPBAR ═══ */
-.topbar {
-  grid-column: 3 / 5; grid-row: 1;
-  background: var(--ink2); border-bottom: 1px solid var(--wire);
-  display: flex; align-items: center; padding: 0 24px; gap: 16px;
-}
-.tb-path { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--mist); }
-.tb-path span { color: var(--fog); }
-.tb-path .sep { color: var(--dust); }
-.tb-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-.tb-status {
-  display: flex; align-items: center; gap: 6px;
-  padding: 5px 12px; border-radius: 999px;
-  background: var(--ink4); border: 1px solid var(--wire2);
-  font-size: 11px; color: var(--fog);
-}
-.tb-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lime); animation: blink 1.8s infinite; }
-.tb-btn {
-  display: flex; align-items: center; gap: 6px;
-  padding: 6px 14px; border-radius: 8px;
-  font-size: 11px; font-weight: 600; cursor: pointer;
-  border: none; font-family: 'Syne', sans-serif;
-  transition: all 0.15s;
-}
-.tb-btn.primary {
-  background: linear-gradient(135deg, var(--gold), #8b6010);
-  color: #0a0a0b; box-shadow: 0 2px 12px rgba(212,168,83,0.25);
-}
-.tb-btn.primary:hover { box-shadow: 0 4px 20px rgba(212,168,83,0.4); transform: translateY(-1px); }
-.tb-btn.ghost {
-  background: var(--wire); color: var(--fog); border: 1px solid var(--wire2);
-}
-.tb-btn.ghost:hover { background: var(--wire2); color: var(--pale); }
-
-/* ═══ MAIN CONTENT ═══ */
-.main {
-  grid-column: 3; grid-row: 2;
-  overflow-y: auto; padding: 20px 24px;
-  display: flex; flex-direction: column; gap: 18px;
-}
-.main::-webkit-scrollbar { width: 3px; }
-.main::-webkit-scrollbar-thumb { background: var(--wire2); border-radius: 2px; }
-
-/* ═══ RIGHT PANEL ═══ */
-.rpanel {
-  grid-column: 4; grid-row: 2;
-  border-left: 1px solid var(--wire);
-  overflow-y: auto; padding: 18px 16px;
+/* ════════════════════════════════════════
+   LAYER 1 — MAIN CONTENT AREA
+════════════════════════════════════════ */
+.main-wrap {
+  grid-column: 2; grid-row: 1;
   display: flex; flex-direction: column; gap: 16px;
+  overflow: hidden;
 }
-.rpanel::-webkit-scrollbar { width: 2px; }
-.rpanel::-webkit-scrollbar-thumb { background: var(--wire2); }
 
-/* ═══ STATUSBAR ═══ */
-.statusbar {
-  grid-column: 3 / 5; grid-row: 3;
-  background: var(--ink2); border-top: 1px solid var(--wire);
-  display: flex; align-items: center; padding: 0 24px; gap: 20px;
-  font-size: 10px; color: var(--mist); font-family: 'JetBrains Mono', monospace;
+/* Top bar */
+.topbar {
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: 20px;
+  padding: 0 24px;
+  height: 52px;
+  display: flex; align-items: center; gap: 16px;
+  flex-shrink: 0;
 }
-.sb-sep { width: 1px; height: 16px; background: var(--wire2); }
-.sb-item-s { display: flex; align-items: center; gap: 5px; }
-.sb-item-s .dot { width: 4px; height: 4px; border-radius: 50%; }
+.tb-logo {
+  font-size: 16px; font-weight: 600; letter-spacing: -0.02em;
+  color: var(--t1);
+}
+.tb-logo span { color: var(--gold); }
+.tb-divider { width:1px; height:20px; background: rgba(255,255,255,0.08); }
+.tb-path { font-size: 12px; color: var(--t3); }
+.tb-path b { color: var(--t2); font-weight:500; }
+.tb-right { margin-left:auto; display:flex; align-items:center; gap:10px; }
 
-/* ═══ CARDS ═══ */
-.card {
-  background: var(--ink3); border: 1px solid var(--wire);
-  border-radius: var(--r); overflow: hidden;
-  position: relative;
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 14px; border-radius: 999px;
+  font-size: 11px; font-weight: 500;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--t2);
 }
-.card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+.chip-dot { width:5px; height:5px; border-radius:50%; }
+.chip-dot.live { background: var(--lime); box-shadow:0 0 6px rgba(130,220,110,0.6); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 18px; border-radius: 999px;
+  font-size: 12px; font-weight: 500; cursor: pointer;
+  font-family: 'Inter', sans-serif; border: none;
+  transition: all 0.22s ease-out;
 }
+.btn-ghost {
+  background: var(--btn-bg); border: var(--btn-border);
+  box-shadow: var(--btn-shadow); color: var(--t2);
+}
+.btn-ghost:hover { filter:brightness(1.1); transform:translateY(-1px); }
+.btn-gold {
+  background: linear-gradient(135deg, rgba(210,175,100,0.85), rgba(140,100,30,0.7));
+  box-shadow: 0 8px 28px rgba(210,175,100,0.25), inset 0 1px 0 rgba(255,255,255,0.22);
+  color: rgba(20,12,0,0.9); font-weight: 600;
+}
+.btn-gold:hover { filter:brightness(1.1); transform:translateY(-1px); box-shadow:0 12px 36px rgba(210,175,100,0.35); }
+
+/* Scrollable main */
+.main-scroll {
+  flex:1; overflow-y:auto; display:flex; flex-direction:column; gap:16px;
+  padding-right:4px;
+}
+.main-scroll::-webkit-scrollbar { width:4px; }
+.main-scroll::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.08); border-radius:2px; }
+
+/* ════════════════════════════════════════
+   GLASS CARDS (Layer 1 & 2)
+════════════════════════════════════════ */
+.glass-card {
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+  border-radius: var(--card-r);
+  overflow: hidden;
+  animation: floatIn 0.5s ease-out both;
+}
+@keyframes floatIn {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.glass-card:nth-child(1) { animation-delay:0.05s; }
+.glass-card:nth-child(2) { animation-delay:0.12s; }
+.glass-card:nth-child(3) { animation-delay:0.19s; }
+.glass-card:nth-child(4) { animation-delay:0.26s; }
+
+.nest-card {
+  background: var(--nest-bg);
+  border: var(--nest-border);
+  border-radius: var(--nest-r);
+  padding: 14px 16px;
+  transition: border-color 0.2s;
+}
+.nest-card:hover { border-color: rgba(255,255,255,0.1); }
+
 .card-head {
-  padding: 14px 18px; border-bottom: 1px solid var(--wire);
-  display: flex; align-items: center; gap: 10px;
+  padding: 20px 24px 16px;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
-.card-title { font-size: 12px; font-weight: 700; color: var(--pale); text-transform: uppercase; letter-spacing: 0.8px; }
-.card-sub { font-size: 11px; color: var(--mist); margin-left: 4px; font-weight: 400; }
-.card-body { padding: 16px 18px; }
-.card-accent { position: absolute; right: 0; top: 0; bottom: 0; width: 2px; }
+.card-title { font-size: 13px; font-weight: 600; color: var(--t1); letter-spacing:-0.01em; }
+.card-sub { font-size: 11px; color: var(--t3); font-weight: 400; }
+.card-body { padding: 20px 24px; }
 
-/* ═══ PIPELINE VISUAL ═══ */
-.pipeline-track {
-  display: flex; align-items: flex-start; gap: 0;
-  overflow-x: auto; padding: 4px 0 8px;
+/* Section label */
+.sec-label {
+  font-size: 10px; font-weight: 600; color: var(--t4);
+  text-transform: uppercase; letter-spacing: 1.2px;
+  margin-bottom: 12px;
+  display: flex; align-items: center; gap: 8px;
 }
-.pipeline-track::-webkit-scrollbar { height: 2px; }
-.pipeline-track::-webkit-scrollbar-thumb { background: var(--wire2); }
+.sec-label::after { content:''; flex:1; height:1px; background:rgba(255,255,255,0.05); }
 
-.pipe-node {
-  display: flex; flex-direction: column; align-items: center;
-  min-width: 90px; position: relative;
-}
-.pipe-connector {
-  position: absolute; top: 18px; left: 50%; right: -50%;
-  height: 1px; background: var(--wire2); z-index: 0;
-}
-.pipe-node:last-child .pipe-connector { display: none; }
-.pipe-connector.done { background: linear-gradient(90deg, var(--gold), var(--gold3)); }
-.pipe-connector.active { background: linear-gradient(90deg, var(--gold), var(--wire2)); animation: flow 1.5s linear infinite; background-size: 200% 100%; }
-@keyframes flow {
-  0% { background-position: 0% 0%; }
-  100% { background-position: -200% 0%; }
-}
-
-.pipe-circle {
-  width: 36px; height: 36px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; position: relative; z-index: 1;
-  border: 2px solid var(--wire2); background: var(--ink4);
-  transition: all 0.3s;
-}
-.pipe-circle.done { border-color: var(--gold); background: rgba(212,168,83,0.1); color: var(--gold); }
-.pipe-circle.active { border-color: var(--gold); box-shadow: 0 0 16px rgba(212,168,83,0.4); animation: pulse-ring 1.5s infinite; }
-.pipe-circle.waiting { border-color: var(--wire2); color: var(--dust); }
-@keyframes pulse-ring {
-  0%,100% { box-shadow: 0 0 12px rgba(212,168,83,0.3); }
-  50% { box-shadow: 0 0 24px rgba(212,168,83,0.6); }
-}
-.pipe-label { font-size: 9px; color: var(--mist); margin-top: 7px; text-align: center; line-height: 1.3; font-weight: 600; letter-spacing: 0.3px; max-width: 70px; }
-.pipe-circle.active ~ .pipe-label { color: var(--gold2); }
-.pipe-circle.done ~ .pipe-label { color: var(--fog); }
-.pipe-time { font-size: 9px; color: var(--dust); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
-
-/* ═══ METRICS GRID ═══ */
-.metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-.metric-card {
-  background: var(--ink4); border: 1px solid var(--wire);
-  border-radius: var(--r2); padding: 14px 14px;
+/* ════════════════════════════════════════
+   METRICS ROW
+════════════════════════════════════════ */
+.metrics-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.metric-tile {
+  background: var(--card-bg);
+  backdrop-filter: var(--card-blur);
+  border: var(--card-border);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.22), inset 0 1px 0 rgba(255,255,255,0.06);
+  border-radius: 22px; padding: 20px;
   position: relative; overflow: hidden;
-  animation: fadeUp 0.4s ease both;
+  animation: floatIn 0.5s ease-out both;
+  transition: transform 0.22s ease-out, box-shadow 0.22s;
 }
-.metric-card:nth-child(1) { animation-delay: 0.05s; }
-.metric-card:nth-child(2) { animation-delay: 0.1s; }
-.metric-card:nth-child(3) { animation-delay: 0.15s; }
-.metric-card:nth-child(4) { animation-delay: 0.2s; }
-@keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+.metric-tile:hover { transform:translateY(-2px); box-shadow:0 24px 64px rgba(0,0,0,0.3); }
+.metric-tile:nth-child(1) { animation-delay:0.06s; }
+.metric-tile:nth-child(2) { animation-delay:0.12s; }
+.metric-tile:nth-child(3) { animation-delay:0.18s; }
+.metric-tile:nth-child(4) { animation-delay:0.24s; }
 .metric-glow {
-  position: absolute; top: -30px; right: -30px; width: 80px; height: 80px;
-  border-radius: 50%; opacity: 0.12; filter: blur(20px);
+  position:absolute; top:-40px; right:-40px; width:100px; height:100px;
+  border-radius:50%; filter:blur(30px); opacity:0.15; pointer-events:none;
 }
-.metric-label { font-size: 10px; font-weight: 600; color: var(--mist); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
-.metric-val { font-family: 'Instrument Serif', serif; font-size: 32px; letter-spacing: -1px; line-height: 1; }
-.metric-unit { font-family: 'Syne', sans-serif; font-size: 11px; color: var(--mist); margin-left: 4px; }
-.metric-delta { margin-top: 6px; font-size: 10px; display: flex; align-items: center; gap: 4px; font-family: 'JetBrains Mono', monospace; }
+.metric-lbl { font-size:10px; font-weight:500; color:var(--t3); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px; }
+.metric-val { font-size:30px; font-weight:300; letter-spacing:-1.5px; line-height:1; }
+.metric-unit { font-size:13px; font-weight:400; color:var(--t3); margin-left:3px; }
+.metric-delta { margin-top:8px; font-size:11px; display:flex; align-items:center; gap:4px; }
 .metric-delta.up { color: var(--lime); }
 .metric-delta.dn { color: var(--rose); }
-.metric-bar { margin-top: 8px; height: 2px; background: var(--wire2); border-radius: 999px; overflow: hidden; }
-.metric-bar-fill { height: 100%; border-radius: 999px; transition: width 1s ease; }
+.metric-bar { margin-top:10px; height:2px; border-radius:999px; background:rgba(255,255,255,0.07); overflow:hidden; }
+.metric-bar-f { height:100%; border-radius:999px; }
 
-/* ═══ PRODUCT TABLE ═══ */
-.prod-table { width: 100%; border-collapse: collapse; }
+/* ════════════════════════════════════════
+   PIPELINE VISUAL
+════════════════════════════════════════ */
+.pipeline-track {
+  display:flex; align-items:flex-start; gap:0;
+  overflow-x:auto; padding:4px 0 8px;
+}
+.pipeline-track::-webkit-scrollbar { height:2px; }
+.pipeline-track::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.06); }
+.pipe-node { display:flex; flex-direction:column; align-items:center; flex:1; position:relative; }
+.pipe-line {
+  position:absolute; top:18px; left:50%; width:100%;
+  height:1px; background:rgba(255,255,255,0.07);
+}
+.pipe-line.done { background:linear-gradient(90deg, rgba(210,175,100,0.6), rgba(210,175,100,0.15)); }
+.pipe-line.active { background:linear-gradient(90deg, rgba(210,175,100,0.5), rgba(255,255,255,0.06)); animation:flowLine 2s linear infinite; }
+@keyframes flowLine { 0%{opacity:0.6} 50%{opacity:1} 100%{opacity:0.6} }
+.pipe-node:last-child .pipe-line { display:none; }
+
+.pipe-orb {
+  width:36px; height:36px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:13px; position:relative; z-index:1;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: var(--t3); transition: all 0.3s;
+}
+.pipe-orb.done {
+  background: rgba(210,175,100,0.12);
+  border-color: rgba(210,175,100,0.3);
+  color: var(--gold);
+  box-shadow: 0 4px 16px rgba(210,175,100,0.2);
+}
+.pipe-orb.active {
+  background: rgba(210,175,100,0.15);
+  border-color: rgba(210,175,100,0.5);
+  color: var(--gold);
+  box-shadow: 0 0 0 6px rgba(210,175,100,0.06), 0 6px 20px rgba(210,175,100,0.3);
+  animation: orbPulse 2s infinite;
+}
+@keyframes orbPulse {
+  0%,100% { box-shadow: 0 0 0 4px rgba(210,175,100,0.06), 0 6px 20px rgba(210,175,100,0.25); }
+  50%      { box-shadow: 0 0 0 10px rgba(210,175,100,0.04), 0 8px 28px rgba(210,175,100,0.4); }
+}
+.pipe-lbl { font-size:9px; font-weight:500; color:var(--t3); margin-top:8px; text-align:center; line-height:1.4; max-width:64px; }
+.pipe-orb.done ~ .pipe-lbl  { color:var(--t2); }
+.pipe-orb.active ~ .pipe-lbl { color:rgba(210,175,100,0.8); }
+.pipe-tm { font-size:9px; color:var(--t4); margin-top:2px; font-family:monospace; }
+
+/* Progress bar */
+.prog-track { height:3px; background:rgba(255,255,255,0.06); border-radius:999px; overflow:hidden; margin:14px 0 0; }
+.prog-fill {
+  height:100%; border-radius:999px;
+  background: linear-gradient(90deg, rgba(210,175,100,0.8), rgba(210,175,100,0.3));
+  width: 57%;
+  box-shadow: 0 0 12px rgba(210,175,100,0.4);
+  animation: progAnim 3s ease-in-out infinite;
+}
+@keyframes progAnim { 0%{width:52%} 50%{width:60%} 100%{width:52%} }
+
+/* ════════════════════════════════════════
+   PRODUCT TABLE
+════════════════════════════════════════ */
+.prod-table { width:100%; border-collapse:collapse; }
 .prod-table th {
-  font-size: 9px; font-weight: 700; color: var(--dust);
-  text-transform: uppercase; letter-spacing: 1px;
-  padding: 0 12px 10px; text-align: left;
+  font-size:9px; font-weight:600; color:var(--t4);
+  text-transform:uppercase; letter-spacing:1.1px;
+  padding:0 14px 12px; text-align:left;
 }
-.prod-table td { padding: 10px 12px; border-bottom: 1px solid var(--wire); }
-.prod-table tr:last-child td { border-bottom: none; }
-.prod-table tr { transition: background 0.15s; cursor: pointer; }
-.prod-table tr:hover td { background: var(--wire); }
-.prod-table tr.selected td { background: rgba(212,168,83,0.04); }
-.prod-table tr.selected td:first-child { box-shadow: inset 2px 0 0 var(--gold); }
+.prod-table td { padding:10px 14px; }
+.prod-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  cursor:pointer; transition:background 0.18s;
+}
+.prod-table tbody tr:hover td { background:rgba(255,255,255,0.025); }
+.prod-table tbody tr.sel td:first-child { box-shadow:inset 2px 0 0 rgba(210,175,100,0.6); }
+.prod-table tbody tr.sel td { background:rgba(210,175,100,0.04); }
+.prod-table tbody tr:last-child { border-bottom:none; }
 
-.prod-thumb {
-  width: 36px; height: 36px; border-radius: 8px;
-  background: var(--ink5); display: flex; align-items: center; justify-content: center;
-  font-size: 16px; flex-shrink: 0;
+.p-cell { display:flex; align-items:center; gap:10px; }
+.p-icon {
+  width:34px; height:34px; border-radius:10px; flex-shrink:0;
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.07);
+  display:flex; align-items:center; justify-content:center; font-size:15px;
 }
-.prod-cell-main { display: flex; align-items: center; gap: 10px; }
-.prod-name { font-size: 12px; font-weight: 600; color: var(--pale); }
-.prod-sku { font-size: 10px; color: var(--mist); font-family: 'JetBrains Mono', monospace; margin-top: 1px; }
-.prod-cat { font-size: 11px; color: var(--fog); }
-.prod-price { font-size: 12px; font-weight: 600; color: var(--text); font-family: 'JetBrains Mono', monospace; }
-.status-chip {
-  display: inline-flex; align-items: center; gap: 5px;
-  padding: 3px 8px; border-radius: 999px; font-size: 10px; font-weight: 600;
-}
-.status-chip.done { background: var(--lime2); color: var(--lime); }
-.status-chip.proc { background: var(--gold3); color: var(--gold); }
-.status-chip.idle { background: var(--wire); color: var(--mist); }
-.status-chip.err { background: var(--rose2); color: var(--rose); }
-.score-pill {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 11px; font-weight: 700; font-family: 'JetBrains Mono', monospace;
-}
-.score-pill.hi { color: var(--lime); }
-.score-pill.mid { color: var(--gold); }
-.score-pill.lo { color: var(--rose); }
-.act-btns { display: flex; gap: 6px; }
-.act-btn {
-  padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 600;
-  cursor: pointer; border: none; font-family: 'Syne', sans-serif; transition: all 0.15s;
-}
-.act-btn.run { background: var(--gold3); color: var(--gold); border: 1px solid rgba(212,168,83,0.2); }
-.act-btn.run:hover { background: rgba(212,168,83,0.2); }
-.act-btn.view { background: var(--wire); color: var(--fog); border: 1px solid var(--wire2); }
-.act-btn.view:hover { background: var(--wire2); color: var(--pale); }
-.act-btn.del { background: var(--rose2); color: var(--rose); border: 1px solid rgba(255,107,138,0.2); }
+.p-name { font-size:12px; font-weight:500; color:var(--t1); }
+.p-sku  { font-size:10px; color:var(--t4); margin-top:1px; font-family:monospace; }
+.p-cat  { font-size:11px; color:var(--t3); }
+.p-price { font-size:12px; font-weight:500; color:var(--t1); font-family:monospace; }
 
-/* ═══ PROMPT STUDIO ═══ */
+.status-pill {
+  display:inline-flex; align-items:center; gap:5px;
+  padding:3px 10px; border-radius:999px; font-size:10px; font-weight:500;
+}
+.sp-done { background:var(--limed); color:var(--lime); }
+.sp-proc { background:var(--goldd); color:var(--gold); }
+.sp-idle { background:rgba(255,255,255,0.05); color:var(--t3); }
+
+.score-v { font-size:12px; font-weight:600; font-family:monospace; }
+.sv-hi { color:var(--lime); }
+.sv-mid { color:var(--gold); }
+.sv-lo  { color:var(--t4); }
+
+.row-btns { display:flex; gap:6px; }
+.rb {
+  padding:4px 10px; border-radius:999px; font-size:10px; font-weight:500; cursor:pointer;
+  border:none; font-family:'Inter',sans-serif; transition:all 0.18s;
+}
+.rb-run { background:var(--goldd); color:var(--gold); border:1px solid rgba(210,175,100,0.2); }
+.rb-run:hover { filter:brightness(1.15); transform:translateY(-1px); }
+.rb-view { background:rgba(255,255,255,0.05); color:var(--t2); border:1px solid rgba(255,255,255,0.08); }
+.rb-view:hover { filter:brightness(1.15); transform:translateY(-1px); }
+
+/* ════════════════════════════════════════
+   LOG STREAM
+════════════════════════════════════════ */
+.log-stream { display:flex; flex-direction:column; gap:1px; }
+.log-line {
+  display:flex; align-items:baseline; gap:8px; padding:5px 8px;
+  border-radius:8px; font-family:monospace; font-size:10px; transition:background 0.15s;
+}
+.log-line:hover { background:rgba(255,255,255,0.03); }
+.ll-t { color:var(--t4); white-space:nowrap; flex-shrink:0; font-size:9px; }
+.ll-lv {
+  padding:1px 6px; border-radius:5px; font-size:9px; font-weight:700; flex-shrink:0;
+}
+.ll-ok   { background:var(--limed); color:var(--lime); }
+.ll-info { background:var(--cyand); color:var(--cyan); }
+.ll-warn { background:var(--goldd); color:var(--gold); }
+.ll-err  { background:var(--rosev); color:var(--rose); }
+.ll-api  { color:var(--viol); flex-shrink:0; }
+.ll-msg  { color:var(--t2); }
+
+/* ════════════════════════════════════════
+   COPY CARDS
+════════════════════════════════════════ */
+.copy-card {
+  background: var(--nest-bg);
+  border: var(--nest-border);
+  border-radius: var(--nest-r);
+  padding: 14px 16px; cursor:pointer;
+  transition: all 0.2s;
+}
+.copy-card:hover { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.1); }
+.copy-card.sel {
+  background: rgba(210,175,100,0.07);
+  border-color: rgba(210,175,100,0.25);
+}
+.cc-type { font-size:9px; font-weight:700; color:var(--gold); text-transform:uppercase; letter-spacing:1.1px; margin-bottom:7px; }
+.cc-text { font-size:11px; color:var(--t2); line-height:1.6; }
+.cc-metrics { display:flex; gap:14px; margin-top:9px; }
+.cc-m { font-size:9px; color:var(--t4); font-family:monospace; }
+.cc-m span { color:var(--cyan); }
+
+/* ════════════════════════════════════════
+   VIDEO GRID
+════════════════════════════════════════ */
+.video-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+.vt {
+  aspect-ratio:9/16; border-radius:14px;
+  background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  font-size:16px; position:relative; overflow:hidden; cursor:pointer;
+  transition: all 0.22s ease-out;
+}
+.vt:hover { transform:translateY(-3px); border-color:rgba(255,255,255,0.12); box-shadow:0 16px 40px rgba(0,0,0,0.3); }
+.vt-glow { position:absolute; inset:0; opacity:0.12; }
+.vt-play { position:absolute; font-size:12px; color:rgba(255,255,255,0.4); }
+.vt-info { position:absolute; bottom:0; left:0; right:0; padding:16px 8px 8px; background:linear-gradient(transparent,rgba(0,0,0,0.75)); }
+.vt-name { font-size:9px; font-weight:600; color:rgba(255,255,255,0.75); }
+.vt-dur  { font-size:8px; color:rgba(255,255,255,0.4); font-family:monospace; margin-top:1px; }
+.vt-st {
+  position:absolute; top:6px; right:6px;
+  padding:2px 5px; border-radius:5px; font-size:8px; font-weight:700; font-family:monospace;
+}
+.vt-ok   { background:var(--limed); color:var(--lime); }
+.vt-proc { background:var(--goldd); color:var(--gold); animation:pulse 1.5s infinite; }
+.vt-pend { background:rgba(255,255,255,0.06); color:var(--t3); }
+
+/* ════════════════════════════════════════
+   AIDA / PROMPT LAYERS
+════════════════════════════════════════ */
+.aida-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.aida-b {
+  background:var(--nest-bg); border:var(--nest-border); border-radius:var(--nest-r); padding:14px;
+}
+.aida-letter { font-size:26px; font-weight:300; line-height:1; letter-spacing:-1px; margin-bottom:4px; }
+.aida-name { font-size:9px; font-weight:600; color:var(--t4); text-transform:uppercase; letter-spacing:1px; margin-bottom:7px; }
+.aida-text { font-size:11px; color:var(--t2); line-height:1.55; }
+
 .prompt-layer {
-  background: var(--ink4); border: 1px solid var(--wire);
-  border-radius: var(--r2); padding: 14px; margin-bottom: 8px; position: relative;
+  background:var(--nest-bg); border:var(--nest-border); border-radius:14px;
+  padding:12px 14px; margin-bottom:8px;
+  transition:border-color 0.2s;
 }
-.prompt-layer:hover { border-color: var(--wire2); }
-.pl-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-.pl-icon { font-size: 12px; }
-.pl-title { font-size: 10px; font-weight: 700; color: var(--pale); text-transform: uppercase; letter-spacing: 0.8px; }
+.prompt-layer:hover { border-color:rgba(255,255,255,0.1); }
+.pl-head { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.pl-title { font-size:10px; font-weight:600; color:var(--t1); text-transform:uppercase; letter-spacing:0.7px; }
 .pl-tag {
-  margin-left: auto; padding: 2px 7px; border-radius: 999px;
-  font-size: 9px; font-weight: 600; font-family: 'JetBrains Mono', monospace;
+  margin-left:auto; padding:2px 7px; border-radius:999px;
+  font-size:9px; font-weight:700; font-family:monospace;
 }
-.pl-content {
-  font-size: 11px; color: var(--fog); line-height: 1.6;
-  font-family: 'JetBrains Mono', monospace;
-}
-.pl-content mark {
-  background: rgba(212,168,83,0.15); color: var(--gold2);
-  padding: 1px 3px; border-radius: 3px;
-}
-.pl-content em {
-  color: var(--cyan); font-style: normal;
-}
-.pl-content strong {
-  color: var(--violet); font-weight: 400;
-}
+.pl-code { font-size:10px; color:var(--t2); font-family:monospace; line-height:1.7; }
+.pl-code .hi-gold { color:rgba(210,175,100,0.9); }
+.pl-code .hi-cyan { color:var(--cyan); }
+.pl-code .hi-viol { color:var(--viol); }
 
-/* ═══ AIDA FRAMEWORK ═══ */
-.aida-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.aida-block {
-  background: var(--ink4); border: 1px solid var(--wire); border-radius: var(--r2);
-  padding: 12px; position: relative; overflow: hidden;
+/* ════════════════════════════════════════
+   ENGINE BADGES
+════════════════════════════════════════ */
+.engine-grid { display:flex; flex-direction:column; gap:6px; }
+.engine-row {
+  display:flex; align-items:center; gap:9px;
+  padding:8px 12px; border-radius:12px;
+  background:var(--nest-bg); border:var(--nest-border);
+  transition:border-color 0.2s;
 }
-.aida-letter {
-  font-family: 'Instrument Serif', serif; font-size: 28px;
-  line-height: 1; margin-bottom: 4px; opacity: 0.8;
-}
-.aida-name { font-size: 9px; font-weight: 700; color: var(--mist); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-.aida-content { font-size: 11px; color: var(--fog); line-height: 1.5; }
+.engine-row:hover { border-color:rgba(255,255,255,0.1); }
+.eng-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+.eng-dot.run  { background:var(--lime); box-shadow:0 0 6px rgba(130,220,110,0.6); animation:pulse 2s infinite; }
+.eng-dot.queue { background:var(--gold); box-shadow:0 0 6px rgba(210,175,100,0.5); animation:pulse 2.5s infinite; }
+.eng-dot.idle { background:rgba(255,255,255,0.15); }
+.eng-name { font-size:11px; color:var(--t2); font-weight:500; flex:1; }
+.eng-state { font-size:9px; color:var(--t4); font-family:monospace; }
 
-/* ═══ SCORE DISPLAY ═══ */
-.score-display {
-  background: var(--ink4); border: 1px solid var(--wire); border-radius: var(--r);
-  padding: 16px; text-align: center;
-}
+/* ════════════════════════════════════════
+   SCORE DISPLAY
+════════════════════════════════════════ */
 .score-big {
-  font-family: 'Instrument Serif', serif; font-size: 56px;
-  letter-spacing: -2px; line-height: 1;
-  background: linear-gradient(135deg, var(--gold2), var(--gold));
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  font-size:48px; font-weight:200; letter-spacing:-3px;
+  background: linear-gradient(135deg, rgba(210,175,100,0.95), rgba(220,195,140,0.7));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  line-height:1; margin: 4px 0 2px;
 }
-.score-label { font-size: 10px; color: var(--mist); text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
-.score-breakdown { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
-.sb-metric { display: flex; align-items: center; gap: 8px; }
-.sb-metric-name { font-size: 10px; color: var(--fog); width: 80px; flex-shrink: 0; }
-.sb-metric-bar { flex: 1; height: 4px; background: var(--wire2); border-radius: 999px; overflow: hidden; }
-.sb-metric-fill { height: 100%; border-radius: 999px; }
-.sb-metric-val { font-size: 10px; font-family: 'JetBrains Mono', monospace; color: var(--fog); width: 30px; text-align: right; flex-shrink: 0; }
+.score-lbl { font-size:9px; font-weight:500; color:var(--t4); text-transform:uppercase; letter-spacing:1px; }
+.score-bars { display:flex; flex-direction:column; gap:7px; margin-top:12px; }
+.sb-row { display:flex; align-items:center; gap:8px; }
+.sb-name { font-size:9px; color:var(--t3); width:72px; flex-shrink:0; }
+.sb-track { flex:1; height:3px; border-radius:999px; background:rgba(255,255,255,0.07); overflow:hidden; }
+.sb-fill { height:100%; border-radius:999px; }
+.sb-val { font-size:9px; font-family:monospace; color:var(--t3); width:28px; text-align:right; flex-shrink:0; }
 
-/* ═══ ASSET GRID ═══ */
-.asset-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-.asset-tile {
-  aspect-ratio: 1; border-radius: 8px;
-  background: var(--ink4); border: 1px solid var(--wire);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 20px; position: relative; overflow: hidden; cursor: pointer;
-  transition: all 0.2s;
+/* ════════════════════════════════════════
+   API CONNECTIONS
+════════════════════════════════════════ */
+.api-list { display:flex; flex-direction:column; gap:6px; }
+.api-row {
+  display:flex; align-items:center; gap:8px;
+  padding:8px 12px; border-radius:12px;
+  background:var(--nest-bg); border:var(--nest-border);
 }
-.asset-tile:hover { border-color: var(--wire2); transform: scale(1.04); z-index: 2; }
-.asset-tile .at-glow {
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at 60% 40%, var(--color, rgba(212,168,83,0.1)), transparent 70%);
-}
-.asset-tile .at-label {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 5px 6px; background: linear-gradient(transparent, rgba(0,0,0,0.7));
-  font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.7);
-  opacity: 0; transition: opacity 0.2s;
-}
-.asset-tile:hover .at-label { opacity: 1; }
-.at-badge {
-  position: absolute; top: 5px; right: 5px;
-  width: 14px; height: 14px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; font-size: 7px;
-}
-.at-badge.ok { background: var(--lime2); color: var(--lime); }
-.at-badge.pend { background: var(--gold3); color: var(--gold); }
-.at-badge.proc { background: var(--gold3); color: var(--gold); animation: blink 1.5s infinite; }
-.at-badge.lock { background: var(--wire); color: var(--mist); }
-.asset-tile.video-tile::after {
-  content: '▶';
-  position: absolute; font-size: 10px; color: rgba(255,255,255,0.5);
-}
+.api-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+.api-dot.live { background:var(--lime); box-shadow:0 0 5px rgba(130,220,110,0.5); animation:pulse 2s infinite; }
+.api-dot.warn { background:var(--gold); }
+.api-name { font-size:11px; color:var(--t2); font-weight:500; flex:1; }
+.api-lat { font-size:9px; color:var(--cyan); font-family:monospace; }
+.api-type { font-size:9px; color:var(--t4); font-family:monospace; }
 
-/* ═══ VIDEO GRID ═══ */
-.video-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-.video-tile {
-  aspect-ratio: 9/16; border-radius: 8px;
-  background: var(--ink5); border: 1px solid var(--wire);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  font-size: 18px; position: relative; overflow: hidden; cursor: pointer;
-  transition: all 0.2s;
+/* ════════════════════════════════════════
+   RIGHT PANEL
+════════════════════════════════════════ */
+.right-col {
+  grid-column:3; grid-row:1;
+  display:flex; flex-direction:column; gap:14px;
+  overflow-y:auto; overflow-x:hidden;
 }
-.video-tile:hover { border-color: var(--wire3); transform: translateY(-2px); }
-.video-tile .vt-glow {
-  position: absolute; inset: 0;
-  opacity: 0.15;
-}
-.video-tile .vt-play {
-  position: absolute; font-size: 14px; color: rgba(255,255,255,0.5);
-}
-.video-tile .vt-info {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  padding: 20px 6px 6px;
-  background: linear-gradient(transparent, rgba(0,0,0,0.8));
-}
-.video-tile .vt-name { font-size: 9px; font-weight: 700; color: rgba(255,255,255,0.8); }
-.video-tile .vt-dur { font-size: 8px; color: rgba(255,255,255,0.5); font-family: 'JetBrains Mono', monospace; margin-top: 1px; }
-.vt-status {
-  position: absolute; top: 5px; right: 5px;
-  padding: 2px 5px; border-radius: 4px; font-size: 8px; font-weight: 700;
-  font-family: 'JetBrains Mono', monospace;
-}
-.vt-status.ok { background: var(--lime2); color: var(--lime); }
-.vt-status.proc { background: var(--gold3); color: var(--gold); animation: blink 1.5s infinite; }
-.vt-status.pend { background: var(--wire); color: var(--mist); }
+.right-col::-webkit-scrollbar { width:3px; }
+.right-col::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.06); }
 
-/* ═══ COPY VARIANTS ═══ */
-.copy-variant {
-  background: var(--ink4); border: 1px solid var(--wire); border-radius: var(--r2);
-  padding: 12px; margin-bottom: 8px; cursor: pointer; transition: all 0.15s;
+/* ════════════════════════════════════════
+   LAUNCH CARD
+════════════════════════════════════════ */
+.launch-card {
+  background: linear-gradient(145deg, rgba(40,30,12,0.7), rgba(20,15,6,0.6));
+  backdrop-filter: var(--card-blur);
+  border: 1px solid rgba(210,175,100,0.18);
+  border-radius: var(--card-r);
+  padding: 22px 20px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.3), inset 0 1px 0 rgba(210,175,100,0.12);
+  position:relative; overflow:hidden;
 }
-.copy-variant:hover { border-color: var(--wire2); }
-.copy-variant.sel { border-color: rgba(212,168,83,0.4); background: var(--gold4); }
-.cv-type { font-size: 9px; font-weight: 700; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-.cv-text { font-size: 11px; color: var(--fog); line-height: 1.55; }
-.cv-metrics { display: flex; gap: 12px; margin-top: 8px; }
-.cv-m { font-size: 9px; color: var(--mist); display: flex; align-items: center; gap: 4px; font-family: 'JetBrains Mono', monospace; }
-.cv-m-val { color: var(--cyan); }
-
-/* ═══ TABS ═══ */
-.tabs { display: flex; gap: 2px; background: var(--ink4); border-radius: 10px; padding: 3px; margin-bottom: 14px; }
-.tab {
-  flex: 1; padding: 7px 10px; border-radius: 7px;
-  font-size: 11px; font-weight: 600; text-align: center;
-  cursor: pointer; transition: all 0.15s; color: var(--mist);
+.launch-card::before {
+  content:'✦'; position:absolute; right:-8px; top:-24px;
+  font-size:110px; color:rgba(210,175,100,0.04); pointer-events:none; line-height:1;
 }
-.tab.on { background: var(--ink3); color: var(--text); }
-.tab:hover:not(.on) { color: var(--fog); }
+.lc-title { font-size:17px; font-weight:300; letter-spacing:-0.5px; color:var(--t1); line-height:1.3; margin-bottom:5px; }
+.lc-sub   { font-size:11px; color:var(--t3); line-height:1.6; margin-bottom:18px; }
 
-/* ═══ LOG STREAM ═══ */
-.log-stream { font-family: 'JetBrains Mono', monospace; font-size: 10px; display: flex; flex-direction: column; gap: 2px; }
-.log-line { display: flex; gap: 8px; align-items: baseline; padding: 4px 6px; border-radius: 4px; transition: background 0.1s; }
-.log-line:hover { background: var(--wire); }
-.ll-time { color: var(--dust); white-space: nowrap; flex-shrink: 0; }
-.ll-level { padding: 1px 5px; border-radius: 3px; font-size: 9px; font-weight: 700; flex-shrink: 0; }
-.ll-level.ok { background: var(--lime2); color: var(--lime); }
-.ll-level.info { background: var(--cyan2); color: var(--cyan); }
-.ll-level.warn { background: var(--gold3); color: var(--gold); }
-.ll-level.err { background: var(--rose2); color: var(--rose); }
-.ll-api { color: var(--violet); flex-shrink: 0; }
-.ll-msg { color: var(--fog); }
-
-/* ═══ RIGHT PANEL SECTIONS ═══ */
-.rp-section { margin-bottom: 4px; }
-.rp-title { font-size: 9px; font-weight: 700; color: var(--dust); text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
-.rp-title::after { content: ''; flex: 1; height: 1px; background: var(--wire); }
-
-.gen-form { display: flex; flex-direction: column; gap: 10px; }
-.form-row { display: flex; flex-direction: column; gap: 4px; }
-.form-label { font-size: 9px; font-weight: 700; color: var(--mist); text-transform: uppercase; letter-spacing: 0.8px; }
-.form-select, .form-input {
-  background: var(--ink4); border: 1px solid var(--wire2); border-radius: 8px;
-  padding: 8px 10px; color: var(--text); font-size: 11px; font-family: 'Syne', sans-serif;
-  outline: none; transition: border-color 0.15s; appearance: none;
+.form-row { display:flex; flex-direction:column; gap:4px; margin-bottom:10px; }
+.form-lbl { font-size:9px; font-weight:600; color:var(--t4); text-transform:uppercase; letter-spacing:0.9px; }
+.form-sel, .form-inp {
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+  border-radius:12px; padding:8px 12px; color:var(--t1); font-size:11px;
+  font-family:'Inter',sans-serif; outline:none; appearance:none;
+  transition:border-color 0.2s;
 }
-.form-select:focus, .form-input:focus { border-color: rgba(212,168,83,0.4); }
-.form-select option { background: var(--ink3); }
-.toggle-row { display: flex; align-items: center; justify-content: space-between; }
-.toggle-label { font-size: 11px; color: var(--fog); }
+.form-sel:focus, .form-inp:focus { border-color:rgba(210,175,100,0.35); }
+.form-sel option { background:#111318; }
+
+.toggle-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.toggle-lbl { font-size:11px; color:var(--t2); }
 .toggle {
-  width: 36px; height: 20px; border-radius: 999px; background: var(--ink5); border: 1px solid var(--wire2);
-  position: relative; cursor: pointer; transition: all 0.2s;
+  width:34px; height:18px; border-radius:999px;
+  background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1);
+  position:relative; cursor:pointer; transition:all 0.22s;
 }
-.toggle.on { background: rgba(212,168,83,0.3); border-color: rgba(212,168,83,0.5); }
-.toggle-thumb {
-  width: 14px; height: 14px; border-radius: 50%;
-  background: var(--mist); position: absolute; top: 2px; left: 2px; transition: all 0.2s;
+.toggle.on { background:rgba(210,175,100,0.25); border-color:rgba(210,175,100,0.4); }
+.toggle-knob {
+  width:12px; height:12px; border-radius:50%;
+  background:var(--t3); position:absolute; top:2px; left:2px; transition:all 0.22s;
 }
-.toggle.on .toggle-thumb { left: 18px; background: var(--gold); }
-.divider { height: 1px; background: var(--wire); margin: 4px 0; }
-.cost-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 0; }
-.cost-label { font-size: 10px; color: var(--mist); }
-.cost-val { font-size: 11px; font-family: 'JetBrains Mono', monospace; color: var(--fog); }
-.cost-total { border-top: 1px solid var(--wire2); margin-top: 6px; padding-top: 8px; }
-.cost-total .cost-label { color: var(--fog); font-weight: 600; }
-.cost-total .cost-val { color: var(--gold2); font-weight: 600; }
+.toggle.on .toggle-knob { left:18px; background:var(--gold); }
+
+.divider { height:1px; background:rgba(255,255,255,0.06); margin:12px 0; }
+
+.cost-row { display:flex; align-items:center; justify-content:space-between; padding:3px 0; }
+.cost-lbl { font-size:10px; color:var(--t3); }
+.cost-val { font-size:10px; font-family:monospace; color:var(--t2); }
+.cost-total .cost-lbl { color:var(--t2); font-weight:500; }
+.cost-total .cost-val { color:var(--gold); font-weight:600; font-size:12px; }
+
 .btn-launch {
-  width: 100%; padding: 12px; border: none; border-radius: 10px;
-  background: linear-gradient(135deg, var(--gold), #8b6010);
-  color: #0a0a0b; font-size: 12px; font-weight: 700; font-family: 'Syne', sans-serif;
-  cursor: pointer; transition: all 0.2s;
-  box-shadow: 0 4px 20px rgba(212,168,83,0.2);
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  margin-top: 4px;
+  width:100%; padding:13px; border:none; border-radius:999px;
+  background: linear-gradient(135deg, rgba(210,175,100,0.85), rgba(140,100,30,0.75));
+  color:rgba(15,8,0,0.9); font-size:12px; font-weight:600; font-family:'Inter',sans-serif;
+  cursor:pointer; transition:all 0.22s ease-out;
+  box-shadow:0 8px 28px rgba(210,175,100,0.22), inset 0 1px 0 rgba(255,255,255,0.22);
+  display:flex; align-items:center; justify-content:center; gap:7px;
+  margin-top:12px;
 }
-.btn-launch:hover { box-shadow: 0 6px 28px rgba(212,168,83,0.35); transform: translateY(-1px); }
-.btn-launch:active { transform: translateY(0); }
-.btn-launch.loading { opacity: 0.7; cursor: not-allowed; }
+.btn-launch:hover { filter:brightness(1.1); transform:translateY(-1px); box-shadow:0 12px 36px rgba(210,175,100,0.32); }
+.btn-launch.loading { opacity:0.65; cursor:not-allowed; transform:none !important; }
+.launch-note { text-align:center; font-size:10px; color:var(--t4); margin-top:8px; }
 
-/* Mini chart */
-.mini-chart { display: flex; align-items: flex-end; gap: 3px; height: 32px; }
-.chart-bar { flex: 1; border-radius: 2px 2px 0 0; min-height: 4px; background: var(--gold3); transition: all 0.3s; }
-.chart-bar.hi { background: rgba(212,168,83,0.5); }
-.chart-bar.curr { background: var(--gold); }
-
-/* API Connections */
-.api-conn { display: flex; flex-direction: column; gap: 6px; }
-.api-item {
-  display: flex; align-items: center; gap: 8px;
-  padding: 8px 10px; background: var(--ink4); border: 1px solid var(--wire); border-radius: 8px;
+/* Plan options */
+.plan-opts { display:flex; flex-direction:column; gap:7px; margin-bottom:14px; }
+.plan-opt {
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:14px;
+  border:1.5px solid rgba(255,255,255,0.07);
+  cursor:pointer; transition:all 0.2s; position:relative;
 }
-.api-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-.api-dot.live { background: var(--lime); box-shadow: 0 0 6px var(--lime); animation: blink 2s infinite; }
-.api-dot.warn { background: var(--gold); }
-.api-dot.off { background: var(--dust); }
-.api-name { font-size: 11px; color: var(--fog); font-weight: 600; }
-.api-type { font-size: 9px; color: var(--mist); margin-left: auto; font-family: 'JetBrains Mono', monospace; }
-.api-latency { font-size: 9px; color: var(--cyan); font-family: 'JetBrains Mono', monospace; }
-
-/* Scrollable log panel */
-.log-wrap { max-height: 160px; overflow-y: auto; }
-.log-wrap::-webkit-scrollbar { width: 2px; }
-.log-wrap::-webkit-scrollbar-thumb { background: var(--wire2); }
-
-/* Tradeoff table */
-.tradeoff { width: 100%; border-collapse: collapse; font-size: 10px; }
-.tradeoff th { text-align: left; font-weight: 700; color: var(--mist); text-transform: uppercase; letter-spacing: 0.8px; padding: 0 8px 6px; }
-.tradeoff td { padding: 6px 8px; border-bottom: 1px solid var(--wire); color: var(--fog); vertical-align: top; }
-.tradeoff tr:last-child td { border-bottom: none; }
-.tradeoff .pro { color: var(--lime); }
-.tradeoff .con { color: var(--rose); }
-
-/* Section toggle via JS */
-.panel { display: none; }
-.panel.show { display: block; }
-.panel.flex-panel { display: none; }
-.panel.flex-panel.show { display: flex; flex-direction: column; gap: 14px; }
-
-/* Responsive overflow guard */
-@media (max-width: 1100px) {
-  .shell { grid-template-columns: 56px 0 1fr 280px; }
-  .sidebar { display: none; }
+.plan-opt.sel { border-color:rgba(210,175,100,0.35); background:rgba(210,175,100,0.06); }
+.plan-opt-badge {
+  position:absolute; top:-8px; left:10px;
+  padding:2px 8px; border-radius:999px; font-size:8px; font-weight:700;
+  background:rgba(210,175,100,0.9); color:rgba(10,6,0,0.9);
 }
+.radio { width:14px; height:14px; border-radius:50%; border:1.5px solid rgba(255,255,255,0.2); flex-shrink:0; display:flex; align-items:center; justify-content:center; }
+.plan-opt.sel .radio { border-color:var(--gold); }
+.radio-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); }
+.plan-lbl { font-size:12px; font-weight:500; color:var(--t1); }
+.plan-desc { font-size:10px; color:var(--t3); }
+.plan-price { margin-left:auto; font-size:13px; font-weight:600; color:var(--t1); }
+.plan-price small { font-size:9px; font-weight:400; color:var(--t3); }
+
+/* ════════════════════════════════════════
+   TABS
+════════════════════════════════════════ */
+.tabs {
+  display:flex; gap:2px; background:rgba(255,255,255,0.04);
+  border-radius:12px; padding:3px; margin-bottom:16px;
+}
+.tab {
+  flex:1; padding:7px 10px; border-radius:9px; font-size:11px; font-weight:500;
+  text-align:center; cursor:pointer; transition:all 0.2s; color:var(--t3);
+}
+.tab.on { background:rgba(255,255,255,0.07); color:var(--t1); }
+.tab:hover:not(.on) { color:var(--t2); }
+
+/* ════════════════════════════════════════
+   PANELS
+════════════════════════════════════════ */
+.panel { display:none; animation:floatIn 0.35s ease-out both; }
+.panel.show { display:block; }
+
+/* ════════════════════════════════════════
+   STATUSBAR
+════════════════════════════════════════ */
+/* integrated into topbar via chip */
+
+/* ════════════════════════════════════════
+   MODAL
+════════════════════════════════════════ */
+.modal-bg {
+  display:none; position:fixed; inset:0; z-index:1000;
+  background:rgba(4,5,8,0.75); backdrop-filter:blur(10px);
+  align-items:center; justify-content:center;
+}
+.modal-bg.open { display:flex; }
+.modal-box {
+  background: linear-gradient(145deg, rgba(255,255,255,0.065), rgba(255,255,255,0.02));
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+  border-radius: 28px; padding: 28px; width: 420px;
+  animation: floatIn 0.3s ease-out both;
+}
+.modal-title { font-size:20px; font-weight:300; letter-spacing:-0.5px; margin-bottom:5px; }
+.modal-sub { font-size:11px; color:var(--t3); margin-bottom:20px; }
+.modal-close { float:right; background:none; border:none; color:var(--t3); font-size:18px; cursor:pointer; margin-top:-4px; }
+
+.drop-zone {
+  border:1.5px dashed rgba(255,255,255,0.1); border-radius:14px;
+  padding:22px; text-align:center; font-size:11px; color:var(--t3); cursor:pointer;
+  transition:border-color 0.2s;
+}
+.drop-zone:hover { border-color:rgba(210,175,100,0.3); color:var(--t2); }
+
 </style>
 </head>
 <body>
-<div class="ambient"></div>
 
-<div class="shell">
+<div class="app">
 
-<!-- ═══ NAV RAIL ═══ -->
-<nav class="nav-rail">
-  <div class="logo-mark">✦</div>
-  <div class="rn on" title="Dashboard" onclick="switchMain('overview',this)">⊞</div>
-  <div class="rn" title="Produtos" onclick="switchMain('products',this)">◫</div>
-  <div class="rn" title="Prompt Studio" onclick="switchMain('prompts',this)">✐</div>
-  <div class="rn" title="Assets" onclick="switchMain('assets',this)">◈</div>
-  <div class="rn" title="Vídeos" onclick="switchMain('videos',this)">▷</div>
-  <div class="rn" title="Copywriting" onclick="switchMain('copy',this)">✎</div>
-  <div class="rn" title="Analytics" onclick="switchMain('analytics',this)">◑</div>
-  <div class="rn-bot">
-    <div class="rn" title="Logs">≡</div>
-    <div class="rn" title="Configurações">⚙</div>
-    <div class="rn" style="width:32px;height:32px;background:var(--ink4);border-radius:50%;border:1.5px solid var(--wire2);font-size:10px;color:var(--fog);">VG</div>
-  </div>
-</nav>
-
-<!-- ═══ SIDEBAR ═══ -->
-<aside class="sidebar">
-  <div class="sidebar-head">
-    <div class="sb-logo">Viral<em>Gen</em></div>
-    <div class="sb-ver">v2.1.0</div>
-  </div>
-  <div class="sidebar-scroll">
-    <div class="sb-section">
-      <div class="sb-label">Pipeline</div>
-      <div class="sb-item act" onclick="switchMain('overview',null)"><span class="sb-icon">⊞</span> Overview <span class="sb-badge active">Live</span></div>
-      <div class="sb-item" onclick="switchMain('products',null)"><span class="sb-icon">◫</span> Produtos <span class="sb-badge warn">6</span></div>
-      <div class="sb-item" onclick="switchMain('prompts',null)"><span class="sb-icon">✐</span> Prompt Studio</div>
+  <!-- ══ FLOATING NAV RAIL ══ -->
+  <nav class="nav-rail">
+    <div class="nav-logo">✦</div>
+    <div class="nav-btn active" onclick="switchPanel('overview',this)" title="Dashboard">⊞</div>
+    <div class="nav-btn" onclick="switchPanel('products',this)" title="Produtos">◫</div>
+    <div class="nav-btn" onclick="switchPanel('prompts',this)" title="Prompt Studio">✐</div>
+    <div class="nav-btn" onclick="switchPanel('assets',this)" title="Imagens">◈</div>
+    <div class="nav-btn" onclick="switchPanel('videos',this)" title="Vídeos">▷</div>
+    <div class="nav-btn" onclick="switchPanel('copy',this)" title="Copywriting">✎</div>
+    <div class="nav-btn" onclick="switchPanel('analytics',this)" title="Analytics">◑</div>
+    <div class="nav-bottom">
+      <div class="nav-btn" title="Configurações">⚙</div>
+      <div class="nav-avatar">VG</div>
     </div>
-    <div class="sb-section">
-      <div class="sb-label">Geração</div>
-      <div class="sb-item" onclick="switchMain('assets',null)"><span class="sb-icon">◈</span> Imagens <span class="sb-badge info">25</span></div>
-      <div class="sb-item" onclick="switchMain('videos',null)"><span class="sb-icon">▷</span> Vídeos <span class="sb-badge warn">+10</span></div>
-      <div class="sb-item" onclick="switchMain('copy',null)"><span class="sb-icon">✎</span> Copywriting</div>
-    </div>
-    <div class="sb-section">
-      <div class="sb-label">Inteligência</div>
-      <div class="sb-item"><span class="sb-icon">◑</span> Curation Score</div>
-      <div class="sb-item"><span class="sb-icon">⟳</span> Analytics</div>
-      <div class="sb-item"><span class="sb-icon">⚡</span> Auto-Publish</div>
-    </div>
-    <div class="sb-section">
-      <div class="sb-label">Sistema</div>
-      <div class="sb-item"><span class="sb-icon">⚙</span> API Connections</div>
-      <div class="sb-item"><span class="sb-icon">🔑</span> Secrets Vault</div>
-      <div class="sb-item"><span class="sb-icon">≡</span> Job Logs</div>
-    </div>
-  </div>
-  <!-- Engine Status -->
-  <div class="engine-status">
-    <div class="es-title">Engines</div>
-    <div class="es-row"><div class="es-dot run"></div><div class="es-name">Product Engine</div><div class="es-state">READY</div></div>
-    <div class="es-row"><div class="es-dot run"></div><div class="es-name">Prompt Engine</div><div class="es-state">READY</div></div>
-    <div class="es-row"><div class="es-dot queue"></div><div class="es-name">Image Engine</div><div class="es-state">QUEUE:3</div></div>
-    <div class="es-row"><div class="es-dot run"></div><div class="es-name">Copy Engine</div><div class="es-state">READY</div></div>
-    <div class="es-row"><div class="es-dot queue"></div><div class="es-name">Video Engine</div><div class="es-state">GEN:2/10</div></div>
-    <div class="es-row"><div class="es-dot idle"></div><div class="es-name">Curation Engine</div><div class="es-state">IDLE</div></div>
-  </div>
-</aside>
+  </nav>
 
-<!-- ═══ TOPBAR ═══ -->
-<header class="topbar">
-  <div class="tb-path">
-    <span style="color:var(--gold)">ViralGen</span>
-    <span class="sep">/</span>
-    <span id="tb-current">Dashboard</span>
-  </div>
-  <div class="tb-right">
-    <div class="tb-status"><div class="tb-status-dot"></div>Pipeline ativo — Job #2847</div>
-    <button class="tb-btn ghost" onclick="openModal()">+ Produto</button>
-    <button class="tb-btn primary" onclick="launchPipeline()">✦ Gerar campanha</button>
-  </div>
-</header>
+  <!-- ══ MAIN WRAP ══ -->
+  <div class="main-wrap">
 
-<!-- ═══ MAIN CONTENT ═══ -->
-<main class="main" id="main-content">
-
-  <!-- ══ OVERVIEW PANEL ══ -->
-  <div id="panel-overview" class="panel show">
-
-    <!-- METRICS -->
-    <div class="metrics-grid">
-      <div class="metric-card">
-        <div class="metric-glow" style="background:var(--gold)"></div>
-        <div class="metric-label">Produtos gerados</div>
-        <div class="metric-val" style="color:var(--gold2)">342<span class="metric-unit">total</span></div>
-        <div class="metric-delta up">↑ +12 hoje</div>
-        <div class="metric-bar"><div class="metric-bar-fill" style="width:68%;background:var(--gold)"></div></div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-glow" style="background:var(--cyan)"></div>
-        <div class="metric-label">Imagens geradas</div>
-        <div class="metric-val" style="color:var(--cyan)">1710<span class="metric-unit">imgs</span></div>
-        <div class="metric-delta up">↑ +60 hoje</div>
-        <div class="metric-bar"><div class="metric-bar-fill" style="width:78%;background:var(--cyan)"></div></div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-glow" style="background:var(--violet)"></div>
-        <div class="metric-label">Vídeos prontos</div>
-        <div class="metric-val" style="color:var(--violet)">3420<span class="metric-unit">vids</span></div>
-        <div class="metric-delta up">↑ +100 hoje</div>
-        <div class="metric-bar"><div class="metric-bar-fill" style="width:55%;background:var(--violet)"></div></div>
-      </div>
-      <div class="metric-card">
-        <div class="metric-glow" style="background:var(--lime)"></div>
-        <div class="metric-label">Taxa curadoria</div>
-        <div class="metric-val" style="color:var(--lime)">87<span class="metric-unit">%</span></div>
-        <div class="metric-delta up">↑ +2.1pp</div>
-        <div class="metric-bar"><div class="metric-bar-fill" style="width:87%;background:var(--lime)"></div></div>
-      </div>
-    </div>
-
-    <!-- PIPELINE VISUAL -->
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">Pipeline de Execução</div>
-        <div class="card-sub">— Job #2847 · Batom Velvet Rouge · em andamento</div>
-        <div style="margin-left:auto;display:flex;gap:8px;">
-          <span style="font-size:10px;color:var(--gold);font-family:'JetBrains Mono',monospace;">3/7 etapas</span>
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="tb-logo">Viral<span>Gen</span></div>
+      <div class="tb-divider"></div>
+      <div class="tb-path"><b id="tb-crumb">Dashboard</b></div>
+      <div class="tb-right">
+        <div class="chip">
+          <div class="chip-dot live"></div>
+          Pipeline ativo · Job #2847
         </div>
+        <button class="btn btn-ghost" onclick="openModal()">+ Produto</button>
+        <button class="btn btn-gold" onclick="launchPipeline()">✦ Gerar campanha</button>
       </div>
-      <div class="card-body">
-        <div class="pipeline-track">
-          <div class="pipe-node">
-            <div class="pipe-connector done"></div>
-            <div class="pipe-circle done">⬡</div>
-            <div class="pipe-label">Product<br>Engine</div>
-            <div class="pipe-time">0.3s ✓</div>
+    </div>
+
+    <!-- SCROLLABLE CONTENT -->
+    <div class="main-scroll" id="main-scroll">
+
+      <!-- ═ OVERVIEW ═ -->
+      <div id="panel-overview" class="panel show">
+
+        <!-- Metrics -->
+        <div class="metrics-row">
+          <div class="metric-tile">
+            <div class="metric-glow" style="background:rgba(210,175,100,1)"></div>
+            <div class="metric-lbl">Produtos gerados</div>
+            <div class="metric-val" style="color:rgba(210,175,100,0.9)">342<span class="metric-unit">total</span></div>
+            <div class="metric-delta up">↑ +12 hoje</div>
+            <div class="metric-bar"><div class="metric-bar-f" style="width:68%;background:rgba(210,175,100,0.7)"></div></div>
           </div>
-          <div class="pipe-node">
-            <div class="pipe-connector done"></div>
-            <div class="pipe-circle done">✐</div>
-            <div class="pipe-label">Prompt<br>Intelligence</div>
-            <div class="pipe-time">1.2s ✓</div>
+          <div class="metric-tile">
+            <div class="metric-glow" style="background:rgba(100,210,200,1)"></div>
+            <div class="metric-lbl">Imagens geradas</div>
+            <div class="metric-val" style="color:var(--cyan)">1710<span class="metric-unit">imgs</span></div>
+            <div class="metric-delta up">↑ +60 hoje</div>
+            <div class="metric-bar"><div class="metric-bar-f" style="width:78%;background:rgba(100,210,200,0.6)"></div></div>
           </div>
-          <div class="pipe-node">
-            <div class="pipe-connector done"></div>
-            <div class="pipe-circle done">◈</div>
-            <div class="pipe-label">Image<br>Generator</div>
-            <div class="pipe-time">2m14s ✓</div>
+          <div class="metric-tile">
+            <div class="metric-glow" style="background:rgba(170,140,255,1)"></div>
+            <div class="metric-lbl">Vídeos prontos</div>
+            <div class="metric-val" style="color:var(--viol)">3420<span class="metric-unit">vids</span></div>
+            <div class="metric-delta up">↑ +100 hoje</div>
+            <div class="metric-bar"><div class="metric-bar-f" style="width:55%;background:rgba(170,140,255,0.6)"></div></div>
           </div>
-          <div class="pipe-node">
-            <div class="pipe-connector done"></div>
-            <div class="pipe-circle done">✎</div>
-            <div class="pipe-label">Copywriting<br>Engine</div>
-            <div class="pipe-time">4.1s ✓</div>
-          </div>
-          <div class="pipe-node">
-            <div class="pipe-connector active"></div>
-            <div class="pipe-circle active">📜</div>
-            <div class="pipe-label">Video Script<br>Engine</div>
-            <div class="pipe-time">em curso</div>
-          </div>
-          <div class="pipe-node">
-            <div class="pipe-connector"></div>
-            <div class="pipe-circle waiting">▷</div>
-            <div class="pipe-label">Video<br>Generator</div>
-            <div class="pipe-time">aguarda</div>
-          </div>
-          <div class="pipe-node">
-            <div class="pipe-connector"></div>
-            <div class="pipe-circle waiting">◑</div>
-            <div class="pipe-label">Curation<br>Ranking</div>
-            <div class="pipe-time">aguarda</div>
+          <div class="metric-tile">
+            <div class="metric-glow" style="background:rgba(130,220,110,1)"></div>
+            <div class="metric-lbl">Taxa curadoria</div>
+            <div class="metric-val" style="color:var(--lime)">87<span class="metric-unit">%</span></div>
+            <div class="metric-delta up">↑ +2.1pp</div>
+            <div class="metric-bar"><div class="metric-bar-f" style="width:87%;background:rgba(130,220,110,0.6)"></div></div>
           </div>
         </div>
-        <!-- Log stream preview -->
-        <div class="log-stream" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--wire)">
-          <div class="log-line"><span class="ll-time">14:38:22</span><span class="ll-level ok">OK</span><span class="ll-api">ProductEngine</span><span class="ll-msg">produto selecionado — SKU: BTR-001, score: 0.92</span></div>
-          <div class="log-line"><span class="ll-time">14:38:24</span><span class="ll-level ok">OK</span><span class="ll-api">PromptEngine</span><span class="ll-msg">5 prompts gerados — [hero, lifestyle×2, closeup, aspirational]</span></div>
-          <div class="log-line"><span class="ll-time">14:38:26</span><span class="ll-level info">API</span><span class="ll-api">DALL-E 3</span><span class="ll-msg">POST /v1/images/generations → 202 Accepted · seed: 4829102</span></div>
-          <div class="log-line"><span class="ll-time">14:40:40</span><span class="ll-level ok">OK</span><span class="ll-api">ImageEngine</span><span class="ll-msg">5/5 imagens geradas · avg score: 0.87 · salvas no R2</span></div>
-          <div class="log-line"><span class="ll-time">14:40:44</span><span class="ll-level ok">OK</span><span class="ll-api">CopyEngine</span><span class="ll-msg">AIDA+Neurotrigger completo · 4 variações · CTR pred: 4.2%</span></div>
-          <div class="log-line"><span class="ll-time">14:40:48</span><span class="ll-level warn">RUN</span><span class="ll-api">VideoScript</span><span class="ll-msg">compondo 10 scripts cinematográficos…</span></div>
-        </div>
-      </div>
-    </div>
 
-    <!-- RECENT JOBS + QUICK STATS -->
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
-      <div class="card">
-        <div class="card-head"><div class="card-title">Jobs Recentes</div></div>
-        <div class="card-body" style="padding:12px 0 8px;">
-          <table class="prod-table" style="width:100%">
-            <thead><tr><th>Produto</th><th>Status</th><th>Score</th></tr></thead>
-            <tbody>
-              <tr>
-                <td><div class="prod-cell-main"><div class="prod-thumb">💄</div><div><div class="prod-name">Batom Velvet Rouge</div><div class="prod-sku">#2847</div></div></div></td>
-                <td><span class="status-chip proc">● Gerando</span></td>
-                <td><span class="score-pill mid">0.87</span></td>
-              </tr>
-              <tr>
-                <td><div class="prod-cell-main"><div class="prod-thumb">🧴</div><div><div class="prod-name">Sérum Glow 24h</div><div class="prod-sku">#2846</div></div></div></td>
-                <td><span class="status-chip done">✓ Pronto</span></td>
-                <td><span class="score-pill hi">0.93</span></td>
-              </tr>
-              <tr>
-                <td><div class="prod-cell-main"><div class="prod-thumb">⌚</div><div><div class="prod-name">Relógio Obsidian</div><div class="prod-sku">#2845</div></div></div></td>
-                <td><span class="status-chip done">✓ Pronto</span></td>
-                <td><span class="score-pill hi">0.91</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-head"><div class="card-title">Fórmula de Score</div></div>
-        <div class="card-body">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fog);line-height:1.8;background:var(--ink4);border-radius:8px;padding:12px;border:1px solid var(--wire);">
-            <span style="color:var(--gold2)">FinalScore</span> = <br>
-            &nbsp;&nbsp;<span style="color:var(--cyan)">0.4</span> × VisualQuality +<br>
-            &nbsp;&nbsp;<span style="color:var(--violet)">0.3</span> × PersuasionScore +<br>
-            &nbsp;&nbsp;<span style="color:var(--lime)">0.3</span> × PredictedCTR
+        <!-- Pipeline card -->
+        <div class="glass-card">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Pipeline de Execução</div>
+              <div class="card-sub">Job #2847 · Batom Velvet Rouge · em andamento</div>
+            </div>
+            <div style="margin-left:auto;font-size:10px;font-family:monospace;color:rgba(210,175,100,0.7)">3 / 7 etapas</div>
           </div>
-          <div class="score-breakdown" style="margin-top:12px;">
-            <div class="sb-metric"><div class="sb-metric-name" style="color:var(--cyan)">Visual</div><div class="sb-metric-bar"><div class="sb-metric-fill" style="width:87%;background:var(--cyan)"></div></div><div class="sb-metric-val">0.87</div></div>
-            <div class="sb-metric"><div class="sb-metric-name" style="color:var(--violet)">Persuasion</div><div class="sb-metric-bar"><div class="sb-metric-fill" style="width:84%;background:var(--violet)"></div></div><div class="sb-metric-val">0.84</div></div>
-            <div class="sb-metric"><div class="sb-metric-name" style="color:var(--lime)">Pred. CTR</div><div class="sb-metric-bar"><div class="sb-metric-fill" style="width:89%;background:var(--lime)"></div></div><div class="sb-metric-val">0.89</div></div>
+          <div class="card-body">
+            <div class="pipeline-track">
+              <div class="pipe-node"><div class="pipe-line done"></div><div class="pipe-orb done">⬡</div><div class="pipe-lbl">Product Engine</div><div class="pipe-tm">0.3s ✓</div></div>
+              <div class="pipe-node"><div class="pipe-line done"></div><div class="pipe-orb done">✐</div><div class="pipe-lbl">Prompt Intelligence</div><div class="pipe-tm">1.2s ✓</div></div>
+              <div class="pipe-node"><div class="pipe-line done"></div><div class="pipe-orb done">◈</div><div class="pipe-lbl">Image Generator</div><div class="pipe-tm">2m14s ✓</div></div>
+              <div class="pipe-node"><div class="pipe-line done"></div><div class="pipe-orb done">✎</div><div class="pipe-lbl">Copy Engine</div><div class="pipe-tm">4.1s ✓</div></div>
+              <div class="pipe-node"><div class="pipe-line active"></div><div class="pipe-orb active">📜</div><div class="pipe-lbl">Video Script</div><div class="pipe-tm">em curso</div></div>
+              <div class="pipe-node"><div class="pipe-line"></div><div class="pipe-orb">▷</div><div class="pipe-lbl">Video Generator</div><div class="pipe-tm">—</div></div>
+              <div class="pipe-node"><div class="pipe-line"></div><div class="pipe-orb">◑</div><div class="pipe-lbl">Curation Ranking</div><div class="pipe-tm">—</div></div>
+            </div>
+            <div class="prog-track"><div class="prog-fill"></div></div>
+            <!-- Log -->
+            <div class="log-stream" style="margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.05)">
+              <div class="log-line"><span class="ll-t">14:40:48</span><span class="ll-lv ll-warn">RUN</span><span class="ll-api">VideoScript</span><span class="ll-msg">compondo 10 scripts cinematográficos — hook_style variado…</span></div>
+              <div class="log-line"><span class="ll-t">14:40:44</span><span class="ll-lv ll-ok">OK</span><span class="ll-api">CopyEngine</span><span class="ll-msg">AIDA+Neurotrigger completo · 4 variações · CTR pred: 4.2%</span></div>
+              <div class="log-line"><span class="ll-t">14:40:40</span><span class="ll-lv ll-ok">OK</span><span class="ll-api">ImageEngine</span><span class="ll-msg">5/5 imagens geradas · avg score: 0.87 · salvas no R2</span></div>
+              <div class="log-line"><span class="ll-t">14:38:26</span><span class="ll-lv ll-info">API</span><span class="ll-api">DALL-E 3</span><span class="ll-msg">POST /v1/images/generations → 202 Accepted · seed: 4829102</span></div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ══ PRODUCTS PANEL ══ -->
-  <div id="panel-products" class="panel">
-    <div class="card">
-      <div class="card-head">
-        <div class="card-title">Catálogo de Produtos</div>
-        <div class="card-sub">— seleção estratégica por margem, popularidade, estoque</div>
-        <div style="margin-left:auto;display:flex;gap:8px;">
-          <select style="background:var(--ink4);border:1px solid var(--wire2);border-radius:7px;padding:5px 10px;color:var(--fog);font-size:10px;font-family:'Syne',sans-serif;outline:none;">
-            <option>Todos os status</option>
-            <option>Aguardando</option>
-            <option>Gerando</option>
-            <option>Concluído</option>
-          </select>
-          <button class="act-btn run" style="padding:5px 12px;">+ Importar</button>
-        </div>
-      </div>
-      <div class="card-body" style="padding:0 0 8px;">
-        <table class="prod-table">
-          <thead><tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Margem</th><th>Estoque</th><th>Status</th><th>Score</th><th>Ações</th></tr></thead>
-          <tbody id="prod-tbody">
-            <tr class="selected" onclick="selectRow(this)"><td><div class="prod-cell-main"><div class="prod-thumb">💄</div><div><div class="prod-name">Batom Velvet Rouge</div><div class="prod-sku">SKU: BTR-001</div></div></div></td><td><span class="prod-cat">Beauty · Maquiagem</span></td><td><span class="prod-price">R$89</span></td><td><span class="prod-price" style="color:var(--lime)">42%</span></td><td><span class="prod-cat">280 un</span></td><td><span class="status-chip proc">● Gerando</span></td><td><span class="score-pill mid">0.87</span></td><td><div class="act-btns"><button class="act-btn run">▷ Run</button><button class="act-btn view">◈ Ver</button></div></td></tr>
-            <tr onclick="selectRow(this)"><td><div class="prod-cell-main"><div class="prod-thumb">🧴</div><div><div class="prod-name">Sérum Glow 24h</div><div class="prod-sku">SKU: SGW-012</div></div></div></td><td><span class="prod-cat">Beauty · Skincare</span></td><td><span class="prod-price">R$149</span></td><td><span class="prod-price" style="color:var(--lime)">58%</span></td><td><span class="prod-cat">145 un</span></td><td><span class="status-chip done">✓ Pronto</span></td><td><span class="score-pill hi">0.93</span></td><td><div class="act-btns"><button class="act-btn view">◈ Ver</button><button class="act-btn run">↺ Regen</button></div></td></tr>
-            <tr onclick="selectRow(this)"><td><div class="prod-cell-main"><div class="prod-thumb">⌚</div><div><div class="prod-name">Relógio Obsidian</div><div class="prod-sku">SKU: ROB-007</div></div></div></td><td><span class="prod-cat">Tech · Wearables</span></td><td><span class="prod-price">R$649</span></td><td><span class="prod-price" style="color:var(--gold)">31%</span></td><td><span class="prod-cat">52 un</span></td><td><span class="status-chip done">✓ Pronto</span></td><td><span class="score-pill hi">0.91</span></td><td><div class="act-btns"><button class="act-btn view">◈ Ver</button></div></td></tr>
-            <tr onclick="selectRow(this)"><td><div class="prod-cell-main"><div class="prod-thumb">👟</div><div><div class="prod-name">Tênis AirCore Pro</div><div class="prod-sku">SKU: TAC-023</div></div></div></td><td><span class="prod-cat">Moda · Calçados</span></td><td><span class="prod-price">R$329</span></td><td><span class="prod-price" style="color:var(--lime)">45%</span></td><td><span class="prod-cat">87 un</span></td><td><span class="status-chip idle">○ Aguarda</span></td><td><span class="score-pill lo">—</span></td><td><div class="act-btns"><button class="act-btn run">▷ Run</button><button class="act-btn del">✕</button></div></td></tr>
-            <tr onclick="selectRow(this)"><td><div class="prod-cell-main"><div class="prod-thumb">🕯️</div><div><div class="prod-name">Vela Noir Sérum</div><div class="prod-sku">SKU: VNS-041</div></div></div></td><td><span class="prod-cat">Home · Bem-estar</span></td><td><span class="prod-price">R$189</span></td><td><span class="prod-price" style="color:var(--lime)">67%</span></td><td><span class="prod-cat">210 un</span></td><td><span class="status-chip idle">○ Aguarda</span></td><td><span class="score-pill lo">—</span></td><td><div class="act-btns"><button class="act-btn run">▷ Run</button></div></td></tr>
-            <tr onclick="selectRow(this)"><td><div class="prod-cell-main"><div class="prod-thumb">📱</div><div><div class="prod-name">Case Marble Edition</div><div class="prod-sku">SKU: CME-099</div></div></div></td><td><span class="prod-cat">Tech · Acessórios</span></td><td><span class="prod-price">R$79</span></td><td><span class="prod-price" style="color:var(--rose)">18%</span></td><td><span class="prod-cat">320 un</span></td><td><span class="status-chip proc">● Gerando</span></td><td><span class="score-pill mid">0.79</span></td><td><div class="act-btns"><button class="act-btn view">◈ Ver</button></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ PROMPT STUDIO ══ -->
-  <div id="panel-prompts" class="panel">
-    <div class="card">
-      <div class="card-head"><div class="card-title">Prompt Intelligence Engine</div><div class="card-sub">— Arquitetura de 7 camadas · Produto: Batom Velvet Rouge</div></div>
-      <div class="card-body">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-          <div>
-            <div class="prompt-layer">
-              <div class="pl-head"><div class="pl-icon">💎</div><div class="pl-title">Product Essence</div><span class="pl-tag" style="background:var(--gold3);color:var(--gold)">L1</span></div>
-              <div class="pl-content"><mark>Premium matte liquid lipstick</mark>, <em>deep rouge pigmentation</em>, <strong>16h wear formula</strong>, velvet-finish texture</div>
-            </div>
-            <div class="prompt-layer">
-              <div class="pl-head"><div class="pl-icon">✨</div><div class="pl-title">Luxury Styling Layer</div><span class="pl-tag" style="background:var(--violet2);color:var(--violet)">L2</span></div>
-              <div class="pl-content"><mark>Ultra realistic product photography</mark>, editorial luxury aesthetic, <em>Vogue Beauty editorial style</em>, <strong>Hedi Slimane color palette</strong></div>
-            </div>
-            <div class="prompt-layer">
-              <div class="pl-head"><div class="pl-icon">🎬</div><div class="pl-title">Cinematic Composition</div><span class="pl-tag" style="background:var(--cyan2);color:var(--cyan)">L3</span></div>
-              <div class="pl-content">Shot on <mark>ARRI Alexa Mini LF</mark>, <em>85mm f/1.4 lens</em>, <strong>rule of thirds composition</strong>, hero shot angle, negative space</div>
-            </div>
-            <div class="prompt-layer">
-              <div class="pl-head"><div class="pl-icon">💡</div><div class="pl-title">Lighting Physics</div><span class="pl-tag" style="background:var(--lime2);color:var(--lime)">L4</span></div>
-              <div class="pl-content"><mark>Soft rim lighting</mark>, <em>butterfly light setup</em>, <strong>specular highlights on tube</strong>, warm key light 3200K, cool fill</div>
+        <!-- Score formula + Recent jobs -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+          <div class="glass-card">
+            <div class="card-head"><div class="card-title">Jobs Recentes</div></div>
+            <div style="padding:4px 0 10px;">
+              <table class="prod-table" style="width:100%">
+                <thead><tr><th>Produto</th><th>Status</th><th>Score</th></tr></thead>
+                <tbody>
+                  <tr class="sel"><td><div class="p-cell"><div class="p-icon">💄</div><div><div class="p-name">Batom Velvet Rouge</div><div class="p-sku">#2847</div></div></div></td><td><span class="status-pill sp-proc">● Gerando</span></td><td><span class="score-v sv-mid">0.87</span></td></tr>
+                  <tr><td><div class="p-cell"><div class="p-icon">🧴</div><div><div class="p-name">Sérum Glow 24h</div><div class="p-sku">#2846</div></div></div></td><td><span class="status-pill sp-done">✓ Pronto</span></td><td><span class="score-v sv-hi">0.93</span></td></tr>
+                  <tr><td><div class="p-cell"><div class="p-icon">⌚</div><div><div class="p-name">Relógio Obsidian</div><div class="p-sku">#2845</div></div></div></td><td><span class="status-pill sp-done">✓ Pronto</span></td><td><span class="score-v sv-hi">0.91</span></td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
-          <div>
-            <div class="prompt-layer">
-              <div class="pl-head"><div class="pl-icon">🌸</div><div class="pl-title">Premium Environment</div><span class="pl-tag" style="background:var(--rose2);color:var(--rose)">L5</span></div>
-              <div class="pl-content"><mark>Luxury marble surface</mark>, <em>scattered rose petals</em>, <strong>silk fabric background</strong>, premium lifestyle environment</div>
-            </div>
-            <div class="prompt-layer">
-              <div class="pl-head"><div class="pl-icon">🔬</div><div class="pl-title">Hyper-Detail Layer</div><span class="pl-tag" style="background:var(--gold3);color:var(--gold)">L6</span></div>
-              <div class="pl-content"><mark>Hyper-detailed textures</mark>, <em>8K resolution</em>, <strong>macro detail visible</strong>, photorealistic render, unreal engine quality</div>
-            </div>
-            <div class="prompt-layer">
-              <div class="pl-head"><div class="pl-icon">❤️</div><div class="pl-title">Emotional Trigger</div><span class="pl-tag" style="background:var(--violet2);color:var(--violet)">L7</span></div>
-              <div class="pl-content"><mark>Sense of desire and confidence</mark>, <em>feminine power aesthetic</em>, <strong>aspirational beauty standard</strong>, emotional resonance</div>
-            </div>
-            <div style="background:var(--ink4);border:1px solid var(--wire2);border-radius:10px;padding:14px;margin-top:8px;">
-              <div style="font-size:9px;font-weight:700;color:var(--mist);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Prompt Final Compilado</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--cyan);line-height:1.7;">Ultra realistic product photography, Shot on ARRI Alexa Mini LF, 85mm f/1.4 lens, Soft rim lighting, butterfly light setup, Premium marble surface with rose petals, Hyper-detailed textures, 8K, E-commerce hero shot, Luxury Vogue editorial aesthetic</div>
-              <div style="display:flex;gap:8px;margin-top:10px;">
-                <button class="act-btn run" style="font-size:9px;">⊕ Gerar imagem</button>
-                <button class="act-btn view" style="font-size:9px;">✎ Editar</button>
-                <button class="act-btn view" style="font-size:9px;">⎘ Copiar</button>
+          <div class="glass-card">
+            <div class="card-head"><div class="card-title">Fórmula de Score</div></div>
+            <div class="card-body">
+              <div style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px;font-family:monospace;font-size:11px;color:var(--t2);line-height:1.8;margin-bottom:14px;">
+                <span style="color:rgba(210,175,100,0.8)">FinalScore</span> =<br>
+                &nbsp;&nbsp;<span style="color:var(--cyan)">0.4</span> × VisualQuality +<br>
+                &nbsp;&nbsp;<span style="color:var(--viol)">0.3</span> × PersuasionScore +<br>
+                &nbsp;&nbsp;<span style="color:var(--lime)">0.3</span> × PredictedCTR
+              </div>
+              <div class="score-bars">
+                <div class="sb-row"><div class="sb-name" style="color:var(--cyan)">Visual ×0.4</div><div class="sb-track"><div class="sb-fill" style="width:87%;background:rgba(100,210,200,0.7)"></div></div><div class="sb-val">0.87</div></div>
+                <div class="sb-row"><div class="sb-name" style="color:var(--viol)">Persuasion ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:84%;background:rgba(170,140,255,0.7)"></div></div><div class="sb-val">0.84</div></div>
+                <div class="sb-row"><div class="sb-name" style="color:var(--lime)">CTR ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:89%;background:rgba(130,220,110,0.7)"></div></div><div class="sb-val">0.89</div></div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- ══ ASSETS PANEL ══ -->
-  <div id="panel-assets" class="panel">
-    <div class="card">
-      <div class="card-head"><div class="card-title">Image Generation Engine</div><div class="card-sub">— ≥5 imagens · variação controlada · seed management</div></div>
-      <div class="card-body">
-        <div class="asset-grid" style="grid-template-columns:repeat(5,1fr)">
-          <div class="asset-tile"><div class="at-glow" style="--color:rgba(212,168,83,0.15)"></div>💄<div class="at-badge ok">✓</div><div class="at-label">Hero Shot</div></div>
-          <div class="asset-tile"><div class="at-glow" style="--color:rgba(78,205,196,0.12)"></div>💄<div class="at-badge ok">✓</div><div class="at-label">Lifestyle 1</div></div>
-          <div class="asset-tile"><div class="at-glow" style="--color:rgba(155,127,255,0.12)"></div>💄<div class="at-badge ok">✓</div><div class="at-label">Lifestyle 2</div></div>
-          <div class="asset-tile"><div class="at-glow" style="--color:rgba(212,168,83,0.12)"></div>💄<div class="at-badge ok">✓</div><div class="at-label">Close-up</div></div>
-          <div class="asset-tile"><div class="at-glow" style="--color:rgba(255,107,138,0.12)"></div>💄<div class="at-badge ok">✓</div><div class="at-label">Aspiracional</div></div>
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;">
-          <div style="background:var(--ink4);border:1px solid var(--wire);border-radius:8px;padding:10px;text-align:center;">
-            <div style="font-size:9px;color:var(--mist);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Visual Quality</div>
-            <div style="font-family:'Instrument Serif',serif;font-size:22px;color:var(--cyan)">87<span style="font-size:12px;font-family:'Syne',sans-serif;color:var(--mist)">%</span></div>
+      <!-- ═ PRODUCTS ═ -->
+      <div id="panel-products" class="panel">
+        <div class="glass-card">
+          <div class="card-head">
+            <div><div class="card-title">Catálogo de Produtos</div><div class="card-sub">Seleção estratégica por margem · popularidade · estoque</div></div>
+            <div style="margin-left:auto;display:flex;gap:8px;">
+              <button class="btn btn-ghost" style="font-size:10px;padding:5px 14px;">+ Importar</button>
+            </div>
           </div>
-          <div style="background:var(--ink4);border:1px solid var(--wire);border-radius:8px;padding:10px;text-align:center;">
-            <div style="font-size:9px;color:var(--mist);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">API Usada</div>
-            <div style="font-size:11px;font-weight:700;color:var(--gold);margin-top:4px;">DALL-E 3</div>
-          </div>
-          <div style="background:var(--ink4);border:1px solid var(--wire);border-radius:8px;padding:10px;text-align:center;">
-            <div style="font-size:9px;color:var(--mist);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Seed</div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fog);margin-top:4px;">4829102</div>
-          </div>
-          <div style="background:var(--ink4);border:1px solid var(--wire);border-radius:8px;padding:10px;text-align:center;">
-            <div style="font-size:9px;color:var(--mist);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Custo</div>
-            <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold2);margin-top:4px;">$0.40</div>
+          <div style="padding:4px 0 12px;">
+            <table class="prod-table">
+              <thead><tr><th>Produto</th><th>Categoria</th><th>Preço</th><th>Margem</th><th>Status</th><th>Score</th><th>Ações</th></tr></thead>
+              <tbody>
+                <tr class="sel" onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">💄</div><div><div class="p-name">Batom Velvet Rouge</div><div class="p-sku">BTR-001</div></div></div></td><td><span class="p-cat">Beauty · Maquiagem</span></td><td><span class="p-price">R$89</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--lime)">42%</span></td><td><span class="status-pill sp-proc">● Gerando</span></td><td><span class="score-v sv-mid">0.87</span></td><td><div class="row-btns"><button class="rb rb-run">▷ Run</button><button class="rb rb-view">◈</button></div></td></tr>
+                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">🧴</div><div><div class="p-name">Sérum Glow 24h</div><div class="p-sku">SGW-012</div></div></div></td><td><span class="p-cat">Beauty · Skincare</span></td><td><span class="p-price">R$149</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--lime)">58%</span></td><td><span class="status-pill sp-done">✓ Pronto</span></td><td><span class="score-v sv-hi">0.93</span></td><td><div class="row-btns"><button class="rb rb-view">◈ Ver</button><button class="rb rb-run">↺</button></div></td></tr>
+                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">⌚</div><div><div class="p-name">Relógio Obsidian</div><div class="p-sku">ROB-007</div></div></div></td><td><span class="p-cat">Tech · Wearables</span></td><td><span class="p-price">R$649</span></td><td><span style="font-size:11px;font-family:monospace;color:rgba(210,175,100,0.8)">31%</span></td><td><span class="status-pill sp-done">✓ Pronto</span></td><td><span class="score-v sv-hi">0.91</span></td><td><div class="row-btns"><button class="rb rb-view">◈ Ver</button></div></td></tr>
+                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">👟</div><div><div class="p-name">Tênis AirCore Pro</div><div class="p-sku">TAC-023</div></div></div></td><td><span class="p-cat">Moda · Calçados</span></td><td><span class="p-price">R$329</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--lime)">45%</span></td><td><span class="status-pill sp-idle">○ Aguarda</span></td><td><span class="score-v sv-lo">—</span></td><td><div class="row-btns"><button class="rb rb-run">▷ Run</button></div></td></tr>
+                <tr onclick="selRow(this)"><td><div class="p-cell"><div class="p-icon">🕯️</div><div><div class="p-name">Vela Noir Sérum</div><div class="p-sku">VNS-041</div></div></div></td><td><span class="p-cat">Home · Bem-estar</span></td><td><span class="p-price">R$189</span></td><td><span style="font-size:11px;font-family:monospace;color:var(--lime)">67%</span></td><td><span class="status-pill sp-idle">○ Aguarda</span></td><td><span class="score-v sv-lo">—</span></td><td><div class="row-btns"><button class="rb rb-run">▷ Run</button></div></td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-  <!-- ══ VIDEOS PANEL ══ -->
-  <div id="panel-videos" class="panel">
-    <div class="card">
-      <div class="card-head"><div class="card-title">Video Generation Engine</div><div class="card-sub">— ≥10 variações · diversificação por ângulo, ritmo, narrativa</div></div>
-      <div class="card-body">
-        <div class="video-grid">
-          <div class="video-tile"><div class="vt-glow" style="background:radial-gradient(circle at 50% 30%,rgba(212,168,83,0.3),transparent)"></div>💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Problem/Hook</div><div class="vt-dur">15s</div></div><div class="vt-status ok">✓</div></div>
-          <div class="video-tile"><div class="vt-glow" style="background:radial-gradient(circle at 50% 30%,rgba(78,205,196,0.25),transparent)"></div>💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Unboxing</div><div class="vt-dur">20s</div></div><div class="vt-status ok">✓</div></div>
-          <div class="video-tile"><div class="vt-glow" style="background:radial-gradient(circle at 50% 30%,rgba(155,127,255,0.25),transparent)"></div>💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Social Proof</div><div class="vt-dur">15s</div></div><div class="vt-status proc">GEN</div></div>
-          <div class="video-tile" style="opacity:0.5"><div class="vt-glow" style="background:radial-gradient(circle at 50% 30%,rgba(212,168,83,0.2),transparent)"></div>💄<div class="vt-play" style="font-size:10px;color:var(--dust)">⏳</div><div class="vt-info"><div class="vt-name">Feature Zoom</div><div class="vt-dur">—</div></div><div class="vt-status pend">PEND</div></div>
-          <div class="video-tile" style="opacity:0.5"><div class="vt-glow"></div>💄<div class="vt-play" style="font-size:10px;color:var(--dust)">⏳</div><div class="vt-info"><div class="vt-name">Lifestyle</div><div class="vt-dur">—</div></div><div class="vt-status pend">PEND</div></div>
-          <div class="video-tile" style="opacity:0.3"><div class="vt-glow"></div>💄<div class="vt-play" style="font-size:10px;color:var(--dust)">⏳</div><div class="vt-info"><div class="vt-name">Before/After</div><div class="vt-dur">—</div></div><div class="vt-status pend">PEND</div></div>
-          <div class="video-tile" style="opacity:0.3"><div class="vt-glow"></div>💄<div class="vt-play" style="font-size:10px;color:var(--dust)">⏳</div><div class="vt-info"><div class="vt-name">Urgency</div><div class="vt-dur">—</div></div><div class="vt-status pend">PEND</div></div>
-          <div class="video-tile" style="opacity:0.2"><div class="vt-glow"></div>💄<div class="vt-play" style="font-size:10px;color:var(--dust)">⏳</div><div class="vt-info"><div class="vt-name">Testimonial</div><div class="vt-dur">—</div></div><div class="vt-status pend">PEND</div></div>
-          <div class="video-tile" style="opacity:0.2"><div class="vt-glow"></div>💄<div class="vt-play" style="font-size:10px;color:var(--dust)">⏳</div><div class="vt-info"><div class="vt-name">Luxury Slow</div><div class="vt-dur">—</div></div><div class="vt-status pend">PEND</div></div>
-          <div class="video-tile" style="opacity:0.2"><div class="vt-glow"></div>💄<div class="vt-play" style="font-size:10px;color:var(--dust)">⏳</div><div class="vt-info"><div class="vt-name">Viral Hook</div><div class="vt-dur">—</div></div><div class="vt-status pend">PEND</div></div>
-        </div>
-        <div style="margin-top:12px;padding:10px;background:var(--ink4);border-radius:8px;border:1px solid var(--wire);font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fog);">
-          <span style="color:var(--mist)">→ Variação por:</span>
-          <span style="color:var(--gold)"> camera_motion</span>, 
-          <span style="color:var(--cyan)">pacing</span>, 
-          <span style="color:var(--violet)">emotional_intensity</span>, 
-          <span style="color:var(--rose)">hook_style</span>, 
-          <span style="color:var(--lime)">CTA_variant</span>
-          <span style="color:var(--mist);margin-left:12px;">· APIs: Runway Gen-3 (6) + Kling AI (4)</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ COPY PANEL ══ -->
-  <div id="panel-copy" class="panel">
-    <div class="card">
-      <div class="card-head"><div class="card-title">Copywriting Engine</div><div class="card-sub">— Framework AIDA + Neurotrigger Model</div></div>
-      <div class="card-body">
-        <div class="aida-grid" style="margin-bottom:14px;">
-          <div class="aida-block"><div class="aida-letter" style="color:var(--gold2)">A</div><div class="aida-name">Atenção</div><div class="aida-content">Headline que rompe o padrão. Hook visual e textual que para o scroll em &lt;3 segundos.</div></div>
-          <div class="aida-block"><div class="aida-letter" style="color:var(--cyan)">I</div><div class="aida-name">Interesse</div><div class="aida-content">Diferenciais técnicos convertidos em benefícios perceptivos. O "porquê" do produto.</div></div>
-          <div class="aida-block"><div class="aida-letter" style="color:var(--violet)">D</div><div class="aida-name">Desejo</div><div class="aida-content">Micro-storytelling. A transformação que o produto provoca. Identidade e aspiração.</div></div>
-          <div class="aida-block"><div class="aida-letter" style="color:var(--lime)">A</div><div class="aida-name">Ação</div><div class="aida-content">CTA direto e irresistível com gatilho de urgência, prova social ou garantia.</div></div>
-        </div>
-        <div class="copy-variant sel">
-          <div class="cv-type">🎯 Hook de Vídeo — Problem/Solution <span style="background:var(--lime2);color:var(--lime);padding:1px 6px;border-radius:999px;">Selecionado</span></div>
-          <div class="cv-text">"Você sabia que 90% dos batons desbotam em 2h? O Velvet Rouge fica até <strong style="color:var(--text)">16 horas intacto</strong> — sem retocar, sem transferir, sem desculpa. Cor que fica. Confiança que aparece. ✨"</div>
-          <div class="cv-metrics"><div class="cv-m">CTR pred: <span class="cv-m-val">4.8%</span></div><div class="cv-m">Persuasion: <span class="cv-m-val">0.91</span></div><div class="cv-m">Chars: <span class="cv-m-val">187</span></div></div>
-        </div>
-        <div class="copy-variant">
-          <div class="cv-type">📖 Título SEO</div>
-          <div class="cv-text">Batom Líquido Matte Velvet Rouge — Longa Duração 16h, Acabamento Aveludado, 12 Tons Exclusivos | Frete Grátis</div>
-          <div class="cv-metrics"><div class="cv-m">SEO score: <span class="cv-m-val">88</span></div><div class="cv-m">Chars: <span class="cv-m-val">98</span></div></div>
-        </div>
-        <div class="copy-variant">
-          <div class="cv-type">📲 Descrição Curta — TikTok/Instagram</div>
-          <div class="cv-text">Cor que fica. Confiança que aparece. ✨ Velvet Rouge, o batom que transforma sua rotina em ritual. 16h de cor intensa sem ressecar. Link na bio 🖤</div>
-          <div class="cv-metrics"><div class="cv-m">Engajamento pred: <span class="cv-m-val">6.2%</span></div><div class="cv-m">Chars: <span class="cv-m-val">163</span></div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ══ ANALYTICS PANEL ══ -->
-  <div id="panel-analytics" class="panel">
-    <div class="card">
-      <div class="card-head"><div class="card-title">Trade-offs Estratégicos</div></div>
-      <div class="card-body">
-        <table class="tradeoff">
-          <thead><tr><th>Estratégia</th><th>Benefício</th><th>Risco</th></tr></thead>
-          <tbody>
-            <tr><td style="color:var(--pale);font-weight:600;">Microservices</td><td class="pro">Escalabilidade horizontal</td><td class="con">Complexidade operacional</td></tr>
-            <tr><td style="color:var(--pale);font-weight:600;">Monolito Modular</td><td class="pro">Simplicidade de deploy</td><td class="con">Escala limitada</td></tr>
-            <tr><td style="color:var(--pale);font-weight:600;">Geração Massiva</td><td class="pro">Exploração criativa máxima</td><td class="con">Custo elevado por ciclo</td></tr>
-            <tr><td style="color:var(--pale);font-weight:600;">Cache de Prompts</td><td class="pro">Custo reduzido até 40%</td><td class="con">Variação criativa limitada</td></tr>
-            <tr><td style="color:var(--pale);font-weight:600;">ML Scoring</td><td class="pro">Otimização por dados reais</td><td class="con">Requer volume inicial</td></tr>
-          </tbody>
-        </table>
-        <div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
-          <div style="background:var(--ink4);border:1px solid var(--wire);border-radius:8px;padding:12px;text-align:center;">
-            <div style="font-size:9px;color:var(--mist);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Custo / Produto</div>
-            <div style="font-family:'Instrument Serif',serif;font-size:26px;color:var(--gold2)">$2.57</div>
-          </div>
-          <div style="background:var(--ink4);border:1px solid var(--wire);border-radius:8px;padding:12px;text-align:center;">
-            <div style="font-size:9px;color:var(--mist);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">Latência Pipeline</div>
-            <div style="font-family:'Instrument Serif',serif;font-size:26px;color:var(--cyan)">~12m</div>
-          </div>
-          <div style="background:var(--ink4);border:1px solid var(--wire);border-radius:8px;padding:12px;text-align:center;">
-            <div style="font-size:9px;color:var(--mist);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:4px;">ROI Estimado</div>
-            <div style="font-family:'Instrument Serif',serif;font-size:26px;color:var(--lime)">14×</div>
+      <!-- ═ PROMPTS ═ -->
+      <div id="panel-prompts" class="panel">
+        <div class="glass-card">
+          <div class="card-head"><div><div class="card-title">Prompt Intelligence Engine</div><div class="card-sub">Arquitetura de 7 camadas — Batom Velvet Rouge</div></div></div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div>
+                <div class="prompt-layer"><div class="pl-head"><span>💎</span><div class="pl-title">Product Essence</div><span class="pl-tag" style="background:var(--goldb);color:var(--gold)">L1</span></div><div class="pl-code"><span class="hi-gold">Premium matte liquid lipstick</span>, <span class="hi-cyan">deep rouge pigmentation</span>, <span class="hi-viol">16h wear formula</span></div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>✨</span><div class="pl-title">Luxury Styling Layer</div><span class="pl-tag" style="background:var(--viold);color:var(--viol)">L2</span></div><div class="pl-code"><span class="hi-gold">Ultra realistic product photography</span>, <span class="hi-cyan">Vogue Beauty editorial style</span>, <span class="hi-viol">Hedi Slimane palette</span></div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>🎬</span><div class="pl-title">Cinematic Composition</div><span class="pl-tag" style="background:var(--cyand);color:var(--cyan)">L3</span></div><div class="pl-code">Shot on <span class="hi-gold">ARRI Alexa Mini LF</span>, <span class="hi-cyan">85mm f/1.4 lens</span>, <span class="hi-viol">rule of thirds</span></div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>💡</span><div class="pl-title">Lighting Physics</div><span class="pl-tag" style="background:rgba(130,220,110,0.1);color:var(--lime)">L4</span></div><div class="pl-code"><span class="hi-gold">Soft rim lighting</span>, <span class="hi-cyan">butterfly light setup</span>, warm key 3200K</div></div>
+              </div>
+              <div>
+                <div class="prompt-layer"><div class="pl-head"><span>🌸</span><div class="pl-title">Premium Environment</div><span class="pl-tag" style="background:var(--rosev);color:var(--rose)">L5</span></div><div class="pl-code"><span class="hi-gold">Luxury marble surface</span>, <span class="hi-cyan">scattered rose petals</span>, silk fabric</div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>🔬</span><div class="pl-title">Hyper-Detail Layer</div><span class="pl-tag" style="background:var(--goldb);color:var(--gold)">L6</span></div><div class="pl-code"><span class="hi-gold">Hyper-detailed textures</span>, <span class="hi-cyan">8K resolution</span>, <span class="hi-viol">photorealistic render</span></div></div>
+                <div class="prompt-layer"><div class="pl-head"><span>❤️</span><div class="pl-title">Emotional Trigger</div><span class="pl-tag" style="background:var(--viold);color:var(--viol)">L7</span></div><div class="pl-code"><span class="hi-gold">Sense of desire and confidence</span>, <span class="hi-cyan">feminine power aesthetic</span></div></div>
+                <div class="nest-card" style="margin-top:8px;">
+                  <div class="sec-label">Prompt Final Compilado</div>
+                  <div style="font-family:monospace;font-size:10px;color:var(--cyan);line-height:1.8;">Ultra realistic product photography, Shot on ARRI Alexa Mini LF, 85mm f/1.4, Soft rim lighting, Premium marble surface, Hyper-detailed textures, 8K, Vogue editorial aesthetic</div>
+                  <div style="display:flex;gap:8px;margin-top:10px;">
+                    <button class="btn btn-ghost" style="font-size:10px;padding:5px 12px;">⊕ Gerar imagem</button>
+                    <button class="btn btn-ghost" style="font-size:10px;padding:5px 12px;">✎ Editar</button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-</main>
+      <!-- ═ ASSETS ═ -->
+      <div id="panel-assets" class="panel">
+        <div class="glass-card">
+          <div class="card-head"><div><div class="card-title">Image Generation Engine</div><div class="card-sub">≥5 imagens · variação controlada · seed management</div></div></div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px;">
+              <div style="aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(210,175,100,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">💄<div style="position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--limed);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--lime)">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:9px;font-weight:600;color:rgba(255,255,255,0.7)">Hero Shot</div></div>
+              <div style="aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(100,210,200,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">💄<div style="position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--limed);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--lime)">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:9px;font-weight:600;color:rgba(255,255,255,0.7)">Lifestyle 1</div></div>
+              <div style="aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(170,140,255,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">💄<div style="position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--limed);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--lime)">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:9px;font-weight:600;color:rgba(255,255,255,0.7)">Lifestyle 2</div></div>
+              <div style="aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;">💄<div style="position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--limed);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--lime)">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:9px;font-weight:600;color:rgba(255,255,255,0.7)">Close-up</div></div>
+              <div style="aspect-ratio:1;border-radius:14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;position:relative;overflow:hidden;transition:all 0.2s;">💄<div style="position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;background:var(--limed);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--lime)">✓</div><div style="position:absolute;bottom:0;left:0;right:0;padding:6px;background:linear-gradient(transparent,rgba(0,0,0,0.7));font-size:9px;font-weight:600;color:rgba(255,255,255,0.7)">Aspiracional</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:4px;">Visual Quality</div><div style="font-size:22px;font-weight:300;color:var(--cyan);letter-spacing:-1px">87%</div></div>
+              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:4px;">API</div><div style="font-size:13px;font-weight:600;color:rgba(210,175,100,0.8);margin-top:4px;">DALL-E 3</div></div>
+              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:4px;">Seed</div><div style="font-size:11px;font-family:monospace;color:var(--t2);margin-top:4px;">4829102</div></div>
+              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:4px;">Custo</div><div style="font-size:14px;font-family:monospace;font-weight:600;color:rgba(210,175,100,0.8);margin-top:4px;">$0.40</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-<!-- ═══ RIGHT PANEL ═══ -->
-<aside class="rpanel">
+      <!-- ═ VIDEOS ═ -->
+      <div id="panel-videos" class="panel">
+        <div class="glass-card">
+          <div class="card-head"><div><div class="card-title">Video Generation Engine</div><div class="card-sub">≥10 variações · diversificação por ângulo · ritmo · narrativa</div></div></div>
+          <div class="card-body">
+            <div class="video-grid">
+              <div class="vt"><div class="vt-glow" style="background:radial-gradient(circle at 50% 30%,rgba(210,175,100,0.35),transparent)"></div>💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Problem/Hook</div><div class="vt-dur">15s</div></div><div class="vt-st vt-ok">✓</div></div>
+              <div class="vt"><div class="vt-glow" style="background:radial-gradient(circle at 50% 30%,rgba(100,210,200,0.3),transparent)"></div>💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Unboxing</div><div class="vt-dur">20s</div></div><div class="vt-st vt-ok">✓</div></div>
+              <div class="vt"><div class="vt-glow" style="background:radial-gradient(circle at 50% 30%,rgba(170,140,255,0.3),transparent)"></div>💄<div class="vt-play">▶</div><div class="vt-info"><div class="vt-name">Social Proof</div><div class="vt-dur">15s</div></div><div class="vt-st vt-proc">GEN</div></div>
+              <div class="vt" style="opacity:0.5">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.2)">⏳</div><div class="vt-info"><div class="vt-name">Feature Zoom</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.5">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.2)">⏳</div><div class="vt-info"><div class="vt-name">Lifestyle</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.3">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.15)">⏳</div><div class="vt-info"><div class="vt-name">Before/After</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.3">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.15)">⏳</div><div class="vt-info"><div class="vt-name">Urgency</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.2">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.1)">⏳</div><div class="vt-info"><div class="vt-name">Testimonial</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.2">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.1)">⏳</div><div class="vt-info"><div class="vt-name">Luxury Slow</div></div><div class="vt-st vt-pend">—</div></div>
+              <div class="vt" style="opacity:0.15">💄<div class="vt-play" style="font-size:10px;color:rgba(255,255,255,0.08)">⏳</div><div class="vt-info"><div class="vt-name">Viral Hook</div></div><div class="vt-st vt-pend">—</div></div>
+            </div>
+            <div class="nest-card" style="margin-top:12px;font-family:monospace;font-size:10px;color:var(--t2);">
+              Variação por: <span style="color:rgba(210,175,100,0.8)">camera_motion</span>, <span style="color:var(--cyan)">pacing</span>, <span style="color:var(--viol)">emotional_intensity</span>, <span style="color:var(--rose)">hook_style</span>, <span style="color:var(--lime)">CTA_variant</span>
+              <span style="color:var(--t3);margin-left:12px;">APIs: Runway Gen-3 (6) + Kling AI (4)</span>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <div class="rp-section">
-    <div class="rp-title">Lançar Pipeline</div>
-    <div class="gen-form">
+      <!-- ═ COPY ═ -->
+      <div id="panel-copy" class="panel">
+        <div class="glass-card">
+          <div class="card-head"><div><div class="card-title">Copywriting Engine</div><div class="card-sub">Framework AIDA + Neurotrigger Model</div></div></div>
+          <div class="card-body">
+            <div class="aida-grid" style="margin-bottom:14px;">
+              <div class="aida-b"><div class="aida-letter" style="color:rgba(210,175,100,0.8)">A</div><div class="aida-name">Atenção</div><div class="aida-text">Headline que rompe o padrão. Hook visual e textual que para o scroll em &lt;3 segundos.</div></div>
+              <div class="aida-b"><div class="aida-letter" style="color:var(--cyan)">I</div><div class="aida-name">Interesse</div><div class="aida-text">Diferenciais técnicos convertidos em benefícios perceptivos. O "porquê" do produto.</div></div>
+              <div class="aida-b"><div class="aida-letter" style="color:var(--viol)">D</div><div class="aida-name">Desejo</div><div class="aida-text">Micro-storytelling. A transformação que o produto provoca. Identidade e aspiração.</div></div>
+              <div class="aida-b"><div class="aida-letter" style="color:var(--lime)">A</div><div class="aida-name">Ação</div><div class="aida-text">CTA direto e irresistível com gatilho de urgência, prova social ou garantia.</div></div>
+            </div>
+            <div class="copy-card sel" style="margin-bottom:8px;">
+              <div class="cc-type">🎯 Hook de Vídeo — Problem/Solution <span style="background:var(--limed);color:var(--lime);padding:1px 7px;border-radius:999px;font-size:9px;">Selecionado</span></div>
+              <div class="cc-text">"Você sabia que 90% dos batons desbotam em 2h? O Velvet Rouge fica até <span style="color:var(--t1);font-weight:500;">16 horas intacto</span> — sem retocar, sem transferir, sem desculpa. Cor que fica. Confiança que aparece. ✨"</div>
+              <div class="cc-metrics"><div class="cc-m">CTR pred: <span>4.8%</span></div><div class="cc-m">Persuasion: <span>0.91</span></div><div class="cc-m">Chars: <span>187</span></div></div>
+            </div>
+            <div class="copy-card" style="margin-bottom:8px;">
+              <div class="cc-type">📖 Título SEO</div>
+              <div class="cc-text">Batom Líquido Matte Velvet Rouge — Longa Duração 16h, Acabamento Aveludado, 12 Tons Exclusivos | Frete Grátis</div>
+              <div class="cc-metrics"><div class="cc-m">SEO score: <span>88</span></div><div class="cc-m">Chars: <span>98</span></div></div>
+            </div>
+            <div class="copy-card">
+              <div class="cc-type">📲 Descrição Curta — TikTok</div>
+              <div class="cc-text">Cor que fica. Confiança que aparece. ✨ Velvet Rouge, o batom que transforma sua rotina em ritual. 16h sem retocar. Link na bio 🖤</div>
+              <div class="cc-metrics"><div class="cc-m">Engajamento pred: <span>6.2%</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═ ANALYTICS ═ -->
+      <div id="panel-analytics" class="panel">
+        <div class="glass-card">
+          <div class="card-head"><div class="card-title">Trade-offs Estratégicos</div></div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:6px;">Custo / Produto</div><div style="font-size:28px;font-weight:200;letter-spacing:-1px;color:rgba(210,175,100,0.8)">$2.57</div></div>
+              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:6px;">Latência Pipeline</div><div style="font-size:28px;font-weight:200;letter-spacing:-1px;color:var(--cyan)">~12m</div></div>
+              <div class="nest-card" style="text-align:center;"><div class="sec-label" style="justify-content:center;margin-bottom:6px;">ROI Estimado</div><div style="font-size:28px;font-weight:200;letter-spacing:-1px;color:var(--lime)">14×</div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:6px;">
+              <div class="nest-card" style="display:flex;align-items:center;gap:12px;"><div style="font-size:12px;font-weight:500;color:var(--t1);width:140px;flex-shrink:0;">Microservices</div><div style="font-size:11px;color:var(--lime);flex:1;">Escalabilidade horizontal</div><div style="font-size:11px;color:rgba(240,120,120,0.8);">Complexidade operacional</div></div>
+              <div class="nest-card" style="display:flex;align-items:center;gap:12px;"><div style="font-size:12px;font-weight:500;color:var(--t1);width:140px;flex-shrink:0;">Monolito Modular</div><div style="font-size:11px;color:var(--lime);flex:1;">Simplicidade de deploy</div><div style="font-size:11px;color:rgba(240,120,120,0.8);">Escala limitada</div></div>
+              <div class="nest-card" style="display:flex;align-items:center;gap:12px;"><div style="font-size:12px;font-weight:500;color:var(--t1);width:140px;flex-shrink:0;">Geração Massiva</div><div style="font-size:11px;color:var(--lime);flex:1;">Exploração criativa máxima</div><div style="font-size:11px;color:rgba(240,120,120,0.8);">Custo elevado</div></div>
+              <div class="nest-card" style="display:flex;align-items:center;gap:12px;"><div style="font-size:12px;font-weight:500;color:var(--t1);width:140px;flex-shrink:0;">Cache de Prompts</div><div style="font-size:11px;color:var(--lime);flex:1;">Custo reduzido até 40%</div><div style="font-size:11px;color:rgba(240,120,120,0.8);">Variação criativa limitada</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /main-scroll -->
+  </div><!-- /main-wrap -->
+
+  <!-- ══ RIGHT COLUMN ══ -->
+  <div class="right-col">
+
+    <!-- Launch card -->
+    <div class="launch-card">
+      <div class="lc-title">Gerar pacote<br>completo de mídia</div>
+      <div class="lc-sub">5 imagens premium + 10 vídeos curtos + copys persuasivos</div>
+      <!-- Plan opts -->
+      <div class="plan-opts">
+        <div class="plan-opt sel" onclick="selPlan(this)">
+          <div class="plan-opt-badge">SAVE 90%</div>
+          <div class="radio"><div class="radio-dot"></div></div>
+          <div><div class="plan-lbl">Pack Mensal</div><div class="plan-desc">100 produtos / mês</div></div>
+          <div class="plan-price">$0.77<small>/prod</small></div>
+        </div>
+        <div class="plan-opt" onclick="selPlan(this)">
+          <div class="radio"></div>
+          <div><div class="plan-lbl">Avulso</div><div class="plan-desc">Produto único</div></div>
+          <div class="plan-price">$6.99<small>/prod</small></div>
+        </div>
+      </div>
+      <!-- Options -->
       <div class="form-row">
-        <div class="form-label">Produto selecionado</div>
-        <select class="form-select">
-          <option>💄 Batom Velvet Rouge (BTR-001)</option>
-          <option>🧴 Sérum Glow 24h (SGW-012)</option>
-          <option>⌚ Relógio Obsidian (ROB-007)</option>
-          <option>👟 Tênis AirCore Pro (TAC-023)</option>
+        <div class="form-lbl">Produto</div>
+        <select class="form-sel">
+          <option>💄 Batom Velvet Rouge</option>
+          <option>🧴 Sérum Glow 24h</option>
+          <option>⌚ Relógio Obsidian</option>
         </select>
       </div>
       <div class="form-row">
-        <div class="form-label">Estilo visual</div>
-        <select class="form-select">
+        <div class="form-lbl">Estilo Visual</div>
+        <select class="form-sel">
           <option>Premium Luxury</option>
           <option>Editorial Fashion</option>
           <option>Lifestyle Natural</option>
           <option>Tech Minimalist</option>
-          <option>Vibrant Youth</option>
         </select>
       </div>
       <div class="form-row">
-        <div class="form-label">Plataforma alvo</div>
-        <select class="form-select">
+        <div class="form-lbl">Plataforma</div>
+        <select class="form-sel">
           <option>TikTok Shop (9:16)</option>
-          <option>Instagram Reels (9:16)</option>
+          <option>Instagram Reels</option>
           <option>Shopee Vídeo</option>
-          <option>YouTube Shorts</option>
           <option>Todas as plataformas</option>
         </select>
       </div>
       <div class="toggle-row">
-        <span class="toggle-label">Quality Guard ativo</span>
-        <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div>
+        <span class="toggle-lbl">Quality Guard</span>
+        <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
       </div>
       <div class="toggle-row">
-        <span class="toggle-label">Auto-gerar variações</span>
-        <div class="toggle on" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div>
+        <span class="toggle-lbl">Seed reprodutível</span>
+        <div class="toggle" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
       </div>
-      <div class="toggle-row">
-        <span class="toggle-label">Seed reprodutível</span>
-        <div class="toggle" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div>
-      </div>
+      <div class="divider"></div>
+      <div class="cost-row"><div class="cost-lbl">LLM (GPT-4o)</div><div class="cost-val">~$0.07</div></div>
+      <div class="cost-row"><div class="cost-lbl">DALL-E 3 (5 imgs)</div><div class="cost-val">~$0.40</div></div>
+      <div class="cost-row"><div class="cost-lbl">Runway Gen-3 (6 vids)</div><div class="cost-val">~$1.50</div></div>
+      <div class="cost-row"><div class="cost-lbl">Kling AI (4 vids)</div><div class="cost-val">~$0.60</div></div>
+      <div class="cost-row cost-total"><div class="cost-lbl">Total estimado</div><div class="cost-val">~$2.57</div></div>
+      <button class="btn-launch" id="launch-btn" onclick="launchPipeline()">✦ Iniciar geração autônoma</button>
+      <div class="launch-note">Cancel anytime · Reprodutível por seed</div>
     </div>
-    <div class="divider" style="margin:10px 0;"></div>
-    <div class="cost-row"><div class="cost-label">LLM (prompts + copy)</div><div class="cost-val">~$0.07</div></div>
-    <div class="cost-row"><div class="cost-label">DALL-E 3 (5 imagens)</div><div class="cost-val">~$0.40</div></div>
-    <div class="cost-row"><div class="cost-label">Runway Gen-3 (6 vídeos)</div><div class="cost-val">~$1.50</div></div>
-    <div class="cost-row"><div class="cost-label">Kling AI (4 vídeos)</div><div class="cost-val">~$0.60</div></div>
-    <div class="cost-row cost-total"><div class="cost-label">Total estimado</div><div class="cost-val">~$2.57</div></div>
-    <button class="btn-launch" id="launch-btn" onclick="launchPipeline()">✦ Iniciar geração autônoma</button>
-    <div style="text-align:center;font-size:10px;color:var(--mist);margin-top:6px;">Cancel anytime · Reprodutível por seed</div>
-  </div>
 
-  <div class="rp-section">
-    <div class="rp-title">Conexões API</div>
-    <div class="api-conn">
-      <div class="api-item"><div class="api-dot live"></div><div class="api-name">OpenAI GPT-4o</div><div class="api-latency">124ms</div><div class="api-type">LLM</div></div>
-      <div class="api-item"><div class="api-dot live"></div><div class="api-name">DALL-E 3</div><div class="api-latency">2.1s</div><div class="api-type">IMAGE</div></div>
-      <div class="api-item"><div class="api-dot live"></div><div class="api-name">Runway Gen-3</div><div class="api-latency">8.4s</div><div class="api-type">VIDEO</div></div>
-      <div class="api-item"><div class="api-dot live"></div><div class="api-name">Kling AI</div><div class="api-latency">6.2s</div><div class="api-type">VIDEO</div></div>
-      <div class="api-item"><div class="api-dot warn"></div><div class="api-name">Shopee API</div><div class="api-latency">—</div><div class="api-type">ECOM</div></div>
-      <div class="api-item"><div class="api-dot live"></div><div class="api-name">Cloudflare R2</div><div class="api-latency">18ms</div><div class="api-type">STORAGE</div></div>
-    </div>
-  </div>
-
-  <div class="rp-section">
-    <div class="rp-title">Score Atual</div>
-    <div class="score-display">
+    <!-- Score card -->
+    <div class="glass-card" style="padding:20px;">
+      <div class="sec-label">Score de Curadoria</div>
       <div class="score-big">0.87</div>
-      <div class="score-label">Final Score — Batom Velvet Rouge</div>
-      <div class="score-breakdown">
-        <div class="sb-metric"><div class="sb-metric-name" style="font-size:9px;color:var(--cyan)">Visual ×0.4</div><div class="sb-metric-bar"><div class="sb-metric-fill" style="width:87%;background:var(--cyan)"></div></div><div class="sb-metric-val">0.87</div></div>
-        <div class="sb-metric"><div class="sb-metric-name" style="font-size:9px;color:var(--violet)">Persuasion ×0.3</div><div class="sb-metric-bar"><div class="sb-metric-fill" style="width:84%;background:var(--violet)"></div></div><div class="sb-metric-val">0.84</div></div>
-        <div class="sb-metric"><div class="sb-metric-name" style="font-size:9px;color:var(--lime)">CTR ×0.3</div><div class="sb-metric-bar"><div class="sb-metric-fill" style="width:89%;background:var(--lime)"></div></div><div class="sb-metric-val">0.89</div></div>
+      <div class="score-lbl">Batom Velvet Rouge · Job #2847</div>
+      <div class="score-bars">
+        <div class="sb-row"><div class="sb-name" style="color:var(--cyan)">Visual ×0.4</div><div class="sb-track"><div class="sb-fill" style="width:87%;background:rgba(100,210,200,0.6)"></div></div><div class="sb-val">0.87</div></div>
+        <div class="sb-row"><div class="sb-name" style="color:var(--viol)">Persuasion ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:84%;background:rgba(170,140,255,0.6)"></div></div><div class="sb-val">0.84</div></div>
+        <div class="sb-row"><div class="sb-name" style="color:var(--lime)">CTR pred ×0.3</div><div class="sb-track"><div class="sb-fill" style="width:89%;background:rgba(130,220,110,0.6)"></div></div><div class="sb-val">0.89</div></div>
       </div>
     </div>
-  </div>
 
-  <div class="rp-section">
-    <div class="rp-title">Live Logs</div>
-    <div class="log-wrap">
-      <div class="log-stream">
-        <div class="log-line"><span class="ll-time">14:40:48</span><span class="ll-level warn">RUN</span><span class="ll-msg">VideoScript compondo…</span></div>
-        <div class="log-line"><span class="ll-time">14:40:44</span><span class="ll-level ok">OK</span><span class="ll-msg">Copy AIDA completo</span></div>
-        <div class="log-line"><span class="ll-time">14:40:40</span><span class="ll-level ok">OK</span><span class="ll-msg">5/5 imagens → R2</span></div>
-        <div class="log-line"><span class="ll-time">14:38:26</span><span class="ll-level info">API</span><span class="ll-msg">DALL-E 3 → 202</span></div>
-        <div class="log-line"><span class="ll-time">14:38:24</span><span class="ll-level ok">OK</span><span class="ll-msg">5 prompts gerados</span></div>
-        <div class="log-line"><span class="ll-time">14:38:22</span><span class="ll-level ok">OK</span><span class="ll-msg">Produto selecionado</span></div>
+    <!-- API connections -->
+    <div class="glass-card" style="padding:20px;">
+      <div class="sec-label">Conexões API</div>
+      <div class="api-list">
+        <div class="api-row"><div class="api-dot live"></div><div class="api-name">OpenAI GPT-4o</div><div class="api-lat">124ms</div><div class="api-type">LLM</div></div>
+        <div class="api-row"><div class="api-dot live"></div><div class="api-name">DALL-E 3</div><div class="api-lat">2.1s</div><div class="api-type">IMAGE</div></div>
+        <div class="api-row"><div class="api-dot live"></div><div class="api-name">Runway Gen-3</div><div class="api-lat">8.4s</div><div class="api-type">VIDEO</div></div>
+        <div class="api-row"><div class="api-dot live"></div><div class="api-name">Kling AI</div><div class="api-lat">6.2s</div><div class="api-type">VIDEO</div></div>
+        <div class="api-row"><div class="api-dot warn"></div><div class="api-name">Shopee API</div><div class="api-lat">—</div><div class="api-type">ECOM</div></div>
+        <div class="api-row"><div class="api-dot live"></div><div class="api-name">Cloudflare R2</div><div class="api-lat">18ms</div><div class="api-type">STORE</div></div>
       </div>
     </div>
-  </div>
 
-</aside>
-
-<!-- ═══ STATUSBAR ═══ -->
-<footer class="statusbar">
-  <div class="sb-item-s"><div class="dot" style="background:var(--lime);box-shadow:0 0 4px var(--lime)"></div>Sistema operacional</div>
-  <div class="sb-sep"></div>
-  <div class="sb-item-s">Job #2847 · em andamento</div>
-  <div class="sb-sep"></div>
-  <div class="sb-item-s"><div class="dot" style="background:var(--gold)"></div>3/7 etapas</div>
-  <div class="sb-sep"></div>
-  <div class="sb-item-s">Workers: 4 ativos</div>
-  <div class="sb-sep"></div>
-  <div class="sb-item-s">Redis: OK · DB: OK · R2: OK</div>
-  <div style="margin-left:auto" class="sb-item-s">FastAPI v0.110 · Next.js 14 · Python 3.12</div>
-</footer>
-
-</div>
-
-<!-- ═══ MODAL ═══ -->
-<div id="modal-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);z-index:1000;align-items:center;justify-content:center;">
-  <div style="background:var(--ink2);border:1px solid var(--wire2);border-radius:16px;padding:28px;width:420px;animation:fadeUp 0.3s ease both;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-      <div style="font-family:'Instrument Serif',serif;font-size:22px;">Adicionar Produto</div>
-      <button onclick="closeModal()" style="background:none;border:none;color:var(--mist);font-size:18px;cursor:pointer;">✕</button>
+    <!-- Engines -->
+    <div class="glass-card" style="padding:20px;">
+      <div class="sec-label">Engines</div>
+      <div class="engine-grid">
+        <div class="engine-row"><div class="eng-dot run"></div><div class="eng-name">Product Engine</div><div class="eng-state">READY</div></div>
+        <div class="engine-row"><div class="eng-dot run"></div><div class="eng-name">Prompt Engine</div><div class="eng-state">READY</div></div>
+        <div class="engine-row"><div class="eng-dot queue"></div><div class="eng-name">Image Engine</div><div class="eng-state">QUEUE:3</div></div>
+        <div class="engine-row"><div class="eng-dot run"></div><div class="eng-name">Copy Engine</div><div class="eng-state">READY</div></div>
+        <div class="engine-row"><div class="eng-dot queue"></div><div class="eng-name">Video Engine</div><div class="eng-state">GEN:2/10</div></div>
+        <div class="engine-row"><div class="eng-dot idle"></div><div class="eng-name">Curation Engine</div><div class="eng-state">IDLE</div></div>
+      </div>
     </div>
-    <div style="font-size:11px;color:var(--mist);margin-bottom:20px;">Cadastre um produto para o pipeline de geração autônoma.</div>
+
+    <!-- Live logs -->
+    <div class="glass-card" style="padding:20px;">
+      <div class="sec-label">Live Logs</div>
+      <div id="live-log" class="log-stream" style="max-height:120px;overflow-y:auto;">
+        <div class="log-line"><span class="ll-t">14:40:48</span><span class="ll-lv ll-warn">RUN</span><span class="ll-msg">VideoScript — compondo scripts…</span></div>
+        <div class="log-line"><span class="ll-t">14:40:44</span><span class="ll-lv ll-ok">OK</span><span class="ll-msg">CopyEngine — AIDA completo</span></div>
+        <div class="log-line"><span class="ll-t">14:40:40</span><span class="ll-lv ll-ok">OK</span><span class="ll-msg">ImageEngine — 5/5 → R2</span></div>
+      </div>
+    </div>
+
+  </div><!-- /right-col -->
+
+</div><!-- /app -->
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-title">Adicionar Produto</div>
+    <div class="modal-sub">Cadastre um produto para iniciar o pipeline de geração autônoma.</div>
     <div style="display:flex;flex-direction:column;gap:12px;">
-      <div class="form-row"><div class="form-label">Nome do produto</div><input class="form-input" placeholder="ex: Sérum Vitamin C 30ml" style="width:100%;"></div>
+      <div class="form-row"><div class="form-lbl">Nome do produto</div><input class="form-inp" placeholder="ex: Sérum Vitamin C 30ml" style="width:100%;"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-        <div class="form-row"><div class="form-label">SKU</div><input class="form-input" placeholder="ex: SVC-030"></div>
-        <div class="form-row"><div class="form-label">Preço (R$)</div><input class="form-input" placeholder="ex: 149.90" type="number"></div>
+        <div class="form-row"><div class="form-lbl">SKU</div><input class="form-inp" placeholder="ex: SVC-030"></div>
+        <div class="form-row"><div class="form-lbl">Preço (R$)</div><input class="form-inp" placeholder="149.90" type="number"></div>
       </div>
-      <div class="form-row"><div class="form-label">Categoria</div><select class="form-select" style="width:100%;"><option>Beauty · Skincare</option><option>Beauty · Maquiagem</option><option>Moda · Calçados</option><option>Tech · Wearables</option><option>Home · Bem-estar</option></select></div>
+      <div class="form-row"><div class="form-lbl">Categoria</div><select class="form-sel" style="width:100%;"><option>Beauty · Skincare</option><option>Beauty · Maquiagem</option><option>Moda · Calçados</option><option>Tech · Wearables</option></select></div>
       <div class="form-row">
-        <div class="form-label">Imagem do produto</div>
-        <div style="border:1.5px dashed var(--wire2);border-radius:10px;padding:24px;text-align:center;color:var(--mist);font-size:11px;cursor:pointer;transition:border-color 0.2s;" onmouseover="this.style.borderColor='rgba(212,168,83,0.3)'" onmouseout="this.style.borderColor='var(--wire2)'">↑ Arraste ou clique para upload</div>
+        <div class="form-lbl">Imagem do produto</div>
+        <div class="drop-zone">↑ Arraste ou clique para upload</div>
       </div>
       <button class="btn-launch" onclick="closeModal()">✦ Cadastrar e gerar campanha</button>
     </div>
@@ -1207,80 +1143,85 @@ body::after {
 </div>
 
 <script>
-function switchMain(id, rail) {
-  // Hide all panels
-  document.querySelectorAll('.panel').forEach(p => { p.classList.remove('show'); });
-  const target = document.getElementById('panel-' + id);
+const panels = ['overview','products','prompts','assets','videos','copy','analytics'];
+const crumbs = {overview:'Dashboard',products:'Produtos',prompts:'Prompt Studio',assets:'Imagens',videos:'Vídeos',copy:'Copywriting',analytics:'Analytics'};
+
+function switchPanel(id, navBtn) {
+  panels.forEach(p => {
+    const el = document.getElementById('panel-'+p);
+    if (el) { el.classList.remove('show'); }
+  });
+  const target = document.getElementById('panel-'+id);
   if (target) target.classList.add('show');
-
-  // Update rail
-  if (rail) {
-    document.querySelectorAll('.rn').forEach(r => r.classList.remove('on'));
-    rail.classList.add('on');
+  if (navBtn) {
+    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    navBtn.classList.add('active');
   }
-
-  // Update sidebar
-  document.querySelectorAll('.sb-item').forEach(s => s.classList.remove('act'));
-
-  // Update breadcrumb
-  const names = { overview: 'Dashboard', products: 'Produtos', prompts: 'Prompt Studio', assets: 'Imagens', videos: 'Vídeos', copy: 'Copywriting', analytics: 'Analytics' };
-  document.getElementById('tb-current').textContent = names[id] || id;
+  document.getElementById('tb-crumb').textContent = crumbs[id] || id;
+  document.getElementById('main-scroll').scrollTo({top:0, behavior:'smooth'});
 }
 
-function selectRow(row) {
-  document.querySelectorAll('#prod-tbody tr').forEach(r => r.classList.remove('selected'));
-  row.classList.add('selected');
+function selRow(row) {
+  document.querySelectorAll('.prod-table tbody tr').forEach(r => r.classList.remove('sel'));
+  row.classList.add('sel');
 }
 
-function openModal() {
-  document.getElementById('modal-overlay').style.display = 'flex';
+function selPlan(opt) {
+  document.querySelectorAll('.plan-opt').forEach(o => {
+    o.classList.remove('sel');
+    const r = o.querySelector('.radio');
+    if (r) r.innerHTML = '';
+  });
+  opt.classList.add('sel');
+  const r = opt.querySelector('.radio');
+  if (r) r.innerHTML = '<div class="radio-dot"></div>';
 }
-function closeModal() {
-  document.getElementById('modal-overlay').style.display = 'none';
-}
-document.getElementById('modal-overlay').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
+
+function openModal()  { document.getElementById('modal-bg').classList.add('open'); }
+function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+document.getElementById('modal-bg').addEventListener('click', e => { if (e.target === document.getElementById('modal-bg')) closeModal(); });
 
 function launchPipeline() {
   const btn = document.getElementById('launch-btn');
   btn.classList.add('loading');
   btn.innerHTML = '◌ Iniciando pipeline…';
   setTimeout(() => {
-    btn.classList.remove('loading');
-    btn.innerHTML = '✓ Pipeline em execução';
-    btn.style.background = 'linear-gradient(135deg,rgba(127,255,107,0.4),rgba(127,255,107,0.2))';
-    btn.style.color = 'var(--lime)';
+    btn.innerHTML = '✓ Pipeline ativo';
+    btn.style.background = 'linear-gradient(135deg,rgba(130,220,110,0.6),rgba(80,160,70,0.5))';
+    btn.style.color = 'rgba(0,20,0,0.9)';
     setTimeout(() => {
+      btn.classList.remove('loading');
       btn.innerHTML = '✦ Iniciar geração autônoma';
       btn.style.background = '';
       btn.style.color = '';
-    }, 3000);
+    }, 2800);
   }, 1800);
 }
 
 // Live log ticker
-const logs = [
-  {t:'INFO',a:'VideoScript',m:'script F1 composto — Hook 3s + Problema + CTA'},
-  {t:'OK',a:'VideoScript',m:'script F2 composto — Unboxing Cinematic 20s'},
-  {t:'API',a:'Runway Gen-3',m:'POST /v1/image_to_video → 202 · job_id: rwy_8821'},
-  {t:'INFO',a:'VideoScript',m:'script F3 composto — Social Proof Montage'},
-  {t:'API',a:'Kling AI',m:'POST /v1/videos/image2video → 202 · job_id: klg_4491'},
-  {t:'WARN',a:'QualityGuard',m:'aguardando webhook de conclusão · timeout: 600s'},
+const logEntries = [
+  {l:'ok',  m:'VideoScript — F1 script composto'},
+  {l:'ok',  m:'VideoScript — F2 Unboxing Cinematic'},
+  {l:'info',m:'Runway Gen-3 → POST /v1/image_to_video'},
+  {l:'ok',  m:'VideoScript — F3 Social Proof'},
+  {l:'info',m:'Kling AI → job_id: klg_4491'},
+  {l:'warn',m:'QualityGuard — aguardando webhook'},
 ];
 let li = 0;
-const levelColors = {OK:'ok',INFO:'info',WARN:'warn',ERR:'err',API:'info',RUN:'warn'};
-const logWrap = document.querySelector('.log-wrap .log-stream');
+const logEl = document.getElementById('live-log');
 setInterval(() => {
-  const l = logs[li % logs.length]; li++;
+  const e = logEntries[li++ % logEntries.length];
   const now = new Date();
-  const t = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+  const t = [now.getHours(),now.getMinutes(),now.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
   const div = document.createElement('div');
   div.className = 'log-line';
-  div.innerHTML = `<span class="ll-time">${t}</span><span class="ll-level ${levelColors[l.t]||'info'}">${l.t}</span><span class="ll-msg">${l.a} — ${l.m}</span>`;
-  logWrap.insertBefore(div, logWrap.firstChild);
-  if (logWrap.children.length > 12) logWrap.removeChild(logWrap.lastChild);
-}, 3000);
+  div.style.opacity = '0';
+  div.style.transition = 'opacity 0.4s';
+  div.innerHTML = `<span class="ll-t">${t}</span><span class="ll-lv ll-${e.l}">${e.l.toUpperCase()}</span><span class="ll-msg">${e.m}</span>`;
+  logEl.insertBefore(div, logEl.firstChild);
+  requestAnimationFrame(() => { requestAnimationFrame(() => { div.style.opacity = '1'; }); });
+  if (logEl.children.length > 8) logEl.removeChild(logEl.lastChild);
+}, 3200);
 </script>
 </body>
 </html>
